@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class AutoTemplate extends LinearOpMode {
 
     Robot robot;
+    LinearOpMode opMode;
 
     public void runOpMode() throws InterruptedException {
         robot = new Robot(this);
@@ -15,7 +16,24 @@ public class AutoTemplate extends LinearOpMode {
 
         if (opModeIsActive()) {
             //AUTON CODE HERE
-        }
+            while(!robot.checkEndTape()) {
+                telemetry.addData("EndTape","not found");
+                telemetry.update();
+                robot.driving.horizontal(0.5f);
+                robot.checkColorValues();
+                //opMode.sleep(20);
+            }
+            telemetry.addData("tape: ", "found");
+            telemetry.update();
+            robot.driving.stop();
 
+            /*while (!robot.checkWhiteTape()) {
+                telemetry.addData("WhiteTape", "not found");
+                telemetry.update();
+                robot.driving.vertical(0.5f);
+                //opMode.sleep(20);
+            }
+           robot.driving.stop();*/
+        }
     }
 }
