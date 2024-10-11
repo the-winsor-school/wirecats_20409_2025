@@ -49,6 +49,7 @@ public class Robot {
         lb = map.tryGet(DcMotor.class, "lb");
 
         lb.setDirection(DcMotorSimple.Direction.REVERSE);
+
         driving = new StrafeDrive(rf, rb, lf, lb);
 
         color = map.get(ColorSensor.class,"color");
@@ -70,19 +71,19 @@ public class Robot {
     }
 
     public boolean checkBlueTape() {
-        if(color.blue() > 500)
+        if(color.blue() > 3000)
             return true;
         return false;
     }
 
     public boolean checkRedTape() {
-        if(color.red() > 350)
+        if(color.red() > 2000)
             return true;
         return false;
     }
 
     public boolean checkWhiteTape() {
-        if(color.red() > 350 && color.blue() > 500 && color.green() > 500)
+        if(color.red() > 2000 && color.blue() > 3000 && color.green() > 3000)
             return true;
         return false;
     }
