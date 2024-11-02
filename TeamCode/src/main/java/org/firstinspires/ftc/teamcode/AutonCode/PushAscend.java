@@ -1,10 +1,12 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.AutonCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "Close Park (red or blue)")
-public class AutoTemplate extends LinearOpMode {
+import org.firstinspires.ftc.teamcode.Robot;
+
+@Autonomous(name = "Loaded Push Ascend")
+public class PushAscend extends LinearOpMode {
 
     Robot robot;
     LinearOpMode opMode;
@@ -16,17 +18,27 @@ public class AutoTemplate extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            //AUTON CODE HERE
             robot.checkColorValues();
             while(!robot.checkEndTape()) {
                 telemetry.addData("EndTape","not found");
                 telemetry.update();
-                robot.driving.horizontal(0.50f);
+                robot.driving.horizontal(-0.75f);
                 robot.checkColorValues();
                 opMode.sleep(20);
             }
             telemetry.addData("tape: ", "found");
-            telemetry.update();
+            telemetry.update();//push specimen to under basket
+
+            robot.driving.horizontal(0.75f);
+            opMode.sleep(2000);//to get off the tape
+
+            while (!robot.checkEndTape()) {
+                telemetry.addData("EndTape","not found");
+                telemetry.update();
+                robot.driving.horizontal(0.75f);
+                robot.checkColorValues();
+                opMode.sleep(20);
+            }
 
             robot.driving.vertical(0.75f);
             opMode.sleep(3000);
@@ -36,8 +48,8 @@ public class AutoTemplate extends LinearOpMode {
                 telemetry.update();
                 robot.driving.horizontal(-0.75f);
                 opMode.sleep(20);
-            }
-           robot.driving.stop();
+            }//ascend
+            robot.driving.stop();
 
 
         }
