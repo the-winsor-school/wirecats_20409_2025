@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.ArmLift.FullArmLift;
-import org.firstinspires.ftc.teamcode.ArmLift.LiftMotor;
+
 
 /**
  * In this file we:
@@ -50,6 +50,8 @@ public class Robot {
         rb = map.tryGet(DcMotor.class, "rb");
         lf = map.tryGet(DcMotor.class, "lf");
         lb = map.tryGet(DcMotor.class, "lb");
+
+        liftMotor = map.tryGet(DcMotor.class, "lift");
 
         driving = new StrafeDrive(rf, rb, lf, lb);
 
