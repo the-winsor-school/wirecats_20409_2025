@@ -4,6 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.ArmLift.FullArmLift;
+import org.firstinspires.ftc.teamcode.ArmLift.LiftMotor;
+
 /**
  * In this file we:
  * initalize all the sensors, motors, and libraries
@@ -21,14 +24,18 @@ public class Robot {
      * itializtion of all sensors and motors
      */
     //wheels
-    //rf, rb, lf, lb
     private DcMotor rf;
     private DcMotor rb;
     private DcMotor lf;
     private DcMotor lb;
 
-    public StrafeDrive driving;
+    //Arm Lift
+    private DcMotor liftMotor;
 
+
+
+    public StrafeDrive driving;
+    public FullArmLift lift;
     private LinearOpMode opMode;
 
     /**
@@ -45,6 +52,8 @@ public class Robot {
         lb = map.tryGet(DcMotor.class, "lb");
 
         driving = new StrafeDrive(rf, rb, lf, lb);
+
+        lift = new FullArmLift(liftMotor);
     }
 
     public void printWheelPowers() {
