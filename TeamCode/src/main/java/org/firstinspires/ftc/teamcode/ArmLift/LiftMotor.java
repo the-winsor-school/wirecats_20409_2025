@@ -21,4 +21,11 @@ public class LiftMotor {
         if (state == MotorState.STOP)
             motor.setPower(0);
     }
+    public int getCurrentPosition () {
+        return motor.getCurrentPosition();
+    }
+
+    public void setTargetPosition(int position) {
+        motor.setTargetPosition(position);
+    }
 }

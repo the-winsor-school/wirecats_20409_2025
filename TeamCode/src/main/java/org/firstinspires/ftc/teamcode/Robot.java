@@ -51,7 +51,7 @@ public class Robot {
         lf = map.tryGet(DcMotor.class, "lf");
         lb = map.tryGet(DcMotor.class, "lb");
 
-        liftMotor = map.tryGet(DcMotor.class, "lift");
+        liftMotor = map.tryGet(DcMotor.class, "liftMotor");
 
         driving = new StrafeDrive(rf, rb, lf, lb);
 
