@@ -32,8 +32,8 @@ public class TeleOp extends LinearOpMode {
             //             MECH CONTROLLER
             //_______________________________________________
 
-
-            //ADD MECH CODE HERE FOR GAMEPAD2
+            //control lift with right stick y value on mech controller
+            robot.lift.joystickControlLift(gamepad2.right_stick_y);
 
             //_______________________________________________
             //             PRINT STATEMENTS
