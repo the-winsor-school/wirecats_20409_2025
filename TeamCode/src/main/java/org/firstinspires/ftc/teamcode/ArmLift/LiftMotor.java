@@ -41,6 +41,16 @@ public class LiftMotor {
         motor.setPower(power * powerUsed);
     }
 
+    public MotorState getMotorState() {
+        if (motor.getPower() > 0) {
+            return MotorState.FORWARD;
+        }
+        else if (motor.getPower() > 0) {
+            return MotorState.REVERSE;
+        }
+        return MotorState.STOP;
+    }
+
     //returns current ticks of the encoder
     public int getCurrentPosition () {
         return motor.getCurrentPosition();

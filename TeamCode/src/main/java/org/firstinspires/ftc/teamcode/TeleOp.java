@@ -18,7 +18,7 @@ public class TeleOp extends LinearOpMode {
         while (opModeIsActive()){
 
             //_______________________________________________
-            //             MAIN CONTROLLER
+            //             MAIN CONTROLLER (gamepad1)
             //_______________________________________________
             
             float x = gamepad1.right_stick_x;
@@ -29,11 +29,19 @@ public class TeleOp extends LinearOpMode {
 
 
             //_______________________________________________
-            //             MECH CONTROLLER
+            //             MECH CONTROLLER (gamepad2)
             //_______________________________________________
 
             //control lift with right stick y value on mech controller
             robot.lift.joystickControlLift(gamepad2.right_stick_y);
+
+            //lift values
+            if (gamepad2.x)
+                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.RESET);
+            if (gamepad2.a)
+                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.HIGHBASKET);
+            if (gamepad2.b)
+                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.LOWBASKET);
 
             //_______________________________________________
             //             PRINT STATEMENTS
@@ -50,22 +58,11 @@ public class TeleOp extends LinearOpMode {
             //wheels powers
             robot.printWheelPowers();
 
-            //lift manual controls
-            if (gamepad2.dpad_up)
-                robot.lift.motor.setMotorState(MotorState.FORWARD);
-            if(gamepad2.dpad_down)
-                robot.lift.motor.setMotorState(MotorState.REVERSE);
-            //lift braking
-            if (!gamepad2.dpad_down && !gamepad2.dpad_up)
-                robot.lift.motor.setMotorState(MotorState.STOP); //test for float stop or full stop
+            telemetry.addLine("----------------LIFT-------------------------");
 
-            //lift values
-            if (gamepad1.x)
-                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.RESET);
-            if (gamepad1.a)
-                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.HIGHBASKET);
-            if (gamepad1.b)
-                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.LOWBASKET);
+            telemetry.addData("current position:", robot.lift.liftMotor.getCurrentPosition());
+            telemetry.addData("target position:", robot.lift.liftMotor.getTargetPosition());
+            telemetry.addData("direction:", robot.lift.liftMotor.getMotorState());
 
             telemetry.update();
         }
