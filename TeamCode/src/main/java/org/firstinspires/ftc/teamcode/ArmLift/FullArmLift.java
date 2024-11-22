@@ -1,26 +1,31 @@
 package org.firstinspires.ftc.teamcode.ArmLift;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 public class FullArmLift {
-    public LiftMotor motor;
+    public LiftMotor liftMotor;
 
-    public FullArmLift(DcMotor liftMotor){
-        motor = new LiftMotor(liftMotor, 0.5);
+    public FullArmLift(DcMotorEx LiftMotor){
+        liftMotor = new LiftMotor(LiftMotor, 0.5, 200);
     }
 
     public void moveLiftToPosition (LIFT_POSITION pos){
         if(pos == LIFT_POSITION.RESET){
-            motor.setTargetPosition(0);
+            liftMotor.runToPosition(0);
         }
         if(pos == LIFT_POSITION.HIGHBASKET){
-            //motor.setTargetPosition(); test for encoder
+            //liftMotor.runToPosition(); test for encoder
         }
         if(pos == LIFT_POSITION.LOWBASKET){
-            //motor.setTargetPosition(); test for encoder
+            //liftMotor.runToPosition(); test for encoder
         }
         //add one more for PICKINGUP if RESET does not work
     }
+
+    public void joystickControlLift(float input) {
+        liftMotor.setMotorPower(input);
+    }
+
     public enum LIFT_POSITION {
         RESET,
         HIGHBASKET,

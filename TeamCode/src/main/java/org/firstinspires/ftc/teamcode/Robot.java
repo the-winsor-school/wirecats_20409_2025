@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.ArmLift.FullArmLift;
@@ -32,8 +33,6 @@ public class Robot {
     //Arm Lift
     private DcMotor liftMotor;
 
-
-
     public StrafeDrive driving;
     public FullArmLift lift;
     private LinearOpMode opMode;
@@ -51,11 +50,12 @@ public class Robot {
         lf = map.tryGet(DcMotor.class, "lf");
         lb = map.tryGet(DcMotor.class, "lb");
 
-        liftMotor = map.tryGet(DcMotor.class, "liftMotor");
+        liftMotor = map.tryGet(DcMotorEx.class, "liftMotor");
 
         driving = new StrafeDrive(rf, rb, lf, lb);
 
-        lift = new FullArmLift(liftMotor);
+        //(DcMotorEx) casts the lift motor to that class
+        lift = new FullArmLift((DcMotorEx) liftMotor);
     }
 
     public void printWheelPowers() {
