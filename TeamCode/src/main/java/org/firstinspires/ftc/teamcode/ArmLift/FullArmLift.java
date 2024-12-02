@@ -3,15 +3,19 @@ package org.firstinspires.ftc.teamcode.ArmLift;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 public class FullArmLift {
-    public LiftMotor liftMotor;
+    public GenericMotor liftMotor;
+    public GenericMotor wristMotor;
 
-    public FullArmLift(DcMotorEx LiftMotor){
-        liftMotor = new LiftMotor(LiftMotor, 0.5, 200);
+    public FullArmLift(DcMotorEx LiftMotor, DcMotorEx WristMotor){
+        //both values to be tested
+        liftMotor = new GenericMotor(LiftMotor, 0.5, 200);
+        wristMotor = new GenericMotor(WristMotor, 0.25, 100);
     }
 
     public void moveLiftToPosition (LIFT_POSITION pos){
         if(pos == LIFT_POSITION.RESET){
             liftMotor.runToPosition(0);
+            wristMotor.runToPosition(0);
         }
         if(pos == LIFT_POSITION.HIGHBASKET){
             //liftMotor.runToPosition(); test for encoder
@@ -24,6 +28,10 @@ public class FullArmLift {
 
     public void joystickControlLift(float input) {
         liftMotor.setMotorPower(input);
+    }
+
+    public void joystickControlWrist(float input) {
+        wristMotor.setMotorPower(input);
     }
 
     public enum LIFT_POSITION {

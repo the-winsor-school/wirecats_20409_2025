@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.ArmLift;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-public class LiftMotor {
+public class GenericMotor {
     //motor uses DcMotorEx instead of DcMotor to allow us to have more control over the encoder loop
     //encoder loop is when we set target position and tell the motor to run to that position
     //with DcMotorEx we can adjust the tolerance
@@ -17,7 +17,7 @@ public class LiftMotor {
     //value is experimtnally determined
     private int tolerance;
 
-    LiftMotor (DcMotorEx motor, double powerUsed, int tolerance){
+    GenericMotor(DcMotorEx motor, double powerUsed, int tolerance){
         this.motor = motor;
         this.powerUsed = powerUsed;
         this.tolerance = tolerance;

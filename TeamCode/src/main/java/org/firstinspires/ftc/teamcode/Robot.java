@@ -32,7 +32,9 @@ public class Robot {
 
     //Arm Lift
     private DcMotor liftMotor;
+    private DcMotor wristMotor;
 
+    //objects
     public StrafeDrive driving;
     public FullArmLift lift;
     private LinearOpMode opMode;
@@ -51,11 +53,12 @@ public class Robot {
         lb = map.tryGet(DcMotor.class, "lb");
 
         liftMotor = map.tryGet(DcMotorEx.class, "liftMotor");
+        wristMotor = map.tryGet(DcMotorEx.class, "wristMotor");
 
         driving = new StrafeDrive(rf, rb, lf, lb);
 
         //(DcMotorEx) casts the lift motor to that class
-        lift = new FullArmLift((DcMotorEx) liftMotor);
+        lift = new FullArmLift((DcMotorEx) liftMotor, (DcMotorEx) wristMotor);
     }
 
     public void printWheelPowers() {
