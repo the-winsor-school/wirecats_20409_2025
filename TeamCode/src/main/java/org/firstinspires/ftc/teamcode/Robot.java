@@ -4,8 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.ArmLift.FullArmLift;
+
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 
 /**
@@ -37,6 +40,9 @@ public class Robot {
     public FullArmLift lift;
     private LinearOpMode opMode;
 
+    private TouchSensor bottomLiftLimit;
+    private TouchSensor topLiftLimit;
+
     /**
      * @param opMode pass by writing: new Robot(this);
      */
@@ -51,11 +57,13 @@ public class Robot {
         lb = map.tryGet(DcMotor.class, "lb");
 
         liftMotor = map.tryGet(DcMotorEx.class, "liftMotor");
+        bottomLiftLimit = map.tryGet(TouchSensor.class, "bottom lift limit");
+        topLiftLimit = map.tryGet(TouchSensor.class, "top lift limit");
 
         driving = new StrafeDrive(rf, rb, lf, lb);
 
         //(DcMotorEx) casts the lift motor to that class
-        lift = new FullArmLift((DcMotorEx) liftMotor);
+        lift = new FullArmLift((DcMotorEx) liftMotor, (TouchSensor) bottomLiftLimit, (TouchSensor) topLiftLimit);
     }
 
     public void printWheelPowers() {
