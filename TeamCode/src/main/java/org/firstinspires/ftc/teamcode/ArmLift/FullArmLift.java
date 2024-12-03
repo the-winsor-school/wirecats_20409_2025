@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 public class FullArmLift {
     public LiftMotor liftMotor;
+    public Claw claw;
 
     public FullArmLift(DcMotorEx LiftMotor){
         liftMotor = new LiftMotor(LiftMotor, 0.5, 200);
