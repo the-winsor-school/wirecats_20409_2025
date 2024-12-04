@@ -57,8 +57,8 @@ public class Robot {
         lb = map.tryGet(DcMotor.class, "lb");
 
         liftMotor = map.tryGet(DcMotorEx.class, "liftMotor");
-        bottomLiftLimit = map.tryGet(TouchSensor.class, "bottom lift limit");
-        topLiftLimit = map.tryGet(TouchSensor.class, "top lift limit");
+        bottomLiftLimit = map.tryGet(TouchSensor.class, "bottomLiftLimit");
+        topLiftLimit = map.tryGet(TouchSensor.class, "topLiftLimit");
 
         driving = new StrafeDrive(rf, rb, lf, lb);
 
