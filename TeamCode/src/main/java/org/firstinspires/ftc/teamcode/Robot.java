@@ -40,6 +40,7 @@ public class Robot {
     public FullArmLift lift;
     private LinearOpMode opMode;
 
+    //sensors
     private TouchSensor bottomLiftLimit;
     private TouchSensor topLiftLimit;
 
