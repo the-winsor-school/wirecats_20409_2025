@@ -44,6 +44,7 @@ public class TeleOp extends LinearOpMode {
                 robot.lift.claw.moveClaw(ClawPosition.STOP);
             }
 
+
             //control lift with right stick y value on mech controller
             robot.lift.joystickControlLift(gamepad2.right_stick_y);
 

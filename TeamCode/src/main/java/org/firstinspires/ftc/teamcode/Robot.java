@@ -30,11 +30,11 @@ public class Robot {
     private DcMotor rb;
     private DcMotor lf;
     private DcMotor lb;
-    private CRServo clawServo;
 
     //Arm Lift
     private DcMotor liftMotor;
     private DcMotor wristMotor;
+    private CRServo clawServo;
 
     //objects
     public StrafeDrive driving;
@@ -59,9 +59,8 @@ public class Robot {
         clawServo = map.tryGet(CRServo.class, "servo");
 
         driving = new StrafeDrive(rf, rb, lf, lb);
-
         //(DcMotorEx) casts the lift motor to that class
-        lift = new FullArmLift((DcMotorEx) liftMotor, (DcMotorEx) wristMotor);
+        lift = new FullArmLift((DcMotorEx) liftMotor, (DcMotorEx) wristMotor, (CRServo) clawServo);
 
     }
 
