@@ -61,6 +61,8 @@ public class Robot {
 
         liftMotor = map.tryGet(DcMotorEx.class, "liftMotor");
         wristMotor = map.tryGet(DcMotorEx.class, "wristMotor");
+
+        wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         clawServo = map.tryGet(CRServo.class, "servo");
 
         driving = new StrafeDrive(rf, rb, lf, lb);
