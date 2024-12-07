@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 public class FullArmLift {
     public GenericMotor liftMotor;
     public GenericMotor wristMotor;
+    public Claw claw;
 
     public FullArmLift(DcMotorEx LiftMotor, DcMotorEx WristMotor){
         //both values to be tested

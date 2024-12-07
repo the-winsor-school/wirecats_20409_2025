@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.ArmLift.ClawPosition;
 import org.firstinspires.ftc.teamcode.ArmLift.FullArmLift;
 import org.firstinspires.ftc.teamcode.ArmLift.MotorState;
 
@@ -31,6 +32,17 @@ public class TeleOp extends LinearOpMode {
             //_______________________________________________
             //             MECH CONTROLLER (gamepad2)
             //_______________________________________________
+
+            //claw code
+            if (gamepad2.right_bumper) {
+                robot.lift.claw.moveClaw(ClawPosition.CLOSE);
+            }
+            if (gamepad2.left_bumper) {
+                robot.lift.claw.moveClaw(ClawPosition.OPEN);
+            }
+            if (!gamepad2.left_bumper && !gamepad2.right_bumper) {
+                robot.lift.claw.moveClaw(ClawPosition.STOP);
+            }
 
             //control lift with right stick y value on mech controller
             robot.lift.joystickControlLift(gamepad2.right_stick_y);
