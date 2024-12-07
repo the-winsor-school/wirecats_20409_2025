@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.CRServo;
 
@@ -39,6 +40,7 @@ public class Robot {
     //objects
     public StrafeDrive driving;
     public FullArmLift lift;
+
     private LinearOpMode opMode;
 
     /**
@@ -54,6 +56,9 @@ public class Robot {
         lf = map.tryGet(DcMotor.class, "lf");
         lb = map.tryGet(DcMotor.class, "lb");
 
+        rb.setDirection(DcMotorSimple.Direction.REVERSE);
+        rf.setDirection(DcMotorSimple.Direction.REVERSE);
+
         liftMotor = map.tryGet(DcMotorEx.class, "liftMotor");
         wristMotor = map.tryGet(DcMotorEx.class, "wristMotor");
         clawServo = map.tryGet(CRServo.class, "servo");
@@ -61,6 +66,7 @@ public class Robot {
         driving = new StrafeDrive(rf, rb, lf, lb);
         //(DcMotorEx) casts the lift motor to that class
         lift = new FullArmLift((DcMotorEx) liftMotor, (DcMotorEx) wristMotor, (CRServo) clawServo);
+
 
     }
 

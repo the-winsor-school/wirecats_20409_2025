@@ -29,6 +29,7 @@ public class TeleOp extends LinearOpMode {
             robot.driving.joystickDrive(x, y, t);
 
 
+
             //_______________________________________________
             //             MECH CONTROLLER (gamepad2)
             //_______________________________________________
@@ -48,7 +49,7 @@ public class TeleOp extends LinearOpMode {
             //control lift with right stick y value on mech controller
             robot.lift.joystickControlLift(gamepad2.right_stick_y);
 
-            robot.lift.joystickControlLift(gamepad2.left_stick_y);
+            robot.lift.joystickControlWrist(gamepad2.left_stick_y);
 
             //lift values
             if (gamepad2.x)

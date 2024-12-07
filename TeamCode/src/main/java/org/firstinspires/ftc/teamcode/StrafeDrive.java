@@ -9,7 +9,7 @@ public class StrafeDrive {
     private DcMotor lf;
     private DcMotor lb;
 
-    private double speed = 0.1;
+    private double speed = 0.05;
 
     public StrafeDrive(DcMotor rf, DcMotor rb, DcMotor lf, DcMotor lb) {
         this.rf = rf;
