@@ -9,7 +9,7 @@ public class StrafeDrive {
     private DcMotor lf;
     private DcMotor lb;
 
-    private double speed = 0.05;
+    private double speed = 0.5;
 
     public StrafeDrive(DcMotor rf, DcMotor rb, DcMotor lf, DcMotor lb) {
         this.rf = rf;
@@ -27,10 +27,10 @@ public class StrafeDrive {
         float t = (Math.abs(T) < 0.1f) ? 0 : T;
 
         //explanation in drive and slack
-        rf.setPower((y - x - t));
-        rb.setPower((y + x - t));
-        lf.setPower((y + x + t));
-        lb.setPower((y - x + t));
+        rf.setPower((y - x - t) * speed);
+        rb.setPower((y + x - t) * speed);
+        lf.setPower((y + x + t) * speed);
+        lb.setPower((y - x + t) * speed);
     }
 
     public void turn (double t) {

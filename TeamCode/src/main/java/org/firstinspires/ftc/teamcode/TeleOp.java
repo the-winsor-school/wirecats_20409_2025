@@ -35,19 +35,15 @@ public class TeleOp extends LinearOpMode {
             //_______________________________________________
 
             //claw code
-            if (gamepad2.y) {
+            if (gamepad2.right_bumper) {
                 robot.lift.claw.moveClaw(ClawPosition.CLOSE);
             }
-            if (gamepad2.a) {
+            if (gamepad2.left_bumper) {
                 robot.lift.claw.moveClaw(ClawPosition.OPEN);
             }
-            if (!gamepad2.y && !gamepad2.a) {
-                robot.lift.claw.moveClaw(ClawPosition.STOP);
-            }
-
 
             //control lift with right stick y value on mech controller
-            robot.lift.joystickControlLift(gamepad2.right_stick_y);
+            //robot.lift.joystickControlLift(gamepad2.right_stick_y);
 
             robot.lift.joystickControlWrist(gamepad2.left_stick_y);
 
@@ -76,9 +72,14 @@ public class TeleOp extends LinearOpMode {
 
             telemetry.addLine("----------------LIFT-------------------------");
 
-            telemetry.addData("current position:", robot.lift.liftMotor.getCurrentPosition());
-            telemetry.addData("target position:", robot.lift.liftMotor.getTargetPosition());
-            telemetry.addData("direction:", robot.lift.liftMotor.getMotorState());
+            //telemetry.addData("current position:", robot.lift.liftMotor.getCurrentPosition());
+            //telemetry.addData("target position:", robot.lift.liftMotor.getTargetPosition());
+            //telemetry.addData("direction:", robot.lift.liftMotor.getMotorState());
+
+            telemetry.addLine("----------------CLAW-------------------------");
+
+            telemetry.addData("claw position: ", robot.lift.claw.getCurrentPosition());
+
 
             telemetry.update();
         }
