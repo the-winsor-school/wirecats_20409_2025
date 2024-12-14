@@ -39,7 +39,7 @@ public class Robot {
 
     //objects
     public StrafeDrive driving;
-    public FullArmLift lift;
+    public FullArmLift fullLift;
 
     private LinearOpMode opMode;
 
@@ -69,7 +69,7 @@ public class Robot {
         driving = new StrafeDrive(rf, rb, lf, lb);
 
         //(DcMotorEx) casts the lift motor to that class
-        lift = new FullArmLift((DcMotorEx) liftMotor, (DcMotorEx) wristMotor, (CRServo) clawServo);
+        fullLift = new FullArmLift((DcMotorEx) liftMotor, (DcMotorEx) wristMotor, (CRServo) clawServo);
 
 
     }

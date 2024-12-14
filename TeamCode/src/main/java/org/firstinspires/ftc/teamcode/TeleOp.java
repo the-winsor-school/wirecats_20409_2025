@@ -4,15 +4,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.ArmLift.ClawPosition;
 import org.firstinspires.ftc.teamcode.ArmLift.FullArmLift;
-import org.firstinspires.ftc.teamcode.ArmLift.MotorState;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
 public class TeleOp extends LinearOpMode {
 
     Robot robot;
+    FullArmLift fullLift;
 
     public void runOpMode() throws InterruptedException {
         robot = new Robot(this);
+        fullLift = robot.fullLift;
 
         waitForStart();
 
@@ -29,31 +30,29 @@ public class TeleOp extends LinearOpMode {
             robot.driving.joystickDrive(x, y, t);
 
 
-
             //_______________________________________________
             //             MECH CONTROLLER (gamepad2)
             //_______________________________________________
 
             //claw code
-            if (gamepad2.right_bumper) {
-                robot.lift.claw.moveClaw(ClawPosition.CLOSE);
-            }
-            if (gamepad2.left_bumper) {
-                robot.lift.claw.moveClaw(ClawPosition.OPEN);
-            }
+            if (gamepad2.right_bumper)
+                fullLift.claw.moveClaw(ClawPosition.CLOSE);
+            if (gamepad2.left_bumper)
+                fullLift.claw.moveClaw(ClawPosition.OPEN);
+
 
             //control lift with right stick y value on mech controller
-            robot.lift.joystickControlLift(gamepad2.right_stick_y);
-
-            robot.lift.joystickControlWrist(gamepad2.left_stick_y);
+            fullLift.joystickControlLift(gamepad2.right_stick_y);
+            robot.fullLift.joystickControlWrist(gamepad2.left_stick_y);
 
             //lift values
+            //TO BE TESTED
             if (gamepad2.x)
-                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.RESET);
-            //if (gamepad2.a)
-                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.HIGHBASKET);
+                fullLift.moveLiftToPosition(FullArmLift.LIFT_POSITION.RESET);
+            if (gamepad2.a)
+                fullLift.moveLiftToPosition(FullArmLift.LIFT_POSITION.HIGH_BASKET);
             if (gamepad2.b)
-                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.LOWBASKET);
+                fullLift.moveLiftToPosition(FullArmLift.LIFT_POSITION.LOW_BASKET);
 
             //_______________________________________________
             //             PRINT STATEMENTS
@@ -72,13 +71,13 @@ public class TeleOp extends LinearOpMode {
 
             telemetry.addLine("----------------LIFT-------------------------");
 
-            //telemetry.addData("current position:", robot.lift.liftMotor.getCurrentPosition());
-            //telemetry.addData("target position:", robot.lift.liftMotor.getTargetPosition());
-            //telemetry.addData("direction:", robot.lift.liftMotor.getMotorState());
+            telemetry.addData("current position:", fullLift.lift.getCurrentPosition());
+            telemetry.addData("target position:", fullLift.wrist.getTargetPosition());
+            telemetry.addData("direction:", fullLift.lift.getMotorState());
 
             telemetry.addLine("----------------CLAW-------------------------");
 
-            telemetry.addData("claw position: ", robot.lift.claw.getCurrentPosition());
+            telemetry.addData("claw position: ", fullLift.claw.getCurrentPosition());
 
 
             telemetry.update();
