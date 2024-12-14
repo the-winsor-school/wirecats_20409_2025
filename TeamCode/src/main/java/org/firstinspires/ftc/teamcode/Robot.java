@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
+import org.firstinspires.ftc.teamcode.Sensors.OurColorSensor;
+
 /**
  * In this file we:
  * initalize all the sensors, motors, and libraries
@@ -33,7 +35,11 @@ public class Robot {
 
     private LinearOpMode opMode;
 
-    private ColorSensor color;
+    private ColorSensor rightColor;
+    private ColorSensor leftColor;
+
+    private OurColorSensor rightCol;
+    private OurColorSensor leftCol;
 
     /**
      * @param opMode pass by writing: new Robot(this);
@@ -50,9 +56,16 @@ public class Robot {
 
         lb.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        driving = new StrafeDrive(rf, rb, lf, lb);
+        //sensors
+        rightCol = map.tryGet(ColorSensor.class, "");
+        leftCol = map.tryGet(ColorSensor.class, "");
+        rightCol = map.tryGet(ColorSensor.class, "");
+        //sensor objects
+        //color = map.get(ColorSensor.class,"color");
+        rightColor = new OurColorSensor(rightCol);
+        leftColor = new OurColorSensor(leftCol);
 
-        color = map.get(ColorSensor.class,"color");
+        driving = new StrafeDrive(rf, rb, lf, lb);
     }
 
     public void printWheelPowers() {
@@ -68,36 +81,6 @@ public class Robot {
         RIGHT,
         FRONT,
         BACK
-    }
-
-    public boolean checkBlueTape() {
-        if(color.blue() > 3000)
-            return true;
-        return false;
-    }
-
-    public boolean checkRedTape() {
-        if(color.red() > 2000)
-            return true;
-        return false;
-    }
-
-    public boolean checkWhiteTape() {
-        if(color.red() > 2000 && color.blue() > 3000 && color.green() > 3000)
-            return true;
-        return false;
-    }
-
-    public boolean checkEndTape() {
-        if(checkBlueTape() || checkRedTape())
-            return true;
-        return false;
-    }
-
-    public boolean checkANYTape() {
-        if (checkEndTape() || checkWhiteTape())
-            return true;
-        return false;
     }
 
     public void checkColorValues() {

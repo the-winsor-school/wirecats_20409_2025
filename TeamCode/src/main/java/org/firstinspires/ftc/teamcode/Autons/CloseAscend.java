@@ -1,18 +1,17 @@
-package org.firstinspires.ftc.teamcode.AutonCode;
+package org.firstinspires.ftc.teamcode.Autons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous(name = "Loaded Push Ascend")
-public class PushAscend extends LinearOpMode {
+@Autonomous(name = "Close Ascend")
+public class CloseAscend extends LinearOpMode {
 
     Robot robot;
     LinearOpMode opMode;
 
     public void runOpMode() throws InterruptedException {
-        opMode = this;
         robot = new Robot(this);
 
         waitForStart();
@@ -22,23 +21,12 @@ public class PushAscend extends LinearOpMode {
             while(!robot.checkEndTape()) {
                 telemetry.addData("EndTape","not found");
                 telemetry.update();
-                robot.driving.horizontal(-0.75f);
+                robot.driving.horizontal(0.50f);
                 robot.checkColorValues();
                 opMode.sleep(20);
             }
             telemetry.addData("tape: ", "found");
-            telemetry.update();//push specimen to under basket
-
-            robot.driving.horizontal(0.75f);
-            opMode.sleep(2000);//to get off the tape
-
-            while (!robot.checkEndTape()) {
-                telemetry.addData("EndTape","not found");
-                telemetry.update();
-                robot.driving.horizontal(0.75f);
-                robot.checkColorValues();
-                opMode.sleep(20);
-            }
+            telemetry.update();
 
             robot.driving.vertical(0.75f);
             opMode.sleep(3000);
@@ -48,8 +36,8 @@ public class PushAscend extends LinearOpMode {
                 telemetry.update();
                 robot.driving.horizontal(-0.75f);
                 opMode.sleep(20);
-            }//ascend
-            robot.driving.stop();
+            }
+           robot.driving.stop();
 
 
         }
