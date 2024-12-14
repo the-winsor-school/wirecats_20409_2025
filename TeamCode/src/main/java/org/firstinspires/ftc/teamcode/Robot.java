@@ -33,7 +33,7 @@ public class Robot {
     private DcMotor lb;
 
     //Arm Lift
-    //private DcMotor liftMotor;
+    private DcMotor liftMotor;
     private DcMotor wristMotor;
     private CRServo clawServo;
 
@@ -59,7 +59,7 @@ public class Robot {
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
         rf.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        //liftMotor = map.tryGet(DcMotorEx.class, "liftMotor");
+        liftMotor = map.tryGet(DcMotorEx.class, "liftMotor");
         wristMotor = map.tryGet(DcMotorEx.class, "wristMotor");
 
         wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -69,7 +69,7 @@ public class Robot {
         driving = new StrafeDrive(rf, rb, lf, lb);
 
         //(DcMotorEx) casts the lift motor to that class
-        lift = new FullArmLift((DcMotorEx) wristMotor, (CRServo) clawServo);
+        lift = new FullArmLift((DcMotorEx) liftMotor, (DcMotorEx) wristMotor, (CRServo) clawServo);
 
 
     }

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.ArmLift;
 
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 public class FullArmLift {
@@ -8,9 +9,9 @@ public class FullArmLift {
     public GenericMotor wristMotor;
     public Claw claw;
 
-    public FullArmLift(DcMotorEx WristMotor,CRServo clawServo){
+    public FullArmLift(DcMotorEx LiftMotor, DcMotorEx WristMotor, CRServo clawServo){
         //both values to be tested
-        //liftMotor = new GenericMotor(LiftMotor, 0.5, 200);
+        liftMotor = new GenericMotor(LiftMotor, 0.5, 200);
         wristMotor = new GenericMotor(WristMotor, 0.3, 100);
         claw = new Claw(clawServo);
     }
@@ -29,9 +30,9 @@ public class FullArmLift {
         //add one more for PICKINGUP if RESET does not work
     }
 
-    //public void joystickControlLift(float input) {
-    //liftMotor.setMotorPower(input);
-    //}
+    public void joystickControlLift(float input) {
+        liftMotor.setMotorPower(input);
+    }
 
     public void joystickControlWrist(float input) {
         wristMotor.setMotorPower(input);
