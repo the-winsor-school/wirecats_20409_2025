@@ -12,13 +12,13 @@ public class StrafeDrive {
 
     //encoder ticks (given from getCurrentPosition) conversion to revolutions of motor
     //value if hardware and can be looked up on REV website
-    private double ticksPerRevolution = 0;
+    private double ticksPerRevolution = 28;
 
     //gear boxes on wheels (should be same for all wheels)
     private int gearReduction = 0;
 
-    //circumference of mecanum wheels
-    private double wheelCircumference = 0;
+    //circumference of wheels
+    private double wheelCircumference = 750 * Math.PI;
 
     //calculated by values above
     private double cmPerTick;
