@@ -1,21 +1,41 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 public class StrafeDrive {
 
-    private DcMotor rf;
-    private DcMotor rb;
-    private DcMotor lf;
-    private DcMotor lb;
+    private DcMotorEx rf;
+    private DcMotorEx rb;
+    private DcMotorEx lf;
+    private DcMotorEx lb;
+
+    //encoder ticks (given from getCurrentPosition) conversion to revolutions of motor
+    //value if hardware and can be looked up on REV website
+    private double ticksPerRevolution = 0;
+
+    //gear boxes on wheels (should be same for all wheels)
+    private int gearReduction = 0;
+
+    //circumference of mecanum wheels
+    private double wheelCircumference = 0;
+
+    //calculated by values above
+    private double cmPerTick;
+
+    //in ticks
+    private int tolerance = 10;
 
     private double speed = 0.5;
 
-    public StrafeDrive(DcMotor rf, DcMotor rb, DcMotor lf, DcMotor lb) {
+    public StrafeDrive(DcMotorEx rf, DcMotorEx rb, DcMotorEx lf, DcMotorEx lb) {
         this.rf = rf;
         this.rb = rb;
         this.lf = lf;
-        this.lb =lb;
+        this.lb = lb;
+
+        setTargetPositionTolerance(tolerance);
+        cmPerTick = calculateCmPerTicks(ticksPerRevolution, gearReduction, wheelCircumference);
     }
 
 
@@ -64,5 +84,53 @@ public class StrafeDrive {
     }
 
     public double getSpeed() { return speed; }
+
+    //Distance driving
+    private double calculateCmPerTicks(double ticksPerRevolution, double gearBoxes, double wheelCircumference) {
+        //this is dimensional analysis
+        //going from ticks to cm
+        return (1/ticksPerRevolution) * gearBoxes * wheelCircumference;
+    }
+
+    /**
+     *
+     * @param maxPower for wheels (not the whole time because of accerlation)
+     * @param distance given in cm
+     */
+    private void vertical(double maxPower, double distance) {
+        resetEncoders();
+        int targetTicks = (int) Math.round(distance * (1/cmPerTick));
+        setTargetPosition(targetTicks);
+        runToPosition();
+    }
+
+    //Functions to combine wheels
+    private void runToPosition() {
+        rf.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+    }
+
+    private void setTargetPosition(int targetPosition) {
+        rf.setTargetPosition(targetPosition);
+        rb.setTargetPosition(targetPosition);
+        lf.setTargetPosition(targetPosition);
+        lb.setTargetPosition(targetPosition);
+    }
+
+    private void setTargetPositionTolerance(int tolerance) {
+        rf.setTargetPositionTolerance(tolerance);
+        rb.setTargetPositionTolerance(tolerance);
+        lf.setTargetPositionTolerance(tolerance);
+        lb.setTargetPositionTolerance(tolerance);
+    }
+
+    private void resetEncoders() {
+        rf.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        lf.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+    }
 
 }

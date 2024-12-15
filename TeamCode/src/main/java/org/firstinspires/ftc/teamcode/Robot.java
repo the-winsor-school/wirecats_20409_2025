@@ -27,10 +27,10 @@ public class Robot {
      * itializtion of all sensors and motors
      */
     //wheels
-    private DcMotor rf;
-    private DcMotor rb;
-    private DcMotor lf;
-    private DcMotor lb;
+    private DcMotorEx rf;
+    private DcMotorEx rb;
+    private DcMotorEx lf;
+    private DcMotorEx lb;
 
     //Arm Lift
     private DcMotorEx liftMotor;
@@ -51,10 +51,10 @@ public class Robot {
         this.opMode = opMode;
 
         //wheels
-        rf = map.tryGet(DcMotor.class, "rf");
-        rb = map.tryGet(DcMotor.class, "rb");
-        lf = map.tryGet(DcMotor.class, "lf");
-        lb = map.tryGet(DcMotor.class, "lb");
+        rf = map.tryGet(DcMotorEx.class, "rf");
+        rb = map.tryGet(DcMotorEx.class, "rb");
+        lf = map.tryGet(DcMotorEx.class, "lf");
+        lb = map.tryGet(DcMotorEx.class, "lb");
 
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
         rf.setDirection(DcMotorSimple.Direction.REVERSE);
