@@ -33,8 +33,8 @@ public class Robot {
     private DcMotor lb;
 
     //Arm Lift
-    private DcMotor liftMotor;
-    private DcMotor wristMotor;
+    private DcMotorEx liftMotor;
+    private DcMotorEx wristMotor;
     private CRServo clawServo;
 
     //objects
@@ -68,10 +68,7 @@ public class Robot {
 
         driving = new StrafeDrive(rf, rb, lf, lb);
 
-        //(DcMotorEx) casts the lift motor to that class
-        lift = new FullArmLift((DcMotorEx) liftMotor, (DcMotorEx) wristMotor, (CRServo) clawServo);
-
-
+        lift = new FullArmLift(liftMotor, wristMotor, clawServo);
     }
 
     public void printWheelPowers() {
