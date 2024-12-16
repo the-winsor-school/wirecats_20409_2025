@@ -14,9 +14,6 @@ public class StrafeDrive {
     //limit is found when robot start to slip/skid when acceleration
     private double maxAcceleration = 5; //measure in some unit
 
-    //smallest sigmoid curve that does not go over max acceleration (at x=0)
-    private double horizontalStretchSigmoid;
-
     private double speed = 0.5;
 
     public StrafeDrive(DcMotor rf, DcMotor rb, DcMotor lf, DcMotor lb) {
@@ -24,8 +21,6 @@ public class StrafeDrive {
         this.rb = rb;
         this.lf = lf;
         this.lb =lb;
-
-        horizontalStretchSigmoid = calculateSigmoidHorizontalStretch(maxAcceleration);
     }
 
 
@@ -95,10 +90,13 @@ public class StrafeDrive {
         //acceleration time is the domain of the sigmoid
         double maxPowerTime = totalTime - (2*sigmoidDomain);
 
+        //calculate horizontal component of sigmoid function
+        double horizontalStretchSigmoid = calculateSigmoidHorizontalStretch(maxAcceleration, sigmoidDomain);
+
         //acceleration period
         timer.reset();
         while(timer.time() < sigmoidDomain) {
-            vertical(maxPower * (sigmoid(timer.time())));
+            vertical(maxPower * sigmoid(timer.time(), horizontalStretchSigmoid));
         }
 
         //regular straight motion
@@ -111,21 +109,24 @@ public class StrafeDrive {
         timer.reset();
         while(timer.time() < sigmoidDomain) {
             //reflects sigmoid over y axis by negatizing x values
-            vertical(maxPower * sigmoid(-timer.time()));
+            vertical(maxPower * sigmoid(-timer.time(), horizontalStretchSigmoid));
         }
 
         //stop motion
         stop();
     }
 
-    private double sigmoid(double time) {
+    private double sigmoid(double time, double horizontalStretchSigmoid) {
         double stretchedX = horizontalStretchSigmoid * time;
         return (Math.exp(stretchedX)/(1+Math.exp(stretchedX)));
     }
 
-    private double calculateSigmoidHorizontalStretch(double maxAcceleration) {
-        //TODO find the derivative of a sigmoid function as a function of its horizontal stretch component
-        return 5;
+    private double calculateSigmoidHorizontalStretch(double maxAcceleration, double sigmoidDomain) {
+        //setting derivative at inflection point of sigmoid to maxAcceleration and solving for horizontal stretch component
+        double inflectionPointLocation = sigmoidDomain/2;
+        double horizontalStretchComponent = (8*maxAcceleration)/(inflectionPointLocation - Math.pow(inflectionPointLocation, 2));
+
+        return horizontalStretchComponent;
     }
 
 }
