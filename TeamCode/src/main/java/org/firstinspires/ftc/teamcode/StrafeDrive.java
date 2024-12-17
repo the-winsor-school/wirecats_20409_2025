@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.Const;
 
 public class StrafeDrive {
 
@@ -75,10 +78,10 @@ public class StrafeDrive {
     /**
      * this is not an async function it will steal your thread
      * @param maxPower max power of the wheels
-     * @param totalTime total time for movement
+     * @param totalTime total time for movement in milliseconds
      */
-    private void verticalSigmoid(double maxPower, int totalTime) {
-        ElapsedTime timer = new ElapsedTime();
+    public void verticalSigmoid(double maxPower, int totalTime) {
+        ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
         //domain of sigmoid function for acceleration is [-1,1] * maxPower
         //so total domain is 2*maxPower
@@ -90,13 +93,17 @@ public class StrafeDrive {
         //acceleration time is the domain of the sigmoid
         double maxPowerTime = totalTime - (2*sigmoidDomain);
 
-        //calculate horizontal component of sigmoid function
-        double horizontalStretchSigmoid = calculateSigmoidHorizontalStretch(maxAcceleration, sigmoidDomain);
+        //calculate horizontal component of sigmoid function (derivation proves this)
+        double horizontalStretchSigmoid = 4 * maxAcceleration;
+
+        //used to align sigmoid x=-1 with t=0
+        double horizontalShift = sigmoidDomain/2;
 
         //acceleration period
         timer.reset();
         while(timer.time() < sigmoidDomain) {
-            vertical(maxPower * sigmoid(timer.time(), horizontalStretchSigmoid));
+
+            vertical(maxPower * sigmoid((timer.time() + horizontalShift), horizontalStretchSigmoid));
         }
 
         //regular straight motion
@@ -109,18 +116,19 @@ public class StrafeDrive {
         timer.reset();
         while(timer.time() < sigmoidDomain) {
             //reflects sigmoid over y axis by negatizing x values
-            vertical(maxPower * sigmoid(-timer.time(), horizontalStretchSigmoid));
+            vertical(maxPower * sigmoid(-timer.time() + horizontalShift, horizontalStretchSigmoid));
         }
 
         //stop motion
         stop();
     }
 
+
     private double sigmoid(double time, double horizontalStretchSigmoid) {
-        double stretchedX = horizontalStretchSigmoid * time;
-        return (Math.exp(stretchedX)/(1+Math.exp(stretchedX)));
+        return (1/(1+Math.exp(-time*horizontalStretchSigmoid)));
     }
 
+    @Deprecated
     private double calculateSigmoidHorizontalStretch(double maxAcceleration, double sigmoidDomain) {
         //setting derivative at inflection point of sigmoid to maxAcceleration and solving for horizontal stretch component
         double inflectionPointLocation = sigmoidDomain/2;
@@ -129,4 +137,12 @@ public class StrafeDrive {
         return horizontalStretchComponent;
     }
 
+    //only use for testing teleOp
+    public void adjustMaxAcceleration(double maxAccelerationAdjustment) {
+        this.maxAcceleration += maxAcceleration;
+    }
+
+    public double getMaxAcceleration() {
+        return maxAcceleration;
+    }
 }
