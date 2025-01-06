@@ -15,13 +15,14 @@ public class StrafeDrive {
     private double ticksPerRevolution = 28;
 
     //gear boxes on wheels (should be same for all wheels)
-    private int gearReduction = 0;
+    private int gearReduction = 5*4;
 
     //circumference of wheels
-    private double wheelCircumference = 750 * Math.PI;
+    private double wheelCircumference = 7.5 * Math.PI;
 
     //calculated by values above
-    private double cmPerTick;
+    //cm/ticks
+    public double cmPerTick = (1/wheelCircumference) * gearReduction * ticksPerRevolution;
 
     //in ticks
     private int tolerance = 10;
@@ -35,7 +36,6 @@ public class StrafeDrive {
         this.lb = lb;
 
         setTargetPositionTolerance(tolerance);
-        cmPerTick = calculateCmPerTicks(ticksPerRevolution, gearReduction, wheelCircumference);
     }
 
 
@@ -79,27 +79,29 @@ public class StrafeDrive {
         lb.setPower(lbp * speed);
     }
 
+    private void setAllPowers(double power) {
+        rf.setPower(power);
+        rb.setPower(power);
+        lf.setPower(power);
+        lb.setPower(power);
+    }
+
     public void adjustSpeed(double x) {
         speed = speed + x;
     }
 
     public double getSpeed() { return speed; }
 
-    //Distance driving
-    private double calculateCmPerTicks(double ticksPerRevolution, double gearBoxes, double wheelCircumference) {
-        //this is dimensional analysis
-        //going from ticks to cm
-        return (1/ticksPerRevolution) * gearBoxes * wheelCircumference;
-    }
-
     /**
      *
      * @param maxPower for wheels (not the whole time because of accerlation)
      * @param distance given in cm
      */
-    private void vertical(double maxPower, double distance) {
-        resetEncoders();
+    public void verticalDist(double maxPower, double distance) {
         int targetTicks = (int) Math.round(distance * (1/cmPerTick));
+
+        setAllPowers(.5);
+        resetEncoders();
         setTargetPosition(targetTicks);
         runToPosition();
     }
@@ -107,9 +109,9 @@ public class StrafeDrive {
     //Functions to combine wheels
     private void runToPosition() {
         rf.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        rf.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        rf.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        rf.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        lf.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        lb.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
     private void setTargetPosition(int targetPosition) {
@@ -127,10 +129,17 @@ public class StrafeDrive {
     }
 
     private void resetEncoders() {
+        rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rf.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         rb.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         lf.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         lb.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    public boolean wheelsMoving() {
+        if (rf.isBusy() || rb.isBusy() || lf.isBusy() || lb.isBusy())
+            return true;
+        return false;
     }
 
 }

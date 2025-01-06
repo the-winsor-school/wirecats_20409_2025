@@ -58,6 +58,7 @@ public class Robot {
 
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
         rf.setDirection(DcMotorSimple.Direction.REVERSE);
+/*
 
         liftMotor = map.tryGet(DcMotorEx.class, "liftMotor");
         wristMotor = map.tryGet(DcMotorEx.class, "wristMotor");
@@ -65,10 +66,11 @@ public class Robot {
         wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         clawServo = map.get(CRServo.class, "servo");
+*/
 
         driving = new StrafeDrive(rf, rb, lf, lb);
 
-        lift = new FullArmLift(liftMotor, wristMotor, clawServo);
+        //lift = new FullArmLift(liftMotor, wristMotor, clawServo);
     }
 
     public void printWheelPowers() {
@@ -76,7 +78,20 @@ public class Robot {
         opMode.telemetry.addData("lf: ", lf.getPower());
         opMode.telemetry.addData("rb: ", rb.getPower());
         opMode.telemetry.addData("lb: ", lb.getPower());
+    }
 
+    public void printWheelCurrentPosition() {
+        opMode.telemetry.addData("rf: ", rf.getCurrentPosition());
+        opMode.telemetry.addData("lf: ", lf.getCurrentPosition());
+        opMode.telemetry.addData("rb: ", rb.getCurrentPosition());
+        opMode.telemetry.addData("lb: ", lb.getCurrentPosition());
+    }
+
+    public void printWheelTargetPosition() {
+        opMode.telemetry.addData("rf: ", rf.getTargetPosition());
+        opMode.telemetry.addData("lf: ", lf.getTargetPosition());
+        opMode.telemetry.addData("rb: ", rb.getTargetPosition());
+        opMode.telemetry.addData("lb: ", lb.getTargetPosition());
     }
 
     public enum Direction {
