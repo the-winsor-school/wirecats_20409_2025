@@ -17,6 +17,15 @@ public class StrafeDrive {
     //limit is found when robot start to slip/skid when acceleration
     private double maxAcceleration = 5; //measure in some unit
 
+    //calculate horizontal component of sigmoid function (derivation proves this)
+    private double horizontalStretchSigmoid;
+
+    //horizontal shift for sigmoid so that left side lines up with x=0
+    //makes point (0, 0.1) on the function
+    private double horizontalShiftSigmoid;
+
+    //shift horizontal for the
+
     private double speed = 0.5;
 
     public StrafeDrive(DcMotor rf, DcMotor rb, DcMotor lf, DcMotor lb) {
@@ -24,6 +33,11 @@ public class StrafeDrive {
         this.rb = rb;
         this.lf = lf;
         this.lb =lb;
+
+        //calculations for sigmoid function
+        //derivation done on paper for both
+        horizontalStretchSigmoid = 4 * maxAcceleration;
+        horizontalShiftSigmoid = Math.log(9) / maxAcceleration;
     }
 
 
@@ -49,6 +63,7 @@ public class StrafeDrive {
         setEachPower(-power, power, power, -power); // -rf, +rb, lf, -lb)
     }
 
+    @Deprecated
     public void vertical (double power) { //forward positive
         setEachPower(power,  power, power, power); //one side negative -rf, -rb
     }
@@ -83,27 +98,19 @@ public class StrafeDrive {
     public void verticalSigmoid(double maxPower, int totalTime) {
         ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
-        //domain of sigmoid function for acceleration is [-1,1] * maxPower
-        //so total domain is 2*maxPower
-        //the domain is the time used for acceleration
-        double sigmoidDomain = 2 * maxPower;
+        //domain of sigmoid function is [-1,1]
+        //so total domain is 2 * horizontal stretch
+        double sigmoidDomain = 2 * horizontalStretchSigmoid;
 
         //this is the amount of time the wheels are moving at max power
         //this is the total time - (2* acceleration time)
         //acceleration time is the domain of the sigmoid
-        double maxPowerTime = totalTime - (2*sigmoidDomain);
-
-        //calculate horizontal component of sigmoid function (derivation proves this)
-        double horizontalStretchSigmoid = 4 * maxAcceleration;
-
-        //used to align sigmoid x=-1 with t=0
-        double horizontalShift = sigmoidDomain/2;
+        double maxPowerTime = totalTime - (2 * sigmoidDomain);
 
         //acceleration period
         timer.reset();
         while(timer.time() < sigmoidDomain) {
-
-            vertical(maxPower * sigmoid((timer.time() + horizontalShift), horizontalStretchSigmoid));
+            vertical(maxPower * sigmoid((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid));
         }
 
         //regular straight motion
@@ -116,33 +123,40 @@ public class StrafeDrive {
         timer.reset();
         while(timer.time() < sigmoidDomain) {
             //reflects sigmoid over y axis by negatizing x values
-            vertical(maxPower * sigmoid(-timer.time() + horizontalShift, horizontalStretchSigmoid));
+            vertical(maxPower * sigmoid(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid));
         }
 
         //stop motion
         stop();
     }
 
-
-    private double sigmoid(double time, double horizontalStretchSigmoid) {
-        return (1/(1+Math.exp(-time*horizontalStretchSigmoid)));
+    @Deprecated
+    private double sigmoid(double time, double horizontalStretchComponent) {
+        return (1/(1+Math.exp(-time) * horizontalStretchComponent));
     }
 
-    @Deprecated
-    private double calculateSigmoidHorizontalStretch(double maxAcceleration, double sigmoidDomain) {
-        //setting derivative at inflection point of sigmoid to maxAcceleration and solving for horizontal stretch component
-        double inflectionPointLocation = sigmoidDomain/2;
-        double horizontalStretchComponent = (8*maxAcceleration)/(inflectionPointLocation - Math.pow(inflectionPointLocation, 2));
+    /**
+     * uses taylor expansion to approximate sigmoid function
+     * the approximation gets rid of e^x which is difficult to compute
+     * using this approximation makes everything more accurate
+     * to add more accuracy to this approximation you need to add another term
+     * @param time x input
+     * @param horizontalStretchComponent horizontal stretch of x input (horizontalStretchSigmoid)
+     *                                  based on the max acceleration
+     * @return returns y value (power to give motors)
+     */
+    private double approxSigmoid(double time, double horizontalStretchComponent) {
+        return 1 +
+                ((horizontalStretchComponent * time)/8) + //first derivative
+                ((Math.pow(horizontalStretchComponent, 3) * Math.pow(time, 2))/24); //second derivative
+    }
 
-        return horizontalStretchComponent;
+    public double getMaxAcceleration() {
+        return maxAcceleration;
     }
 
     //only use for testing teleOp
     public void adjustMaxAcceleration(double maxAccelerationAdjustment) {
         this.maxAcceleration += maxAcceleration;
-    }
-
-    public double getMaxAcceleration() {
-        return maxAcceleration;
     }
 }
