@@ -1,10 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.sax.StartElementListener;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Const;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class StrafeDrive {
 
@@ -15,7 +19,7 @@ public class StrafeDrive {
 
     //test for this value after any major changes to the robot
     //limit is found when robot start to slip/skid when acceleration
-    private double maxAcceleration = 5; //measure in some unit
+    private double maxAcceleration = 20; //measure in some unit
 
     //calculate horizontal component of sigmoid function (derivation proves this)
     private double horizontalStretchSigmoid;
@@ -110,7 +114,8 @@ public class StrafeDrive {
         //acceleration period
         timer.reset();
         while(timer.time() < sigmoidDomain) {
-            vertical(maxPower * sigmoid((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid));
+            double power = maxPower * sigmoid((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
+            vertical(power);
         }
 
         //regular straight motion
@@ -123,7 +128,8 @@ public class StrafeDrive {
         timer.reset();
         while(timer.time() < sigmoidDomain) {
             //reflects sigmoid over y axis by negatizing x values
-            vertical(maxPower * sigmoid(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid));
+            double power = maxPower * sigmoid(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
+            vertical(power);
         }
 
         //stop motion
@@ -157,6 +163,6 @@ public class StrafeDrive {
 
     //only use for testing teleOp
     public void adjustMaxAcceleration(double maxAccelerationAdjustment) {
-        this.maxAcceleration += maxAcceleration;
+        this.maxAcceleration += maxAccelerationAdjustment;
     }
 }

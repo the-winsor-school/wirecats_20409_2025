@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+@Disabled
 @TeleOp(name = "Max Accel Test", group="test")
 public class MaxAccelTest extends LinearOpMode {
     Robot robot;
@@ -11,8 +13,8 @@ public class MaxAccelTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot = new Robot(this);
 
-        int testTime = 100; //in milliseconds
-        double maxPower = 0.5;
+        int testTime = 1000; //in milliseconds
+        double maxPower = 1;
 
         waitForStart();
 
@@ -35,6 +37,7 @@ public class MaxAccelTest extends LinearOpMode {
             telemetry.getItemSeparator();
             telemetry.addData("Test Time", testTime);
             telemetry.addData("Max Power", maxPower);
+            telemetry.addData("Current Power", robot.driving.getSpeed());
             telemetry.update();
         }
     }
