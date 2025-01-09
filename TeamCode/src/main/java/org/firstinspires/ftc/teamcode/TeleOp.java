@@ -2,6 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.ArmLift.ClawPosition;
+import org.firstinspires.ftc.teamcode.ArmLift.FullArmLift;
+import org.firstinspires.ftc.teamcode.ArmLift.MotorState;
+
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
 public class TeleOp extends LinearOpMode {
 
@@ -15,7 +19,7 @@ public class TeleOp extends LinearOpMode {
         while (opModeIsActive()){
 
             //_______________________________________________
-            //             MAIN CONTROLLER
+            //             MAIN CONTROLLER (gamepad1)
             //_______________________________________________
             
             float x = gamepad1.right_stick_x;
@@ -25,12 +29,31 @@ public class TeleOp extends LinearOpMode {
             robot.driving.joystickDrive(x, y, t);
 
 
+
             //_______________________________________________
-            //             MECH CONTROLLER
+            //             MECH CONTROLLER (gamepad2)
             //_______________________________________________
 
+            //claw code
+            if (gamepad2.right_bumper) {
+                robot.lift.claw.moveClaw(ClawPosition.CLOSE);
+            }
+            if (gamepad2.left_bumper) {
+                robot.lift.claw.moveClaw(ClawPosition.OPEN);
+            }
 
-            //ADD MECH CODE HERE FOR GAMEPAD2
+            //control lift with right stick y value on mech controller
+            robot.lift.joystickControlLift(gamepad2.right_stick_y);
+
+            robot.lift.joystickControlWrist(gamepad2.left_stick_y);
+
+            //lift values
+            if (gamepad2.x)
+                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.RESET);
+            //if (gamepad2.a)
+                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.HIGHBASKET);
+            if (gamepad2.b)
+                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.LOWBASKET);
 
             //_______________________________________________
             //             PRINT STATEMENTS
@@ -46,6 +69,17 @@ public class TeleOp extends LinearOpMode {
 
             //wheels powers
             robot.printWheelPowers();
+
+            telemetry.addLine("----------------LIFT-------------------------");
+
+            //telemetry.addData("current position:", robot.lift.liftMotor.getCurrentPosition());
+            //telemetry.addData("target position:", robot.lift.liftMotor.getTargetPosition());
+            //telemetry.addData("direction:", robot.lift.liftMotor.getMotorState());
+
+            telemetry.addLine("----------------CLAW-------------------------");
+
+            telemetry.addData("claw position: ", robot.lift.claw.getCurrentPosition());
+
 
             telemetry.update();
         }

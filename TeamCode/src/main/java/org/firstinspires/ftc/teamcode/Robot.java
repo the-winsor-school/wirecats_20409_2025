@@ -7,6 +7,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.Sensors.OurColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.CRServo;
+
+import org.firstinspires.ftc.teamcode.ArmLift.FullArmLift;
+
 
 /**
  * In this file we:
@@ -25,21 +30,21 @@ public class Robot {
      * itializtion of all sensors and motors
      */
     //wheels
-    //rf, rb, lf, lb
-    private DcMotor rf;
-    private DcMotor rb;
-    private DcMotor lf;
-    private DcMotor lb;
+    private DcMotorEx rf;
+    private DcMotorEx rb;
+    private DcMotorEx lf;
+    private DcMotorEx lb;
 
+    //Arm Lift
+    private DcMotorEx liftMotor;
+    private DcMotorEx wristMotor;
+    private CRServo clawServo;
+
+    //objects
     public StrafeDrive driving;
+    public FullArmLift lift;
 
     private LinearOpMode opMode;
-
-    private ColorSensor rightColor;
-    private ColorSensor leftColor;
-
-    private OurColorSensor rightCol;
-    private OurColorSensor leftCol;
 
     /**
      * @param opMode pass by writing: new Robot(this);
@@ -49,23 +54,26 @@ public class Robot {
         this.opMode = opMode;
 
         //wheels
-        rf = map.tryGet(DcMotor.class, "rf");
-        rb = map.tryGet(DcMotor.class, "rb");
-        lf = map.tryGet(DcMotor.class, "lf");
-        lb = map.tryGet(DcMotor.class, "lb");
+        rf = map.tryGet(DcMotorEx.class, "rf");
+        rb = map.tryGet(DcMotorEx.class, "rb");
+        lf = map.tryGet(DcMotorEx.class, "lf");
+        lb = map.tryGet(DcMotorEx.class, "lb");
+
+        rb.setDirection(DcMotorSimple.Direction.REVERSE);
+        rf.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        liftMotor = map.tryGet(DcMotorEx.class, "liftMotor");
+        wristMotor = map.tryGet(DcMotorEx.class, "wristMotor");
+
+        wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        clawServo = map.get(CRServo.class, "servo");
 
         lb.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        //sensors
-        rightCol = map.tryGet(ColorSensor.class, "");
-        leftCol = map.tryGet(ColorSensor.class, "");
-        rightCol = map.tryGet(ColorSensor.class, "");
-        //sensor objects
-        //color = map.get(ColorSensor.class,"color");
-        rightColor = new OurColorSensor(rightCol);
-        leftColor = new OurColorSensor(leftCol);
-
         driving = new StrafeDrive(rf, rb, lf, lb);
+
+        //lift = new FullArmLift(liftMotor, wristMotor, clawServo);
     }
 
     public void printWheelPowers() {
@@ -73,7 +81,20 @@ public class Robot {
         opMode.telemetry.addData("lf: ", lf.getPower());
         opMode.telemetry.addData("rb: ", rb.getPower());
         opMode.telemetry.addData("lb: ", lb.getPower());
+    }
 
+    public void printWheelCurrentPosition() {
+        opMode.telemetry.addData("rf: ", rf.getCurrentPosition());
+        opMode.telemetry.addData("lf: ", lf.getCurrentPosition());
+        opMode.telemetry.addData("rb: ", rb.getCurrentPosition());
+        opMode.telemetry.addData("lb: ", lb.getCurrentPosition());
+    }
+
+    public void printWheelTargetPosition() {
+        opMode.telemetry.addData("rf: ", rf.getTargetPosition());
+        opMode.telemetry.addData("lf: ", lf.getTargetPosition());
+        opMode.telemetry.addData("rb: ", rb.getTargetPosition());
+        opMode.telemetry.addData("lb: ", lb.getTargetPosition());
     }
 
     public enum Direction {
@@ -83,11 +104,5 @@ public class Robot {
         BACK
     }
 
-    public void checkColorValues() {
-        opMode.telemetry.addData("red", color.red());
-        opMode.telemetry.addData("blue", color.blue());
-        opMode.telemetry.addData("green", color.green());
-        opMode.telemetry.update();
-    }
 
 }
