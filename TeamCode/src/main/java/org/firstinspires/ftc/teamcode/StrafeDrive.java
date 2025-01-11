@@ -97,9 +97,9 @@ public class StrafeDrive {
     /**
      * this is not an async function it will steal your thread
      * @param maxPower max power of the wheels
-     * @param totalTime total time for movement in milliseconds
+     * @param totalTicks total time for movement in milliseconds
      */
-    public void verticalSigmoid(double maxPower, int totalTime) {
+    public void verticalSigmoid(double maxPower, int totalTicks) {
         ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
         //domain of sigmoid function is [-1,1]
@@ -109,12 +109,12 @@ public class StrafeDrive {
         //this is the amount of time the wheels are moving at max power
         //this is the total time - (2* acceleration time)
         //acceleration time is the domain of the sigmoid
-        double maxPowerTime = totalTime - (2 * sigmoidDomain);
+        double maxPowerTime = totalTicks - (2 * sigmoidDomain);
 
         //acceleration period
         timer.reset();
         while(timer.time() < sigmoidDomain) {
-            double power = maxPower * sigmoid((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
+            double power = maxPower * sigmoidIntegral((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
             vertical(power);
         }
 
@@ -128,7 +128,7 @@ public class StrafeDrive {
         timer.reset();
         while(timer.time() < sigmoidDomain) {
             //reflects sigmoid over y axis by negatizing x values
-            double power = maxPower * sigmoid(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
+            double power = maxPower * sigmoidIntegral(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
             vertical(power);
         }
 
@@ -136,9 +136,13 @@ public class StrafeDrive {
         stop();
     }
 
-    @Deprecated
+
     private double sigmoid(double time, double horizontalStretchComponent) {
         return (1/(1+Math.exp(-time) * horizontalStretchComponent));
+    }
+
+    private double sigmoidIntegral(double ticks, double horizontalStretchSigIntegral) {
+        return (Math.log(1+Math.exp(ticks*horizontalStretchSigIntegral))/horizontalStretchSigIntegral);
     }
 
     /**

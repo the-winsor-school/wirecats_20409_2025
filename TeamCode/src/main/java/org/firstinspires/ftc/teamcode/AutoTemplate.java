@@ -14,7 +14,7 @@ public class AutoTemplate extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            //AUTON CODE HERE
+            robot.driving.verticalSigmoid(0.5, );
         }
 
     }
