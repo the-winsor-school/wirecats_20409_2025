@@ -29,7 +29,7 @@ public class StrafeDrive {
     //in ticks
     private int tolerance = 10;
 
-    
+
     public StrafeDrive(DcMotorEx rf, DcMotorEx rb, DcMotorEx lf, DcMotorEx lb) {
         this.rf = rf;
         this.rb = rb;
@@ -100,10 +100,20 @@ public class StrafeDrive {
      */
     public void verticalDist(double maxPower, double distance) {
         int targetTicks = (int) Math.round(distance * (1/cmPerTick));
-
-        setAllPowers(.5);
+        setAllPowers(maxPower);
         resetEncoders();
         setTargetPosition(targetTicks);
+        runToPosition();
+    }
+
+    public void horizontalDist(double maxPower, double distance) {
+        int targetTicks = (int) Math.round(distance * (1/cmPerTick));
+        setAllPowers(maxPower);
+        resetEncoders();
+        rf.setTargetPosition(-targetTicks);
+        rb.setTargetPosition(targetTicks);
+        lf.setTargetPosition(targetTicks);
+        lb.setTargetPosition(-targetTicks);
         runToPosition();
     }
 

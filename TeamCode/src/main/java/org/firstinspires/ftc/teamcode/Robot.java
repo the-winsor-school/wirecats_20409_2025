@@ -40,6 +40,8 @@ public class Robot {
     private DcMotorEx wristMotor;
     private CRServo clawServo;
 
+    //sensors
+
     //objects
     public StrafeDrive driving;
     public FullArmLift lift;
