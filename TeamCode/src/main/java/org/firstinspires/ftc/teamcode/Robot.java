@@ -1,13 +1,20 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+
+import org.firstinspires.ftc.teamcode.Sensors.OurColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.teamcode.ArmLift.FullArmLift;
+import org.firstinspires.ftc.teamcode.Sensors.OurDistanceSensor;
 
 
 /**
@@ -37,6 +44,18 @@ public class Robot {
     private DcMotorEx wristMotor;
     private CRServo clawServo;
 
+    //sensors
+    private DistanceSensor rightDist;
+    private DistanceSensor leftDist;
+    private ColorSensor rightColor;
+    private ColorSensor leftColor;
+
+    //sensor objects
+    public OurDistanceSensor rightDistObject;
+    public OurDistanceSensor leftDistObject;
+    public OurColorSensor rightColorObject;
+    public OurColorSensor leftColorObject;
+
     //objects
     public StrafeDrive driving;
     public FullArmLift lift;
@@ -50,7 +69,7 @@ public class Robot {
         HardwareMap map = opMode.hardwareMap;
         this.opMode = opMode;
 
-        //wheels
+        //____ Wheels ____
         rf = map.tryGet(DcMotorEx.class, "rf");
         rb = map.tryGet(DcMotorEx.class, "rb");
         lf = map.tryGet(DcMotorEx.class, "lf");
@@ -58,17 +77,22 @@ public class Robot {
 
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
         rf.setDirection(DcMotorSimple.Direction.REVERSE);
-/*
-        liftMotor = map.tryGet(DcMotorEx.class, "liftMotor");
-        wristMotor = map.tryGet(DcMotorEx.class, "wristMotor");
 
-        wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+         //____ Sensors ____
+        rightDist = map.tryGet(DistanceSensor.class, "rightDist");
+        leftDist = map.tryGet(DistanceSensor.class, "leftDist");
+        rightColor = map.tryGet(ColorSensor.class, "rightColor");
+        leftColor = map.tryGet(ColorSensor.class, "leftColor");
 
-        clawServo = map.get(CRServo.class, "servo");*/
-
+        //____ Sensor Objects _____
+        rightDistObject = new OurDistanceSensor(rightDist);
+        leftDistObject = new OurDistanceSensor(leftDist);
+        rightColorObject = new OurColorSensor(rightColor);
+        leftColorObject = new OurColorSensor(leftColor);
+        
+        //____ Other Objects ____
+        lift = new FullArmLift(liftMotor, wristMotor, clawServo);
         driving = new StrafeDrive(rf, rb, lf, lb);
-
-        //lift = new FullArmLift(liftMotor, wristMotor, clawServo);
     }
 
     public void printWheelPowers() {
