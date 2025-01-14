@@ -9,7 +9,7 @@ public class OurColorSensor {
     private int blueTapeThreshold;
     private int whiteTapeThreshold;
 
-    public ourColorSensor(ColorSensor sensor) {
+    public OurColorSensor(ColorSensor sensor) {
         this.sensor = sensor;
         redTapeThreshold = 2500;
         blueTapeThreshold = 2500;
