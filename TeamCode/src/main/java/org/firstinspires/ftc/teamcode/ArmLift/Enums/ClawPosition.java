@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ArmLift;
+package org.firstinspires.ftc.teamcode.ArmLift.Enums;
 
 public enum ClawPosition {
     OPEN,

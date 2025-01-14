@@ -56,21 +56,19 @@ public class Robot {
         lf = map.tryGet(DcMotorEx.class, "lf");
         lb = map.tryGet(DcMotorEx.class, "lb");
 
-        rb.setDirection(DcMotorSimple.Direction.REVERSE);
-        rf.setDirection(DcMotorSimple.Direction.REVERSE);
-/*
+        lf.setDirection(DcMotorSimple.Direction.REVERSE);
+        lb.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        liftMotor = map.tryGet(DcMotorEx.class, "liftMotor");
-        wristMotor = map.tryGet(DcMotorEx.class, "wristMotor");
+        liftMotor = map.tryGet(DcMotorEx.class, "lift");
+        wristMotor = map.tryGet(DcMotorEx.class, "wrist");
 
         wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        clawServo = map.get(CRServo.class, "servo");
-*/
+        //clawServo = map.get(CRServo.class, "claw");
 
         driving = new StrafeDrive(rf, rb, lf, lb);
 
-        //lift = new FullArmLift(liftMotor, wristMotor, clawServo);
+        lift = new FullArmLift(liftMotor, wristMotor, clawServo);
     }
 
     public void printWheelPowers() {

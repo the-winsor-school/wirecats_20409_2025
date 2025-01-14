@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.ArmLift;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.teamcode.ArmLift.Enums.MotorState;
+
 public class GenericMotor {
     //motor uses DcMotorEx instead of DcMotor to allow us to have more control over the encoder loop
     //encoder loop is when we set target position and tell the motor to run to that position
