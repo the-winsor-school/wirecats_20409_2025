@@ -1,7 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+<<<<<<< Updated upstream
 import com.qualcomm.robotcore.hardware.DcMotor;
+=======
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+
+import org.firstinspires.ftc.teamcode.Driving.FullDrive;
+import org.firstinspires.ftc.teamcode.Sensors.OurColorSensor;
+>>>>>>> Stashed changes
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -35,7 +45,18 @@ public class Robot {
     //Arm Lift
     private DcMotor liftMotor;
 
+<<<<<<< Updated upstream
     public StrafeDrive driving;
+=======
+    //sensor objects
+    public OurDistanceSensor rightDistObject;
+    public OurDistanceSensor leftDistObject;
+    public OurColorSensor rightColorObject;
+    public OurColorSensor leftColorObject;
+
+    //objects
+    public FullDrive driving;
+>>>>>>> Stashed changes
     public FullArmLift lift;
     private LinearOpMode opMode;
 
@@ -54,12 +75,30 @@ public class Robot {
 
         liftMotor = map.tryGet(DcMotorEx.class, "liftMotor");
 
+<<<<<<< Updated upstream
         driving = new StrafeDrive(rf, rb, lf, lb);
 
         //(DcMotorEx) casts the lift motor to that class
         lift = new FullArmLift((DcMotorEx) liftMotor);
 
         clawServo = map.tryGet(CRServo.class, "servo");
+=======
+         //____ Sensors ____
+        rightDist = map.tryGet(DistanceSensor.class, "rightDist");
+        leftDist = map.tryGet(DistanceSensor.class, "leftDist");
+        rightColor = map.tryGet(ColorSensor.class, "rightColor");
+        leftColor = map.tryGet(ColorSensor.class, "leftColor");
+
+        //____ Sensor Objects _____
+        rightDistObject = new OurDistanceSensor(rightDist);
+        leftDistObject = new OurDistanceSensor(leftDist);
+        rightColorObject = new OurColorSensor(rightColor);
+        leftColorObject = new OurColorSensor(leftColor);
+        
+        //____ Other Objects ____
+        lift = new FullArmLift(liftMotor, wristMotor, clawServo);
+        driving = new FullDrive(rf, rb, lf, lb);
+>>>>>>> Stashed changes
     }
 
     public void printWheelPowers() {
