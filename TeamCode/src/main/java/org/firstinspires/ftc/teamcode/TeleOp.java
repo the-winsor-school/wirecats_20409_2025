@@ -13,7 +13,7 @@ public class TeleOp extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()){
-
+            
             //_______________________________________________
             //             MAIN CONTROLLER (gamepad1)
             //_______________________________________________
@@ -22,8 +22,7 @@ public class TeleOp extends LinearOpMode {
             float y = -gamepad1.right_stick_y; //inputs from joystick are opposite
             float t = gamepad1.left_stick_x;
 
-            robot.driving.joystickDrive(x, y, t);
-
+            robot.teleOpDriving.joystickDrive(x, y, t);
 
             //_______________________________________________
             //             MECH CONTROLLER (gamepad2)

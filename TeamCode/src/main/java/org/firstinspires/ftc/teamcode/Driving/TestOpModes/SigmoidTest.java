@@ -1,10 +1,14 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Driving.TestOpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "Auto Test")
-public class AutoTemplate extends LinearOpMode {
+import org.firstinspires.ftc.teamcode.Robot;
+
+@Disabled
+@Autonomous(name = "Auto Test", group="test")
+public class SigmoidTest extends LinearOpMode {
 
     Robot robot;
 
@@ -15,12 +19,10 @@ public class AutoTemplate extends LinearOpMode {
 
         waitForStart();
 
-
         while (opModeIsActive()) {
-            robot.driving.verticalDist(0.5, targetDist);
+            robot.sigmoidDriving.verticalSigmoidTime(0.5, 10000);
 
             while (opModeIsActive()) {
-                telemetry.addData("cm per tick", robot.driving.cmPerTick);
                 telemetry.addLine("Current");
                 robot.printWheelCurrentPosition();
                 telemetry.addLine("Target");
