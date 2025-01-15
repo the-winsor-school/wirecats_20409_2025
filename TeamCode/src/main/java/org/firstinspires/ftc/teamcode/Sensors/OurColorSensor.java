@@ -35,8 +35,10 @@ public class OurColorSensor {
     public int getGreen() { return sensor.green(); }
     public int getBlue() { return sensor.blue(); }
 
-    public int[] getColors() {
-        return new int[] {sensor.red(), sensor.green(), sensor.blue()};
+    public String getColors() {
+        return "red:" + getRed() + "\n" +
+                "green:" + getGreen() + "\n" +
+                "blue:" + getBlue();
     }
 
 }
