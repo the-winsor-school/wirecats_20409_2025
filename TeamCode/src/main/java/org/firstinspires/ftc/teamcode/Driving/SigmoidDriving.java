@@ -14,7 +14,6 @@ public class SigmoidDriving {
     //limit is found when robot start to slip/skid when acceleration
     private double maxAcceleration = 20; //measure in some unit
 
-    //calculate horizontal component of sigmoid function (derivation proves this)
     private double horizontalStretchSigmoid;
 
     //horizontal shift for sigmoid so that left side lines up with x=0
@@ -51,13 +50,13 @@ public class SigmoidDriving {
         timer.reset();
         while(timer.time() < sigmoidDomain) {
             double power = maxPower * sigmoidIntegral((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
-            vertical(power);
+            wheels.vertical(power);
         }
 
         //regular straight motion
         timer.reset();
         while(timer.time() < maxPowerTime) {
-            vertical(maxPower);
+            wheels.vertical(maxPower);
         }
 
         //deceleration period
@@ -65,15 +64,14 @@ public class SigmoidDriving {
         while(timer.time() < sigmoidDomain) {
             //reflects sigmoid over y axis by negatizing x values
             double power = maxPower * sigmoidIntegral(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
-            vertical(power);
+            wheels.vertical(power);
         }
 
         //stop motion
-        stop();
+        wheels.stop();
     }
 
     /**
-     *
      * @param maxPower for wheels (not the whole time because of accerlation)
      * @param distance given in cm
      */
@@ -87,13 +85,13 @@ public class SigmoidDriving {
 
     public void horizontalDist(double maxPower, double distance) {
         int targetTicks = (int) Math.round(distance * (1/cmPerTick));
-        setAllPowers(maxPower);
-        resetEncoders();
-        rf.setTargetPosition(-targetTicks);
-        rb.setTargetPosition(targetTicks);
-        lf.setTargetPosition(targetTicks);
-        lb.setTargetPosition(-targetTicks);
-        runToPosition();
+        wheels.setAllPowers(maxPower);
+        wheels.resetEncoders();
+        wheels.rf.setTargetPosition(-targetTicks);
+        wheels.rb.setTargetPosition(targetTicks);
+        wheels.lf.setTargetPosition(targetTicks);
+        wheels.lb.setTargetPosition(-targetTicks);
+        wheels.runToPosition();
     }
 
     private double sigmoid(double time, double horizontalStretchComponent) {

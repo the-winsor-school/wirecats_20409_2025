@@ -43,6 +43,16 @@ public class Wheels {
         lb.setPower(power);
     }
 
+    public void horizontal (double power) { //right positive
+        setEachPower(-power, power, power, -power); // -rf, +rb, lf, -lb)
+    }
+
+    public void vertical (double power) { //forward positive
+        setEachPower(power,  power, power, power); //one side negative -rf, -rb
+    }
+
+    public void turn (double t) { setEachPower(t, t, -t, -t); }
+
     private void runToPosition() {
         rf.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         rb.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
@@ -50,14 +60,21 @@ public class Wheels {
         lb.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
-    private void setTargetPosition(int targetPosition) {
+    public void setAllTargetPosition(int targetPosition) {
         rf.setTargetPosition(targetPosition);
         rb.setTargetPosition(targetPosition);
         lf.setTargetPosition(targetPosition);
         lb.setTargetPosition(targetPosition);
     }
 
-    private void setTargetPositionTolerance(int tolerance) {
+    public void setEachTargetPosition (int rf, int rb, int lf, int lb) {
+        rf.setTargetPosition(rf);
+        rb.setTargetPosition(rb);
+        lf.setTargetPosition(lf);
+        lb.setTargetPosition(lb);
+    }
+
+    public void setTargetPositionTolerance(int tolerance) {
         rf.setTargetPositionTolerance(tolerance);
         rb.setTargetPositionTolerance(tolerance);
         lf.setTargetPositionTolerance(tolerance);
