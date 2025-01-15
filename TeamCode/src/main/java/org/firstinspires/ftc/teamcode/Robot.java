@@ -1,14 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
+import org.firstinspires.ftc.teamcode.Driving.SigmoidDriving;
+import org.firstinspires.ftc.teamcode.Driving.TeleOpDriving;
+import org.firstinspires.ftc.teamcode.Driving.Wheels;
 import org.firstinspires.ftc.teamcode.Sensors.OurColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -57,7 +57,13 @@ public class Robot {
     public OurColorSensor leftColorObject;
 
     //objects
-    public StrafeDrive driving;
+    //wheel is private but gets passed into sigmoid or teleOp
+    //driving libraries to access the wheels
+    private Wheels wheels;
+
+    public SigmoidDriving sigmoidDriving;
+    public TeleOpDriving teleOpDriving;
+
     public FullArmLift lift;
 
     private LinearOpMode opMode;
@@ -92,7 +98,9 @@ public class Robot {
         
         //____ Other Objects ____
         lift = new FullArmLift(liftMotor, wristMotor, clawServo);
-        driving = new StrafeDrive(rf, rb, lf, lb);
+        wheels = new Wheels(rf, rb, lf, lb);
+        sigmoidDriving = new SigmoidDriving(wheels);
+        teleOpDriving = new TeleOpDriving(wheels);
     }
 
     public void printWheelPowers() {

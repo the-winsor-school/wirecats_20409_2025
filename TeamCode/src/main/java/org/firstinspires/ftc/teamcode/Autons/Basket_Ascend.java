@@ -22,12 +22,12 @@ public class Basket_Ascend extends LinearOpMode {
             //TODO arm code
 
             //move right to get to ascend zone
-            robot.driving.horizontalDist(0.5, 120);
+            robot.sigmoidDriving.horizontalDist(0.5, 120);
 
             //move backwards into ascent zone
-            robot.driving.verticalDist(0.5, 30);
+            robot.sigmoidDriving.verticalSigmoidTime(0.5, 3000);
 
-            robot.driving.stop();
+            robot.sigmoidDriving.stop();
         }
     }
 }
