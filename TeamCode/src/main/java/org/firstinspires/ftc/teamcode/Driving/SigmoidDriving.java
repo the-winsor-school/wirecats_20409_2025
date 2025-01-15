@@ -115,4 +115,8 @@ public class SigmoidDriving {
         this.maxAcceleration += maxAccelerationAdjustment;
     }
 
+    public void stop() {
+        wheels.stop();
+    }
+
 }

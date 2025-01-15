@@ -18,15 +18,16 @@ public class Ascend_RedLeft_BlueLeft extends LinearOpMode {
 
         if (opModeIsActive()) {
             //moves left to align with zone
-            robot.driving.horizontalDist(0.5, -60);
+            robot.sigmoidDriving.horizontalDist(0.5, -60);
 
             //move forward to ascend zone
-            robot.driving.verticalDist(0.75, 120);
+            robot.sigmoidDriving.verticalSigmoidTime(0.75, 5000);
 
             //move right into ascent zone
-            robot.driving.horizontalDist(.5, 30);
+            //TODO add color sensor code
+            robot.sigmoidDriving.horizontalDist(.5, 30);
 
-            robot.driving.stop();
+            robot.sigmoidDriving.stop();
         }
     }
 }
