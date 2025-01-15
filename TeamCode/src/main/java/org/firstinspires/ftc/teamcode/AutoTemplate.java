@@ -16,7 +16,8 @@ public class AutoTemplate extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            robot.driving.verticalDist(0.5, targetDist);
+            robot.driving.verticalDist(targetDist);
+            robot.driving.verticalSigmoid(0.5, targetDist);
 
             while (opModeIsActive()) {
                 telemetry.addData("cm per tick", robot.driving.cmPerTick);

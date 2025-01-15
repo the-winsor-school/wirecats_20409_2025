@@ -11,6 +11,8 @@ import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import java.util.Timer;
+
 public class StrafeDrive {
 
     private DcMotorEx rf;
@@ -32,7 +34,7 @@ public class StrafeDrive {
 
     //calculated by values above
     //cm/ticks
-    public double cmPerTick = (1/wheelCircumference) * gearReduction * ticksPerRevolution;
+    public double cmPerTick = (1/wheelCircumference) * (1/gearReduction) * ticksPerRevolution;
 
     //in ticks
     private int tolerance = 10;
@@ -57,7 +59,6 @@ public class StrafeDrive {
         //derivation done on paper for both
         horizontalStretchSigmoid = 4 * maxAcceleration;
         horizontalShiftSigmoid = Math.log(9) / maxAcceleration;
-        this.lb = lb;
 
         setTargetPositionTolerance(tolerance);
     }
@@ -122,10 +123,15 @@ public class StrafeDrive {
     /**
      * this is not an async function it will steal your thread
      * @param maxPower max power of the wheels
-     * @param totalTicks total time for movement in milliseconds
+     * @param distance total time for movement in milliseconds
      */
-    public void verticalSigmoid(double maxPower, int totalTicks) {
+    public void verticalSigmoid(double maxPower, int distance) {
+
         ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+
+        Timer() timer = new Timer()
+
+        double totalTicks = distance * (1/cmPerTick);
 
         //domain of sigmoid function is [-1,1]
         //so total domain is 2 * horizontal stretch
@@ -137,23 +143,23 @@ public class StrafeDrive {
         double maxPowerTime = totalTicks - (2 * sigmoidDomain);
 
         //acceleration period
-        timer.reset();
-        while(timer.time() < sigmoidDomain) {
-            double power = maxPower * sigmoidIntegral((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
+        resetEncoders();
+        while(getAverageCurrentPosition() < sigmoidDomain) {
+            double power = maxPower * sigmoidIntegral((getAverageCurrentPosition() + horizontalShiftSigmoid), horizontalStretchSigmoid);
             vertical(power);
         }
 
         //regular straight motion
-        timer.reset();
-        while(timer.time() < maxPowerTime) {
+        resetEncoders();
+        while(getAverageCurrentPosition() < maxPowerTime) {
             vertical(maxPower);
         }
 
         //deceleration period
-        timer.reset();
-        while(timer.time() < sigmoidDomain) {
+        resetEncoders();
+        while(getAverageCurrentPosition() < sigmoidDomain) {
             //reflects sigmoid over y axis by negatizing x values
-            double power = maxPower * sigmoidIntegral(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
+            double power = maxPower * sigmoidIntegral(-(getAverageCurrentPosition() + horizontalShiftSigmoid), horizontalStretchSigmoid);
             vertical(power);
         }
 
@@ -197,12 +203,10 @@ public class StrafeDrive {
 
     /**
      *
-     * @param maxPower for wheels (not the whole time because of accerlation)
-     * @param distance given in cm
+      * @param distance given in cm
      */
-    public void verticalDist(double maxPower, double distance) {
+    public void verticalDist(double distance) {
         int targetTicks = (int) Math.round(distance * (1/cmPerTick));
-        setAllPowers(maxPower);
         resetEncoders();
         setTargetPosition(targetTicks);
         runToPosition();
@@ -253,6 +257,10 @@ public class StrafeDrive {
         if (rf.isBusy() || rb.isBusy() || lf.isBusy() || lb.isBusy())
             return true;
         return false;
+    }
+
+    public int getAverageCurrentPosition() {
+        return (rf.getCurrentPosition() + rb.getCurrentPosition() + lf.getCurrentPosition() + lb.getCurrentPosition()) / 4;
     }
 
 }
