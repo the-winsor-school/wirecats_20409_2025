@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Driving;
+package org.firstinspires.ftc.teamcode.Driving.TestOpModes;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -23,23 +23,22 @@ public class MaxAccelTest extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (gamepad1.y)
-                robot.driving.verticalSigmoid(maxPower, testTime);
+                robot.sigmoidDriving.verticalSigmoidTime(maxPower, testTime);
             if (gamepad1.a)
-                robot.driving.verticalSigmoid(-maxPower, testTime);
+                robot.sigmoidDriving.verticalSigmoidTime(-maxPower, testTime);
 
             if(gamepad1.dpad_up)
-                robot.driving.adjustMaxAcceleration(0.05);
+                robot.sigmoidDriving.adjustMaxAcceleration(0.05);
             if(gamepad1.dpad_down)
-                robot.driving.adjustMaxAcceleration(-0.05);
+                robot.sigmoidDriving.adjustMaxAcceleration(-0.05);
 
 
             telemetry.addLine("_____Testing for Maximum Acceleration for Sigmoid Driving____");
             telemetry.getItemSeparator();
-            telemetry.addData("Max Acceleration:", robot.driving.getMaxAcceleration());
+            telemetry.addData("Max Acceleration:", robot.sigmoidDriving.getMaxAcceleration());
             telemetry.getItemSeparator();
             telemetry.addData("Test Time", testTime);
             telemetry.addData("Max Power", maxPower);
-            telemetry.addData("Current Power", robot.driving.getSpeed());
             telemetry.update();
         }
     }

@@ -1,11 +1,13 @@
-package org.firstinspires.ftc.teamcode.Driving;
+package org.firstinspires.ftc.teamcode.Driving.TestOpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous(name = "Auto Test")
+@Disabled
+@Autonomous(name = "Auto Test", group="test")
 public class SigmoidTest extends LinearOpMode {
 
     Robot robot;
