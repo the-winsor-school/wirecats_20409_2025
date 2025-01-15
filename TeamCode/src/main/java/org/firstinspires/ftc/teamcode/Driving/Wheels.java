@@ -11,9 +11,9 @@ public class Wheels {
     private DcMotorEx lb;
 
     //gear boxes on wheels (should be same for all wheels)
-    private int gearReduction = 5*4;
-    private double ticksPerRevolution = 28;
-    private double wheelCircumference = 7.5 * Math.PI;
+    public final int gearReduction = 5*4;
+    public final double ticksPerRevolution = 28;
+    public final double wheelCircumference = 7.5 * Math.PI;
 
     public Wheels (DcMotorEx rf, DcMotorEx rb, DcMotorEx lf, DcMotorEx lb) {
         this.rf = rf;
@@ -36,7 +36,7 @@ public class Wheels {
         lb.setPower(lbp);
     }
 
-    private void setAllPowers(double power) {
+    public void setAllPowers(double power) {
         rf.setPower(power);
         rb.setPower(power);
         lf.setPower(power);
@@ -53,7 +53,7 @@ public class Wheels {
 
     public void turn (double t) { setEachPower(t, t, -t, -t); }
 
-    private void runToPosition() {
+    public void runToPosition() {
         rf.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         rb.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         lf.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
@@ -67,11 +67,11 @@ public class Wheels {
         lb.setTargetPosition(targetPosition);
     }
 
-    public void setEachTargetPosition (int rf, int rb, int lf, int lb) {
-        rf.setTargetPosition(rf);
-        rb.setTargetPosition(rb);
-        lf.setTargetPosition(lf);
-        lb.setTargetPosition(lb);
+    public void setEachTargetPosition (int rfTicks, int rbTicks, int lfTicks, int lbTicks) {
+        rf.setTargetPosition(rfTicks);
+        rb.setTargetPosition(rbTicks);
+        lf.setTargetPosition(lfTicks);
+        lb.setTargetPosition(lbTicks);
     }
 
     public void setTargetPositionTolerance(int tolerance) {
@@ -81,7 +81,7 @@ public class Wheels {
         lb.setTargetPositionTolerance(tolerance);
     }
 
-    private void resetEncoders() {
+    public void resetEncoders() {
         rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rf.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         rb.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -94,8 +94,4 @@ public class Wheels {
             return true;
         return false;
     }
-
-    public int getGearReduction() { return gearReduction; }
-    public double getTicksPerRevolution() { return ticksPerRevolution; }
-    public double getWheelCircumference() { return wheelCircumference; }
 }
