@@ -35,11 +35,44 @@ public class SigmoidDriving {
         cmPerTick = (1/wheels.wheelCircumference) * wheels.gearReduction * wheels.ticksPerRevolution;
     }
 
+    public void verticalSigmoidDist(int totalDist) {
+
+        int totalTicks = (int) Math.round(totalDist * (1/cmPerTick));
+
+        ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+
+        timer.reset();
+        wheels.resetEncoders();
+        while(timer.time() < sigmoidDomain) {
+            wheels.vertical(sigmoid((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid));
+        }
+
+        double sigmoidTickDistance = wheels.getAverageCurrentPosition();
+
+        double maxPowerTicks = totalTicks - sigmoidTickDistance;
+
+
+        while (wheels.getAverageCurrentPosition() < (maxPowerTicks + sigmoidTickDistance)) {
+            wheels.vertical(1);
+        }
+
+        while (wheels.getAverageCurrentPosition() < (maxPowerTicks + (2*sigmoidTickDistance))) {
+            wheels.vertical(sigmoid(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid));
+        }
+
+        wheels.stop();
+
+        //TODO throw exception for error
+        //try error here and catch in teleOp
+        //make class that extends throwable
+    }
+
     /**
      * this is not an async function it will steal your thread
      * @param totalTime total time for movement in milliseconds
      */
     public void verticalSigmoidTime(int totalTime) {
+
         ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
         //this is the amount of time the wheels are moving at max power

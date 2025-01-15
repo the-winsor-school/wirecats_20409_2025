@@ -60,6 +60,10 @@ public class Wheels {
         lb.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
+    public int getAverageCurrentPosition() {
+        return (rf.getCurrentPosition() + rb.getCurrentPosition() + lf.getCurrentPosition() + lb.getCurrentPosition()) / 4;
+    }
+
     public void setAllTargetPosition(int targetPosition) {
         rf.setTargetPosition(targetPosition);
         rb.setTargetPosition(targetPosition);
