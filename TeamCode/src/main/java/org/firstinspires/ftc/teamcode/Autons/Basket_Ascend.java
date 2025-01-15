@@ -25,7 +25,7 @@ public class Basket_Ascend extends LinearOpMode {
             robot.sigmoidDriving.horizontalDist(0.5, 120);
 
             //move backwards into ascent zone
-            robot.sigmoidDriving.verticalSigmoidTime(0.5, 3000);
+            robot.sigmoidDriving.verticalSigmoidTime( 3000);
 
             robot.sigmoidDriving.stop();
         }

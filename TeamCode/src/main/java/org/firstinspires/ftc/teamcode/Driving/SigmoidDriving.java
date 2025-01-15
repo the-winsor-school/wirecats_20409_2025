@@ -37,10 +37,9 @@ public class SigmoidDriving {
 
     /**
      * this is not an async function it will steal your thread
-     * @param maxPower max power of the wheels - put negative here to go backwards
      * @param totalTime total time for movement in milliseconds
      */
-    public void verticalSigmoidTime(double maxPower, int totalTime) {
+    public void verticalSigmoidTime(int totalTime) {
         ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
         //this is the amount of time the wheels are moving at max power
@@ -51,21 +50,21 @@ public class SigmoidDriving {
         //acceleration period
         timer.reset();
         while(timer.time() < sigmoidDomain) {
-            double power = maxPower * sigmoid((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
+            double power = sigmoid((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
             wheels.vertical(power);
         }
 
         //regular straight motion
         timer.reset();
         while(timer.time() < maxPowerTime) {
-            wheels.vertical(maxPower);
+            wheels.vertical(1);
         }
 
         //deceleration period
         timer.reset();
         while(timer.time() < sigmoidDomain) {
             //reflects sigmoid over y axis by negatizing x values
-            double power = maxPower * sigmoid(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
+            double power = sigmoid(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
             wheels.vertical(power);
         }
 
