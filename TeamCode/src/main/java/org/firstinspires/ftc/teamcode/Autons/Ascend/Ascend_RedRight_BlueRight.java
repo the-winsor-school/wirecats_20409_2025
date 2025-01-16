@@ -24,7 +24,6 @@ public class Ascend_RedRight_BlueRight extends LinearOpMode {
             robot.sigmoidDriving.verticalSigmoidTime(5000);
 
             //move right into ascent zone
-            //TODO add color sensor code
             robot.sigmoidDriving.horizontalDist(.5, -30);
 
             robot.sigmoidDriving.stop();

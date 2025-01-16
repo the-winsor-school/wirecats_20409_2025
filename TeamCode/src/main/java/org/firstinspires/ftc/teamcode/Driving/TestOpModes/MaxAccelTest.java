@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Disabled
+
 @TeleOp(name = "Max Accel Test", group="test")
 public class MaxAccelTest extends LinearOpMode {
     Robot robot;
@@ -23,9 +23,9 @@ public class MaxAccelTest extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (gamepad1.y)
-                robot.sigmoidDriving.verticalSigmoidTime(maxPower, testTime);
+                robot.sigmoidDriving.verticalSigmoidTime(testTime);
             if (gamepad1.a)
-                robot.sigmoidDriving.verticalSigmoidTime(-maxPower, testTime);
+                robot.sigmoidDriving.verticalSigmoidTime(testTime);
 
             if(gamepad1.dpad_up)
                 robot.sigmoidDriving.adjustMaxAcceleration(0.05);
