@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.ArmLift.ClawPosition;
-import org.firstinspires.ftc.teamcode.ArmLift.FullArmLift;
-import org.firstinspires.ftc.teamcode.ArmLift.MotorState;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
 public class TeleOp extends LinearOpMode {
@@ -35,10 +33,12 @@ public class TeleOp extends LinearOpMode {
             //claw code
             if (gamepad2.right_bumper) {
                 robot.lift.claw.moveClaw(ClawPosition.CLOSE);
-            }
-            if (gamepad2.left_bumper) {
+            } else if (gamepad2.left_bumper) {
                 robot.lift.claw.moveClaw(ClawPosition.OPEN);
+            } else {
+                robot.lift.claw.moveClaw(ClawPosition.STOP);
             }
+
 
             //control lift with right stick y value on mech controller
             robot.lift.joystickControlLift(gamepad2.right_stick_y);
@@ -46,12 +46,12 @@ public class TeleOp extends LinearOpMode {
             robot.lift.joystickControlWrist(gamepad2.left_stick_y);
 
             //lift values
-            if (gamepad2.x)
+            /*if (gamepad2.x)
                 robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.RESET);
-            //if (gamepad2.a)
+            if (gamepad2.a)
                 robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.HIGHBASKET);
             if (gamepad2.b)
-                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.LOWBASKET);
+                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.LOWBASKET);*/
 
             //_______________________________________________
             //             PRINT STATEMENTS
@@ -77,6 +77,7 @@ public class TeleOp extends LinearOpMode {
             telemetry.addLine("----------------CLAW-------------------------");
 
             telemetry.addData("claw position: ", robot.lift.claw.getCurrentPosition());
+            telemetry.addData("claw power: ", robot.lift.claw.getPower());
 
 
             telemetry.update();
