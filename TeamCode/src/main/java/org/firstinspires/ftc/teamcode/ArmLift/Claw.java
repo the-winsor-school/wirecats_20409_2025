@@ -9,6 +9,7 @@ public class Claw {
 
     public Claw(CRServo clawServo) {
         servo = clawServo;
+        currentPosition = ClawPosition.STOP;
     }
 
     public void moveClaw(ClawPosition position) {
