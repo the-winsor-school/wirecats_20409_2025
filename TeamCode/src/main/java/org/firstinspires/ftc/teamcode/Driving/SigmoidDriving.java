@@ -32,7 +32,44 @@ public class SigmoidDriving {
         //so total domain is 2 * horizontal stretch
         double sigmoidDomain = 2 / horizontalStretchSigmoid;
 
-        cmPerTick = (1/wheels.wheelCircumference) * wheels.gearReduction * wheels.ticksPerRevolution;
+        cmPerTick = 0.059418;
+    }
+
+    /**
+     * this is not an async function it will steal your thread
+     * @param totalTime total time for movement in milliseconds
+     */
+    public void horizontalSigmoidTime(double maxPower, int totalTime) {
+        ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+
+        //this is the amount of time the wheels are moving at max power
+        //this is the total time - (2* acceleration time)
+        //acceleration time is the domain of the sigmoid
+        double maxPowerTime = totalTime - (2 * sigmoidDomain);
+
+        //acceleration period
+        timer.reset();
+        while(timer.time() < sigmoidDomain) {
+            double power = sigmoid((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
+            wheels.horizontal(maxPower * power);
+        }
+
+        //regular straight motion
+        timer.reset();
+        while(timer.time() < maxPowerTime) {
+            wheels.horizontal(maxPower * 1);
+        }
+
+        //deceleration period
+        timer.reset();
+        while(timer.time() < sigmoidDomain) {
+            //reflects sigmoid over y axis by negatizing x values
+            double power = sigmoid(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
+            wheels.horizontal(maxPower * power);
+        }
+
+        //stop motion
+        wheels.stop();
     }
 
     /**
@@ -84,6 +121,7 @@ public class SigmoidDriving {
         wheels.resetEncoders();
         wheels.setAllTargetPosition(targetTicks);
         wheels.runToPosition();
+
     }
 
     public void horizontalDist(double maxPower, double distance) {
@@ -116,6 +154,10 @@ public class SigmoidDriving {
 
     public void stop() {
         wheels.stop();
+    }
+
+    public double getCmPerTick() {
+        return cmPerTick;
     }
 
 }

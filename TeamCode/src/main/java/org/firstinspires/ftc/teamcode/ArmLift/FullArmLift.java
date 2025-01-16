@@ -16,10 +16,10 @@ public class FullArmLift {
         claw = new Claw(clawServo);
     }
 
-    public void moveLiftToPosition (LIFT_POSITION pos) {
-        if(pos == LIFT_POSITION.RESET) {
+    public void moveLiftToPosition (LIFT_POSITION pos){
+        if(pos == LIFT_POSITION.RESET){
             liftMotor.runToPosition(0);
-            wristMotor.runToPosition(0);
+            //wristMotor.runToPosition(0);
         }
         if(pos == LIFT_POSITION.HIGHBASKET){
             //liftMotor.runToPosition(); test for encoder
@@ -31,20 +31,17 @@ public class FullArmLift {
     }
 
     public void joystickControlLift(float input) {
-        //threshold for values (bc our controllers are old and bad)
-        float value = (Math.abs(input) < 0.1f) ? 0 : input;
-        liftMotor.setMotorPower(value);
+        liftMotor.setMotorPower(input);
     }
 
     public void joystickControlWrist(float input) {
-        //threshold for values (bc our controllers are old and bad)
-        float value = (Math.abs(input) < 0.1f) ? 0 : input;
-        wristMotor.setMotorPower(value);
+        wristMotor.setMotorPower(input);
     }
 
     public enum LIFT_POSITION {
         RESET,
         HIGHBASKET,
         LOWBASKET
+
     }
 }

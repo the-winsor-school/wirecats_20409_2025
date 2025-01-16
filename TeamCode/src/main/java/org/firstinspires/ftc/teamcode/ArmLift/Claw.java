@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.ArmLift;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 
+import org.firstinspires.ftc.teamcode.ArmLift.ClawPosition;
+
 public class Claw {
 
     private CRServo servo;
@@ -9,7 +11,6 @@ public class Claw {
 
     public Claw(CRServo clawServo) {
         servo = clawServo;
-        currentPosition = ClawPosition.STOP;
     }
 
     public void moveClaw(ClawPosition position) {

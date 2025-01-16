@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -91,7 +90,7 @@ public class Robot {
         wristMotor = map.tryGet(DcMotorEx.class, "wrist");
         clawServo = map.tryGet(CRServo.class, "servo");
 
-        wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        wristMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
          //____ Sensors ____
         rightDist = map.tryGet(DistanceSensor.class, "rightDist");
@@ -110,7 +109,6 @@ public class Robot {
         wheels = new Wheels(rf, rb, lf, lb);
         sigmoidDriving = new SigmoidDriving(wheels);
         teleOpDriving = new TeleOpDriving(wheels);
-
     }
 
     public void printWheelPowers() {
