@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.ArmLift;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 
-import org.firstinspires.ftc.teamcode.ArmLift.Enums.ClawPosition;
-
 public class Claw {
 
     private CRServo servo;
