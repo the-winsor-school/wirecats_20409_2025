@@ -20,7 +20,7 @@ public class SigmoidTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            robot.sigmoidDriving.verticalSigmoidTime(10000);
+            //robot.sigmoidDriving.verticalSigmoidTime(10000);
 
             while (opModeIsActive()) {
                 telemetry.addLine("Current");

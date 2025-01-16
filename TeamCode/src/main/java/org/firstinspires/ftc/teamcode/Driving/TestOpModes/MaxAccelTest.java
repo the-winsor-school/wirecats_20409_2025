@@ -23,9 +23,9 @@ public class MaxAccelTest extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (gamepad1.y)
-                robot.sigmoidDriving.verticalSigmoidTime(testTime);
+                robot.sigmoidDriving.verticalSigmoidTime(1, testTime);
             if (gamepad1.a)
-                robot.sigmoidDriving.verticalSigmoidTime(testTime);
+                robot.sigmoidDriving.verticalSigmoidTime(-1, testTime);
 
             if(gamepad1.dpad_up)
                 robot.sigmoidDriving.adjustMaxAcceleration(0.05);
