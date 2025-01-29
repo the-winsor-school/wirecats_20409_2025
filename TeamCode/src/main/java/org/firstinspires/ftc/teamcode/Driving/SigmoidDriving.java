@@ -160,4 +160,7 @@ public class SigmoidDriving {
         return cmPerTick;
     }
 
+    public void turn (double t) { wheels.setEachPower(t, t, -t, -t); }
+
+
 }
