@@ -17,8 +17,9 @@ public class FullArmLift {
 
     public FullArmLift(DcMotorEx LiftMotor, DcMotorEx WristMotor, CRServo clawServo){
         //both values to be tested
-        lift = new GenericMotor(LiftMotor, 0.5, 200);
+        lift = new GenericMotor(LiftMotor, 1, 100);
         wrist = new GenericMotor(WristMotor, 0.3, 100);
+        resetEncoders();
         claw = new Claw(clawServo);
 
         //Initalization of motor encoder positions
@@ -37,22 +38,32 @@ public class FullArmLift {
 
     public void moveLiftToPosition (LIFT_POSITION pos){
         if(pos == LIFT_POSITION.RESET){
-            lift.runToPosition(liftLocations.get(LIFT_POSITION.RESET));
-            wrist.runToPosition(wristLocations.get(LIFT_POSITION.RESET));
+            //lift.runToPosition(liftLocations.get(LIFT_POSITION.RESET));
+            //wrist.runToPosition(wristLocations.get(LIFT_POSITION.RESET));
         }
         else if(pos == LIFT_POSITION.LOW_BASKET){
-            lift.runToPosition(liftLocations.get(LIFT_POSITION.LOW_BASKET));
-            wrist.runToPosition(wristLocations.get(LIFT_POSITION.LOW_BASKET));
+            //lift.runToPosition(liftLocations.get(LIFT_POSITION.LOW_BASKET));
+            //wrist.runToPosition(wristLocations.get(LIFT_POSITION.LOW_BASKET));
         }
         else if(pos == LIFT_POSITION.HIGH_BASKET){
-            lift.runToPosition(liftLocations.get(LIFT_POSITION.HIGH_BASKET));
-            wrist.runToPosition(wristLocations.get(LIFT_POSITION.HIGH_BASKET));
+            //lift.runToPosition(liftLocations.get(LIFT_POSITION.HIGH_BASKET));
+            //wrist.runToPosition(wristLocations.get(LIFT_POSITION.HIGH_BASKET));
         }
         //add one more for PICKINGUP if RESET does not work
     }
 
+    public void resetEncoders() {
+        lift.resetEncoders();
+        wrist.resetEncoders();
+    }
     public void joystickControlLift(float input) {
         lift.setMotorPower(input);
+    }
+
+    public void manualAdjustLift(float input) {
+        int targetPosition = Math.round(input) + lift.getCurrentPosition();
+        lift.setTargetPosition(targetPosition);
+        lift.runToPosition();
     }
 
     public void joystickControlWrist(float input) {

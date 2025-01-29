@@ -42,8 +42,15 @@ public class TeleOp extends LinearOpMode {
 
 
             //control lift with right stick y value on mech controller
-            fullLift.joystickControlLift(gamepad2.right_stick_y);
-            robot.fullLift.joystickControlWrist(gamepad2.left_stick_y);
+            //y inputs negative bc thats how the controllers are (up is -1)
+            fullLift.joystickControlLift(-gamepad2.right_stick_y);
+            fullLift.joystickControlWrist(-gamepad2.left_stick_y);
+
+            if (gamepad2.dpad_up)
+                fullLift.manualAdjustLift(300);
+
+            if (gamepad2.y)
+                robot.fullLift.resetEncoders();
 
             //lift values
             //TO BE TESTED
@@ -71,8 +78,9 @@ public class TeleOp extends LinearOpMode {
 
             telemetry.addLine("----------------LIFT-------------------------");
 
-            telemetry.addData("current position:", fullLift.lift.getCurrentPosition());
-            telemetry.addData("target position:", fullLift.wrist.getTargetPosition());
+            telemetry.addData("lift current position:", fullLift.lift.getCurrentPosition());
+            telemetry.addData("lift target position:", fullLift.lift.getTargetPosition());
+            telemetry.addData("wrist current position:", fullLift.wrist.getCurrentPosition());
             telemetry.addData("direction:", fullLift.lift.getMotorState());
 
             telemetry.addLine("----------------CLAW-------------------------");

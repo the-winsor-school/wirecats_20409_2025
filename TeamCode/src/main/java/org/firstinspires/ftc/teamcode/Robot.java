@@ -59,10 +59,8 @@ public class Robot {
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
         rf.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        liftMotor = map.tryGet(DcMotorEx.class, "liftMotor");
-        wristMotor = map.tryGet(DcMotorEx.class, "wristMotor");
-
-        wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotor = map.tryGet(DcMotorEx.class, "lift");
+        wristMotor = map.tryGet(DcMotorEx.class, "wrist");
 
         clawServo = map.get(CRServo.class, "servo");
 
@@ -70,7 +68,6 @@ public class Robot {
 
         //(DcMotorEx) casts the lift motor to that class
         fullLift = new FullArmLift((DcMotorEx) liftMotor, (DcMotorEx) wristMotor, (CRServo) clawServo);
-
 
     }
 

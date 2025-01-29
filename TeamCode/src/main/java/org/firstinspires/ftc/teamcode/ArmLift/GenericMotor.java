@@ -21,6 +21,13 @@ public class GenericMotor {
         this.motor = motor;
         this.powerUsed = powerUsed;
         this.tolerance = tolerance;
+        motor.setTargetPositionTolerance(tolerance);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void resetEncoders() {
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     //used to control direction and movement of the motor
@@ -58,12 +65,11 @@ public class GenericMotor {
 
     //returns current target position (used mostly for telemetry)
     public int getTargetPosition() { return motor.getTargetPosition(); }
+    public void setTargetPosition(int targetPosition) { motor.setTargetPosition(targetPosition); }
 
     //parameter sets target position of motor
     //runs motor async to that position
-    public void runToPosition(int targetPosition) {
-        motor.setTargetPosition(targetPosition);
-        motor.setTargetPositionTolerance(tolerance);
+    public void runToPosition() {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 }
