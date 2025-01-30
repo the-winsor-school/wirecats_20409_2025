@@ -11,7 +11,7 @@ public class FullArmLift {
 
     public FullArmLift(DcMotorEx LiftMotor, DcMotorEx WristMotor, CRServo clawServo){
         //both values to be tested
-        liftMotor = new GenericMotor(LiftMotor, 0.5, 200);
+        liftMotor = new GenericMotor(LiftMotor, 1, 200);
         wristMotor = new GenericMotor(WristMotor, 0.3, 100);
         claw = new Claw(clawServo);
     }
