@@ -70,9 +70,10 @@ public class TeleOp extends LinearOpMode {
 
             telemetry.addLine("----------------LIFT-------------------------");
 
-            //telemetry.addData("current position:", robot.lift.liftMotor.getCurrentPosition());
-            //telemetry.addData("target position:", robot.lift.liftMotor.getTargetPosition());
-            //telemetry.addData("direction:", robot.lift.liftMotor.getMotorState());
+            telemetry.addData("lift current position:", robot.lift.liftMotor.getCurrentPosition());
+            telemetry.addData("lift target position:", robot.lift.liftMotor.getTargetPosition());
+            telemetry.addData("wrist current position:", robot.lift.wristMotor.getCurrentPosition());
+            telemetry.addData("wrist target position:", robot.lift.wristMotor.getTargetPosition());
 
             telemetry.addLine("----------------CLAW-------------------------");
 
