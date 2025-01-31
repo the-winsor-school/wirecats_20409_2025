@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous(name = "Ascend: RedLeft, BlueLeft", group= "ascend")
-public class Ascend_RedLeft_BlueLeft extends LinearOpMode {
+@Autonomous(name = "Ascend: BlueLeft", group= "ascend")
+public class Ascend_BlueLeft extends LinearOpMode {
 
     Robot robot;
     LinearOpMode opMode;
