@@ -16,20 +16,19 @@ public class FullArmLift {
     HashMap<LIFT_POSITION, Integer> wristLocations = new HashMap<LIFT_POSITION, Integer>();
 
     public FullArmLift(DcMotorEx LiftMotor, DcMotorEx WristMotor, CRServo clawServo){
-        //both values to be tested
+
         lift = new GenericMotor(LiftMotor, 1, 100);
         wrist = new GenericMotor(WristMotor, 0.3, 100);
-        resetEncoders();
         claw = new Claw(clawServo);
 
-        //Initalization of motor encoder positions
-        //Drawbridge
+        resetEncoders();
+
+        //Initalization of motor encoder position
         //TODO get these values
         liftLocations.put(LIFT_POSITION.RESET, 0);
         liftLocations.put(LIFT_POSITION.LOW_BASKET, 0);
         liftLocations.put(LIFT_POSITION.HIGH_BASKET, 0);
 
-        //Cascade
         //TODO get these values
         wristLocations.put(LIFT_POSITION.RESET, 0);
         wristLocations.put(LIFT_POSITION.LOW_BASKET, 0);
