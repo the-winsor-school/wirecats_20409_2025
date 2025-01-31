@@ -21,10 +21,10 @@ public class Ascend_RedRight_BlueRight extends LinearOpMode {
             robot.sigmoidDriving.horizontalSigmoidTime(1, 1000);
 
             //move forward to ascend zone
-            robot.sigmoidDriving.verticalSigmoidTime(1, 3000);
+            robot.sigmoidDriving.verticalSigmoidTime(1, 1000);
 
             //move right into ascent zone
-            robot.sigmoidDriving.horizontalDist(1, 500);
+            robot.sigmoidDriving.horizontalSigmoidTime(-1, 500);
 
             robot.sigmoidDriving.stop();
         }
