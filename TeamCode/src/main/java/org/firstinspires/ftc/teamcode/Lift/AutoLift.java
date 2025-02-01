@@ -1,27 +1,22 @@
-package org.firstinspires.ftc.teamcode.ArmLift;
+package org.firstinspires.ftc.teamcode.Lift;
 
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import java.util.HashMap;
 
-public class FullArmLift {
-    public GenericMotor lift;
-    public GenericMotor wrist;
-    public Claw claw;
+public class AutoLift {
+    public EncoderMotorObject lift;
+    public EncoderMotorObject wrist;
 
     //arm location encoder values
     HashMap<LIFT_POSITION, Integer> liftLocations = new HashMap<LIFT_POSITION, Integer>();
     HashMap<LIFT_POSITION, Integer> wristLocations = new HashMap<LIFT_POSITION, Integer>();
 
-    public FullArmLift(DcMotorEx LiftMotor, DcMotorEx WristMotor, CRServo clawServo){
+    public AutoLift(DcMotorEx LiftMotor, DcMotorEx WristMotor){
 
-        lift = new GenericMotor(LiftMotor, 1, 100);
-        wrist = new GenericMotor(WristMotor, 0.3, 100);
-        claw = new Claw(clawServo);
+        lift = new EncoderMotorObject(LiftMotor, 1, 100);
+        wrist = new EncoderMotorObject(WristMotor, 0.3, 100);
 
-        resetEncoders();
 
         //Initalization of motor encoder position
         //TODO get these values
@@ -37,7 +32,7 @@ public class FullArmLift {
 
     public void moveLiftToPosition (LIFT_POSITION pos){
         if(pos == LIFT_POSITION.RESET){
-            //lift.runToPosition(liftLocations.get(LIFT_POSITION.RESET));
+            //lift.setTargetPosition(liftLocations.get(LIFT_POSITION.RESET));
             //wrist.runToPosition(wristLocations.get(LIFT_POSITION.RESET));
         }
         else if(pos == LIFT_POSITION.LOW_BASKET){
@@ -54,19 +49,6 @@ public class FullArmLift {
     public void resetEncoders() {
         lift.resetEncoders();
         wrist.resetEncoders();
-    }
-    public void joystickControlLift(float input) {
-        lift.setMotorPower(input);
-    }
-
-    public void manualAdjustLift(float input) {
-        int targetPosition = Math.round(input) + lift.getCurrentPosition();
-        lift.setTargetPosition(targetPosition);
-        lift.runToPosition();
-    }
-
-    public void joystickControlWrist(float input) {
-        wrist.setMotorPower(input);
     }
 
     public enum LIFT_POSITION {

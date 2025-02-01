@@ -7,7 +7,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.CRServo;
 
-import org.firstinspires.ftc.teamcode.ArmLift.FullArmLift;
+import org.firstinspires.ftc.teamcode.Lift.AutoLift;
+import org.firstinspires.ftc.teamcode.Lift.Claw;
+import org.firstinspires.ftc.teamcode.Lift.TeleOpLift;
 
 
 /**
@@ -33,13 +35,15 @@ public class Robot {
     private DcMotor lb;
 
     //Arm Lift
-    private DcMotor liftMotor;
+    private DcMotor scissorMotor;
     private DcMotor wristMotor;
     private CRServo clawServo;
 
     //objects
     public StrafeDrive driving;
-    public FullArmLift fullLift;
+    public AutoLift autoLift;
+    public TeleOpLift teleOpLift;
+    public Claw claw;
 
     private LinearOpMode opMode;
 
@@ -59,16 +63,16 @@ public class Robot {
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
         rf.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        liftMotor = map.tryGet(DcMotorEx.class, "lift");
+        scissorMotor = map.tryGet(DcMotorEx.class, "lift");
         wristMotor = map.tryGet(DcMotorEx.class, "wrist");
 
         clawServo = map.get(CRServo.class, "servo");
 
         driving = new StrafeDrive(rf, rb, lf, lb);
 
-        //(DcMotorEx) casts the lift motor to that class
-        fullLift = new FullArmLift((DcMotorEx) liftMotor, (DcMotorEx) wristMotor, (CRServo) clawServo);
-
+        autoLift = new AutoLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor);
+        teleOpLift = new TeleOpLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor);
+        claw = new Claw(clawServo);
     }
 
     public void printWheelPowers() {

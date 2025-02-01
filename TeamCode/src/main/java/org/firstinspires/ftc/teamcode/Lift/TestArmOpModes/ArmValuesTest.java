@@ -1,9 +1,7 @@
-package org.firstinspires.ftc.teamcode.ArmLift.TestArmOpModes;
+package org.firstinspires.ftc.teamcode.Lift.TestArmOpModes;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
@@ -21,8 +19,8 @@ public class ArmValuesTest extends LinearOpMode {
 
             gamepad1.
 
-            telemetry.addData("Wrist Current Position:", robot.fullLift.wrist.getCurrentPosition());
-            telemetry.addData("Lift Current Position:", robot.fullLift.lift.getCurrentPosition());
+            telemetry.addData("Wrist Current Position:", robot.autoLift.wrist.getCurrentPosition());
+            telemetry.addData("Lift Current Position:", robot.autoLift.lift.getCurrentPosition());
             telemetry.update();
         }
 
