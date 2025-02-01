@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-import org.firstinspires.ftc.teamcode.Driving.SigmoidDriving;
+import org.firstinspires.ftc.teamcode.Driving.AutoDriving;
 import org.firstinspires.ftc.teamcode.Driving.TeleOpDriving;
 import org.firstinspires.ftc.teamcode.Driving.Wheels;
 import org.firstinspires.ftc.teamcode.Sensors.OurColorSensor;
@@ -61,7 +61,7 @@ public class Robot {
     //driving libraries to access the wheels
     private Wheels wheels;
 
-    public SigmoidDriving sigmoidDriving;
+    public AutoDriving autoDriving;
     public TeleOpDriving teleOpDriving;
 
     public FullArmLift lift;
@@ -99,7 +99,7 @@ public class Robot {
         //____ Other Objects ____
         lift = new FullArmLift(liftMotor, wristMotor, clawServo);
         wheels = new Wheels(rf, rb, lf, lb);
-        sigmoidDriving = new SigmoidDriving(wheels);
+        autoDriving = new AutoDriving(wheels);
         teleOpDriving = new TeleOpDriving(wheels);
     }
 

@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous(name = "Ascend: BlueLeft", group= "ascend")
-public class Ascend_BlueLeft extends LinearOpMode {
+@Autonomous(name = "Ascend: BlueRight or RedRight", group= "ascend")
+public class Ascend_EitherRight extends LinearOpMode {
 
     Robot robot;
     LinearOpMode opMode;
@@ -18,15 +18,20 @@ public class Ascend_BlueLeft extends LinearOpMode {
 
         if (opModeIsActive()) {
             //moves left to align with zone
-            robot.sigmoidDriving.horizontalSigmoidTime(-1, 1000);
+            //TODO test this time value
+            robot.autoDriving.horizontalSigmoidTime(-1, 1300);
 
             //move forward to ascend zone
-            robot.sigmoidDriving.verticalSigmoidTime(1, 1000);
+            robot.autoDriving.verticalSigmoidTime(1, 1000);
 
             //move right into ascent zone
-            robot.sigmoidDriving.horizontalSigmoidTime(1, 500);
+            while(!robot.rightColorObject.whiteTape()) {
+                robot.autoDriving.horizontal(0.5);
+                sleep(20);
+            }
 
-            robot.sigmoidDriving.stop();
+
+            robot.autoDriving.stop();
         }
     }
 }

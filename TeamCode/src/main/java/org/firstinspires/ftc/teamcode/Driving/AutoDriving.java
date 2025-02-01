@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Driving;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class SigmoidDriving {
+public class AutoDriving {
 
     private Wheels wheels;
 
@@ -22,7 +22,7 @@ public class SigmoidDriving {
 
     private double sigmoidDomain;
 
-    public SigmoidDriving(Wheels wheels) {
+    public AutoDriving(Wheels wheels) {
         this.wheels = wheels;
 
         horizontalStretchSigmoid = 4 * maxAcceleration;
@@ -162,5 +162,7 @@ public class SigmoidDriving {
 
     public void turn (double t) { wheels.setEachPower(t, t, -t, -t); }
 
+    public void vertical (double speed) { wheels.vertical(speed); }
+    public void horizontal (double speed) { wheels.horizontal(speed); }
 
 }

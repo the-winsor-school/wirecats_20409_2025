@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Driving.TestOpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
@@ -19,11 +18,11 @@ public class SigmoidTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            robot.sigmoidDriving.verticalDist(.5, 60);
+            robot.autoDriving.verticalDist(.5, 60);
 
             while (opModeIsActive()) {
                 telemetry.addLine("Current");
-                telemetry.addData("Cm Per Ticks", robot.sigmoidDriving.getCmPerTick());
+                telemetry.addData("Cm Per Ticks", robot.autoDriving.getCmPerTick());
                 robot.printWheelCurrentPosition();
                 telemetry.addLine("Target");
                 robot.printWheelTargetPosition();
