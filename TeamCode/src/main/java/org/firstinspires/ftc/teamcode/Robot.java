@@ -1,10 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+
+import org.firstinspires.ftc.teamcode.Driving.AutoDriving;
+import org.firstinspires.ftc.teamcode.Driving.TeleOpDriving;
+import org.firstinspires.ftc.teamcode.Driving.Wheels;
+import org.firstinspires.ftc.teamcode.Sensors.OurColorSensor;
+import org.firstinspires.ftc.teamcode.Sensors.OurDistanceSensor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 
@@ -30,18 +37,35 @@ public class Robot {
      * itializtion of all sensors and motors
      */
     //wheels
-    private DcMotor rf;
-    private DcMotor rb;
-    private DcMotor lf;
-    private DcMotor lb;
+    private DcMotorEx rf;
+    private DcMotorEx rb;
+    private DcMotorEx lf;
+    private DcMotorEx lb;
 
     //Arm Lift
-    private DcMotor scissorMotor;
-    private DcMotor wristMotor;
+    private DcMotorEx scissorMotor;
+    private DcMotorEx wristMotor;
     private CRServo clawServo;
 
-    //objects
-    public StrafeDrive driving;
+    //sensors
+    private DistanceSensor rightDist;
+    private DistanceSensor leftDist;
+    private ColorSensor rightColor;
+    private ColorSensor leftColor;
+
+    //sensor objects
+    public OurDistanceSensor rightDistObject;
+    public OurDistanceSensor leftDistObject;
+    public OurColorSensor rightColorObject;
+    public OurColorSensor leftColorObject;
+
+    //wheel is private but gets passed into sigmoid or teleOp
+    //driving libraries to access the wheels
+    private Wheels wheels;
+
+    public AutoDriving autoDriving;
+    public TeleOpDriving teleOpDriving;
+
     public AutoLift autoLift;
     public TeleOpLift teleOpLift;
     public Claw claw;
@@ -57,23 +81,38 @@ public class Robot {
         HardwareMap map = opMode.hardwareMap;
         this.opMode = opMode;
 
-        //wheels
-        rf = map.tryGet(DcMotor.class, "rf");
-        rb = map.tryGet(DcMotor.class, "rb");
-        lf = map.tryGet(DcMotor.class, "lf");
-        lb = map.tryGet(DcMotor.class, "lb");
+        //____ Wheels ____
+        rf = map.tryGet(DcMotorEx.class, "rf");
+        rb = map.tryGet(DcMotorEx.class, "rb");
+        lf = map.tryGet(DcMotorEx.class, "lf");
+        lb = map.tryGet(DcMotorEx.class, "lb");
 
-        rb.setDirection(DcMotorSimple.Direction.REVERSE);
-        rf.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        //____ Lift ____
         wristPotentiometer = map.tryGet(AnalogInput.class, "wristAngle");
         scissorMotor = map.tryGet(DcMotorEx.class, "lift");
         wristMotor = map.tryGet(DcMotorEx.class, "wrist");
-
         clawServo = map.get(CRServo.class, "servo");
 
-        driving = new StrafeDrive(rf, rb, lf, lb);
+         //____ Sensors ____
+        rightDist = map.tryGet(DistanceSensor.class, "rightDist");
+        leftDist = map.tryGet(DistanceSensor.class, "leftDist");
+        rightColor = map.tryGet(ColorSensor.class, "rightColor");
+        leftColor = map.tryGet(ColorSensor.class, "leftColor");
 
+        //____ Sensor Objects _____
+        rightDistObject = new OurDistanceSensor(rightDist);
+        leftDistObject = new OurDistanceSensor(leftDist);
+        rightColorObject = new OurColorSensor(rightColor);
+        leftColorObject = new OurColorSensor(leftColor);
+        
+        //____ Other Objects ____
+        //driving
+        wheels = new Wheels(rf, rb, lf, lb);
+        autoDriving = new AutoDriving(wheels);
+        teleOpDriving = new TeleOpDriving(wheels);
+
+        //arm
         autoLift = new AutoLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor, wristPotentiometer);
         teleOpLift = new TeleOpLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor);
         claw = new Claw(clawServo);
@@ -84,7 +123,20 @@ public class Robot {
         opMode.telemetry.addData("lf: ", lf.getPower());
         opMode.telemetry.addData("rb: ", rb.getPower());
         opMode.telemetry.addData("lb: ", lb.getPower());
+    }
 
+    public void printWheelCurrentPosition() {
+        opMode.telemetry.addData("rf: ", rf.getCurrentPosition());
+        opMode.telemetry.addData("lf: ", lf.getCurrentPosition());
+        opMode.telemetry.addData("rb: ", rb.getCurrentPosition());
+        opMode.telemetry.addData("lb: ", lb.getCurrentPosition());
+    }
+
+    public void printWheelTargetPosition() {
+        opMode.telemetry.addData("rf: ", rf.getTargetPosition());
+        opMode.telemetry.addData("lf: ", lf.getTargetPosition());
+        opMode.telemetry.addData("rb: ", rb.getTargetPosition());
+        opMode.telemetry.addData("lb: ", lb.getTargetPosition());
     }
 
     public enum Direction {
