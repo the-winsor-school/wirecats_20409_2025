@@ -21,13 +21,10 @@ public class ArmValuesTest extends LinearOpMode {
                 robot.autoLift.lift.setTargetPosition(robot.autoLift.lift.getCurrentPosition() + 300);
             else if (gamepad1.dpad_down)
                 robot.autoLift.lift.setTargetPosition(robot.autoLift.lift.getCurrentPosition() - 300);
-            else if (gamepad1.dpad_right)
-                robot.autoLift.wrist.setTargetPosition(robot.autoLift.wrist.getCurrentPosition() + 100);
-            else if (gamepad1.dpad_left)
-                robot.autoLift.wrist.setTargetPosition(robot.autoLift.wrist.getCurrentPosition() - 100);
 
+            robot.teleOpLift.joystickControlWrist(-gamepad1.left_stick_y);
 
-            telemetry.addData("Wrist Current Position:", robot.autoLift.wrist.getCurrentPosition());
+            telemetry.addData("Wrist Current Angle:", robot.autoLift.wrist.getAngleValue());
             telemetry.addData("Lift Current Position:", robot.autoLift.lift.getCurrentPosition());
             telemetry.update();
         }

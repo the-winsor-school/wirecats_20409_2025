@@ -63,7 +63,7 @@ public class TeleOp extends LinearOpMode {
 
             telemetry.addLine("----------------LIFT-------------------------");
             telemetry.addData("scissor direction:", lift.scissor.getMotorState());
-            telemetry.addData("wrist direction:", lift.wrist.getMotorState());
+            telemetry.addData("Wrist Current Angle:", robot.autoLift.wrist.getAngleValue());
 
             telemetry.addLine("----------------CLAW-------------------------");
             telemetry.addData("claw position: ", robot.claw.getCurrentPosition());

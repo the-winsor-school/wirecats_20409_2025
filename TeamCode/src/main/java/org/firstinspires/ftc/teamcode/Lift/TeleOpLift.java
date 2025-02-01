@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 public class TeleOpLift {
     public SimpleMotorObject scissor;
     public SimpleMotorObject wrist;
-    public Claw claw;
 
     public TeleOpLift(DcMotorEx ScissorMotor, DcMotorEx WristMotor){
         scissor = new SimpleMotorObject(ScissorMotor, 1);

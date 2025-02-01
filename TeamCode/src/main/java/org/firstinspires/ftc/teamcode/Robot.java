@@ -70,7 +70,7 @@ public class Robot {
     public TeleOpLift teleOpLift;
     public Claw claw;
 
-    public AnalogInput wristPotentiometer;
+    private AnalogInput wristPotentiometer;
 
     private LinearOpMode opMode;
 

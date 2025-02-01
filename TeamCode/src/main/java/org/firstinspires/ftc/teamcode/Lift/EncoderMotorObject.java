@@ -17,12 +17,9 @@ public class EncoderMotorObject {
     //tolerance is how close the motor should get to the exact target position
     // before it is close enough to stop trying to get closer
     //value is experimtnally determined
-    private int tolerance;
-
     EncoderMotorObject(DcMotorEx motor, double powerUsed, int tolerance){
         this.motor = motor;
         this.powerUsed = powerUsed;
-        this.tolerance = tolerance;
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motor.setTargetPositionTolerance(tolerance);
         resetEncoders();

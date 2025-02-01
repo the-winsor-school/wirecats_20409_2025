@@ -16,20 +16,21 @@ public class WristMotorObject extends SimpleMotorObject {
     private double powerUsed;
     private AnalogInput wristAngle;
 
-    //Potentiometer Values for angles
+    private double tolerance; //for potentimoeter
 
-    public final double ResetAngle = 0;
-    public final double LowRungAngle = 0;
-    public final double HighRungAngle = 0;
 
-    public WristMotorObject (DcMotorEx wristMotor, double powerUsed, AnalogInput wristAngle) {
+    public WristMotorObject (DcMotorEx wristMotor, double powerUsed, double tolerance, AnalogInput wristAngle) {
         super(wristMotor, powerUsed);
 
+        this.tolerance = tolerance;
         this.wristAngle = wristAngle;
     }
 
-    public void moveToPosition(LiftPosition position) {
-        if (position == LiftPosition.RESET) {
-        }
+    public void moveToPosition(double angle) {
+        //move to the angle
+    }
+
+    public double getAngleValue() {
+        return wristAngle.getVoltage();
     }
 }
