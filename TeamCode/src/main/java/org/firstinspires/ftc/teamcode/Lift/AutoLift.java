@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Lift;
 
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import org.firstinspires.ftc.teamcode.Lift.LiftEnums.LiftPosition;
 
 import java.util.HashMap;
 
@@ -8,52 +10,42 @@ public class AutoLift {
     public EncoderMotorObject lift;
     public EncoderMotorObject wrist;
 
-    //arm location encoder values
-    HashMap<LIFT_POSITION, Integer> liftLocations = new HashMap<LIFT_POSITION, Integer>();
-    HashMap<LIFT_POSITION, Integer> wristLocations = new HashMap<LIFT_POSITION, Integer>();
+    private AnalogInput wristAngle;
 
-    public AutoLift(DcMotorEx LiftMotor, DcMotorEx WristMotor){
+    //arm location encoder values
+    HashMap<LiftPosition, Integer> liftLocations = new HashMap<LiftPosition, Integer>();
+
+    public AutoLift(DcMotorEx LiftMotor, DcMotorEx WristMotor, AnalogInput wristAngle){
 
         lift = new EncoderMotorObject(LiftMotor, 1, 100);
-        wrist = new EncoderMotorObject(WristMotor, 0.3, 100);
+        wrist = new (WristMotor, 0.3, 100);
+        this.wristAngle = wristAngle;
 
 
         //Initalization of motor encoder position
         //TODO get these values
-        liftLocations.put(LIFT_POSITION.RESET, 0);
-        liftLocations.put(LIFT_POSITION.LOW_BASKET, 0);
-        liftLocations.put(LIFT_POSITION.HIGH_BASKET, 0);
-
-        //TODO get these values
-        wristLocations.put(LIFT_POSITION.RESET, 0);
-        wristLocations.put(LIFT_POSITION.LOW_BASKET, 0);
-        wristLocations.put(LIFT_POSITION.HIGH_BASKET, 0);
+        liftLocations.put(LiftPosition.RESET, 0);
+        liftLocations.put(LiftPosition.LOW_BASKET, 0);
+        liftLocations.put(LiftPosition.HIGH_BASKET, 0);
     }
 
-    public void moveLiftToPosition (LIFT_POSITION pos){
-        if(pos == LIFT_POSITION.RESET){
-            //lift.setTargetPosition(liftLocations.get(LIFT_POSITION.RESET));
-            //wrist.runToPosition(wristLocations.get(LIFT_POSITION.RESET));
+    public void moveLiftToPosition (LiftPosition pos){
+        if(pos == LiftPosition.RESET){
+            lift.setTargetPosition(liftLocations.get(LiftPosition.RESET));
+            wrist.move(wristLocations.get(LiftPosition.RESET));
         }
-        else if(pos == LIFT_POSITION.LOW_BASKET){
+        else if(pos == LiftPosition.LOW_BASKET){
             //lift.runToPosition(liftLocations.get(LIFT_POSITION.LOW_BASKET));
             //wrist.runToPosition(wristLocations.get(LIFT_POSITION.LOW_BASKET));
         }
-        else if(pos == LIFT_POSITION.HIGH_BASKET){
+        else if(pos == LiftPosition.HIGH_BASKET){
             //lift.runToPosition(liftLocations.get(LIFT_POSITION.HIGH_BASKET));
             //wrist.runToPosition(wristLocations.get(LIFT_POSITION.HIGH_BASKET));
         }
-        //add one more for PICKINGUP if RESET does not work
     }
 
     public void resetEncoders() {
         lift.resetEncoders();
         wrist.resetEncoders();
-    }
-
-    public enum LIFT_POSITION {
-        RESET,
-        LOW_BASKET,
-        HIGH_BASKET,
     }
 }

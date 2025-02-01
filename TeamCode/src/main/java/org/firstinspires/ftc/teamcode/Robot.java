@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 
 import org.firstinspires.ftc.teamcode.Lift.AutoLift;
 import org.firstinspires.ftc.teamcode.Lift.Claw;
@@ -45,6 +46,8 @@ public class Robot {
     public TeleOpLift teleOpLift;
     public Claw claw;
 
+    public AnalogInput wristPotentiometer;
+
     private LinearOpMode opMode;
 
     /**
@@ -63,6 +66,7 @@ public class Robot {
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
         rf.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        wristPotentiometer = map.tryGet(AnalogInput.class, "wristAngle");
         scissorMotor = map.tryGet(DcMotorEx.class, "lift");
         wristMotor = map.tryGet(DcMotorEx.class, "wrist");
 
@@ -70,7 +74,7 @@ public class Robot {
 
         driving = new StrafeDrive(rf, rb, lf, lb);
 
-        autoLift = new AutoLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor);
+        autoLift = new AutoLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor, wristPotentiometer);
         teleOpLift = new TeleOpLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor);
         claw = new Claw(clawServo);
     }
