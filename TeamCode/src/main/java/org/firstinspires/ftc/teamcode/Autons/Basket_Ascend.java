@@ -16,10 +16,8 @@ public class Basket_Ascend extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            //moves forward to
-            //wards basket
+            //moves forward towards basket
             //check for tape to see net zone so it works for all positions
-
             robot.autoDriving.verticalSigmoidTime(-1, 200);
 
             robot.autoDriving.horizontalSigmoidTime(1, 1200);

@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.Robot;
 public class Ascend_EitherRight extends LinearOpMode {
 
     Robot robot;
-    LinearOpMode opMode;
 
     public void runOpMode() throws InterruptedException {
         robot = new Robot(this);
