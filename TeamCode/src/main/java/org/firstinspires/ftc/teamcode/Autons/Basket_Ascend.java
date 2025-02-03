@@ -18,16 +18,23 @@ public class Basket_Ascend extends LinearOpMode {
         if (opModeIsActive()) {
             //moves forward towards basket
             //check for tape to see net zone so it works for all positions
+            robot.autoDriving.verticalSigmoidTime(-1, 200);
+
+            robot.autoDriving.horizontalSigmoidTime(1, 1200);
+
+            robot.autoDriving.turn(-.5);
+
+            sleep(400);
 
             //TODO arm code
 
             //move right to get to ascend zone
-            robot.sigmoidDriving.horizontalDist(0.5, 120);
+            //robot.sigmoidDriving.horizontalDist(0.5, 120);
 
             //move backwards into ascent zone
-            robot.sigmoidDriving.verticalSigmoidTime( 3000);
+            //robot.sigmoidDriving.verticalSigmoidTime( 1, 3000);
 
-            robot.sigmoidDriving.stop();
+            robot.autoDriving.stop();
         }
     }
 }

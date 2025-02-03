@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Driving;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class SigmoidDriving {
+public class AutoDriving {
 
     private Wheels wheels;
 
@@ -22,7 +22,7 @@ public class SigmoidDriving {
 
     private double sigmoidDomain;
 
-    public SigmoidDriving(Wheels wheels) {
+    public AutoDriving(Wheels wheels) {
         this.wheels = wheels;
 
         horizontalStretchSigmoid = 4 * maxAcceleration;
@@ -32,47 +32,14 @@ public class SigmoidDriving {
         //so total domain is 2 * horizontal stretch
         double sigmoidDomain = 2 / horizontalStretchSigmoid;
 
-        cmPerTick = (1/wheels.wheelCircumference) * wheels.gearReduction * wheels.ticksPerRevolution;
-    }
-
-    public void verticalSigmoidDist(int totalDist) {
-
-        int totalTicks = (int) Math.round(totalDist * (1/cmPerTick));
-
-        ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-
-        timer.reset();
-        wheels.resetEncoders();
-        while(timer.time() < sigmoidDomain) {
-            wheels.vertical(sigmoid((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid));
-        }
-
-        double sigmoidTickDistance = wheels.getAverageCurrentPosition();
-
-        double maxPowerTicks = totalTicks - sigmoidTickDistance;
-
-
-        while (wheels.getAverageCurrentPosition() < (maxPowerTicks + sigmoidTickDistance)) {
-            wheels.vertical(1);
-        }
-
-        while (wheels.getAverageCurrentPosition() < (maxPowerTicks + (2*sigmoidTickDistance))) {
-            wheels.vertical(sigmoid(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid));
-        }
-
-        wheels.stop();
-
-        //TODO throw exception for error
-        //try error here and catch in teleOp
-        //make class that extends throwable
+        cmPerTick = 0.059418;
     }
 
     /**
      * this is not an async function it will steal your thread
      * @param totalTime total time for movement in milliseconds
      */
-    public void verticalSigmoidTime(int totalTime) {
-
+    public void horizontalSigmoidTime(double maxPower, int totalTime) {
         ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
         //this is the amount of time the wheels are moving at max power
@@ -84,13 +51,13 @@ public class SigmoidDriving {
         timer.reset();
         while(timer.time() < sigmoidDomain) {
             double power = sigmoid((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
-            wheels.vertical(power);
+            wheels.horizontal(maxPower * power);
         }
 
         //regular straight motion
         timer.reset();
         while(timer.time() < maxPowerTime) {
-            wheels.vertical(1);
+            wheels.horizontal(maxPower * 1);
         }
 
         //deceleration period
@@ -98,7 +65,44 @@ public class SigmoidDriving {
         while(timer.time() < sigmoidDomain) {
             //reflects sigmoid over y axis by negatizing x values
             double power = sigmoid(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
-            wheels.vertical(power);
+            wheels.horizontal(maxPower * power);
+        }
+
+        //stop motion
+        wheels.stop();
+    }
+
+    /**
+     * this is not an async function it will steal your thread
+     * @param totalTime total time for movement in milliseconds
+     */
+    public void verticalSigmoidTime(double maxPower, int totalTime) {
+        ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+
+        //this is the amount of time the wheels are moving at max power
+        //this is the total time - (2* acceleration time)
+        //acceleration time is the domain of the sigmoid
+        double maxPowerTime = totalTime - (2 * sigmoidDomain);
+
+        //acceleration period
+        timer.reset();
+        while(timer.time() < sigmoidDomain) {
+            double power = sigmoid((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
+            wheels.vertical(maxPower * power);
+        }
+
+        //regular straight motion
+        timer.reset();
+        while(timer.time() < maxPowerTime) {
+            wheels.vertical(maxPower * 1);
+        }
+
+        //deceleration period
+        timer.reset();
+        while(timer.time() < sigmoidDomain) {
+            //reflects sigmoid over y axis by negatizing x values
+            double power = sigmoid(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
+            wheels.vertical(maxPower * power);
         }
 
         //stop motion
@@ -117,6 +121,7 @@ public class SigmoidDriving {
         wheels.resetEncoders();
         wheels.setAllTargetPosition(targetTicks);
         wheels.runToPosition();
+
     }
 
     public void horizontalDist(double maxPower, double distance) {
@@ -150,5 +155,14 @@ public class SigmoidDriving {
     public void stop() {
         wheels.stop();
     }
+
+    public double getCmPerTick() {
+        return cmPerTick;
+    }
+
+    public void turn (double t) { wheels.setEachPower(t, t, -t, -t); }
+
+    public void vertical (double speed) { wheels.vertical(speed); }
+    public void horizontal (double speed) { wheels.horizontal(speed); }
 
 }
