@@ -25,10 +25,8 @@ public class TeleOpDriving {
                 ((y - x + t) * speed));//lb
     }
 
-    public void adjustSpeed(double x) {
-        speed = speed + x;
-    }
-
     public double getSpeed() { return speed; }
+
+    public void setSpeed(double newSpeed) { speed = newSpeed; }
 
 }

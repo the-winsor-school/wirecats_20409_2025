@@ -30,6 +30,12 @@ public class TeleOp extends LinearOpMode {
 
             robot.teleOpDriving.joystickDrive(x, y, t);
 
+            //adjusting speed
+            if (gamepad1.right_bumper)
+                robot.teleOpDriving.setSpeed(robot.teleOpDriving.getSpeed() + 0.5);
+            if (gamepad1.left_bumper)
+                robot.teleOpDriving.setSpeed(robot.teleOpDriving.getSpeed() - 0.5);
+
             //_______________________________________________
             //             MECH CONTROLLER (gamepad2)
             //_______________________________________________
