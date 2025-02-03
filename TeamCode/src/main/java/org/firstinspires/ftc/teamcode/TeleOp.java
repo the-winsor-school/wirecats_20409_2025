@@ -13,9 +13,7 @@ public class TeleOp extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
         robot = new Robot(this);
-
-        robot.lift.claw.moveClaw(ClawPosition.CLOSE);
-
+        
         waitForStart();
 
         while (opModeIsActive()){
