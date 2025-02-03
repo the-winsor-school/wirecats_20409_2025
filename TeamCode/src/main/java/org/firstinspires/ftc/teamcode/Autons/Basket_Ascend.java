@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Autons;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Driving.AutoDriving;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous(name = "Basket + Ascend", group= "basket_ascend")
@@ -18,9 +19,9 @@ public class Basket_Ascend extends LinearOpMode {
         if (opModeIsActive()) {
             //moves forward towards basket
             //check for tape to see net zone so it works for all positions
-            robot.autoDriving.verticalSigmoidTime(-1, 200);
+            robot.autoDriving.sigmoidTime(AutoDriving.Driving_Orientation.HORIZONTAL, 200);
 
-            robot.autoDriving.horizontalSigmoidTime(1, 1200);
+            robot.autoDriving.sigmoidTime(AutoDriving.Driving_Orientation.VERTICAL, 1200);
 
             robot.autoDriving.turn(-.5);
 

@@ -27,28 +27,26 @@ public class TeleOp extends LinearOpMode {
             float t = gamepad1.left_stick_x;
 
             robot.teleOpDriving.joystickDrive(x, y, t);
+            
 
             //_______________________________________________
             //             MECH CONTROLLER (gamepad2)
             //_______________________________________________
 
             //claw code
-            if (gamepad2.right_bumper) {
+            if (gamepad2.right_bumper)
                 robot.lift.claw.moveClaw(ClawPosition.CLOSE);
-            }
-            if (gamepad2.left_bumper) {
+            if (gamepad2.left_bumper)
                 robot.lift.claw.moveClaw(ClawPosition.OPEN);
-            }
 
             //control lift with right stick y value on mech controller
             robot.lift.joystickControlLift(gamepad2.right_stick_y);
-
             robot.lift.joystickControlWrist(gamepad2.left_stick_y);
 
             //lift values
             if (gamepad2.x)
                 robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.RESET);
-            //if (gamepad2.a)
+            if (gamepad2.a)
                 robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.HIGHBASKET);
             if (gamepad2.b)
                 robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.LOWBASKET);
