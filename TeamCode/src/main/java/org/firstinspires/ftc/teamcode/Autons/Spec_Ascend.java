@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.Autons;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Lift.LiftEnums.ClawPosition;
+import org.firstinspires.ftc.teamcode.Lift.LiftEnums.LiftPosition;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous(name = "Spec + Ascend: EitherRight", group= "spec_ascend")
@@ -16,23 +18,32 @@ public class Spec_Ascend extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            //move to sumbmersible
-            robot.autoDriving.verticalSigmoidTime(1, 800);
+            robot.claw.moveClaw(ClawPosition.CLOSE);
+
+            robot.autoDriving.verticalSigmoidTime(1, 600);
+
+            robot.autoLift.moveLiftToPosition(LiftPosition.HIGH_RUNG);
+
+            while(!robot.autoLift.wrist.closeToTarget()) {
+                robot.autoLift.wrist.moveCloserToPosition();
+            }
 
             robot.autoDriving.horizontalSigmoidTime(-1, 200);
 
+            while(robot.frontDistObject.isDistanceLess(34)) {
+                robot.autoDriving.vertical(0.5);
+                sleep(10);
+            }
 
-            robot.autoDriving.turn(-.5);
+            robot.autoLift.setWristHighRungPlaceAngle();
 
-            sleep(400);
+            while(!robot.autoLift.wrist.closeToTarget()) {
+                robot.autoLift.wrist.moveCloserToPosition();
+            }
 
-            //TODO arm code
-
-            //move right to get to ascend zone
-            //robot.sigmoidDriving.horizontalDist(0.5, 120);
-
-            //move backwards into ascent zone
-            //robot.sigmoidDriving.verticalSigmoidTime( 1, 3000);
+            robot.claw.moveClaw(ClawPosition.OPEN);
+            sleep(100);
+            robot.claw.moveClaw(ClawPosition.STOP);
 
             robot.autoDriving.stop();
         }

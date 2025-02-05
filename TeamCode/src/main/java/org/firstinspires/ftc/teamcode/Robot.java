@@ -51,11 +51,15 @@ public class Robot {
     //sensors
     private DistanceSensor rightDist;
     private DistanceSensor leftDist;
+    private DistanceSensor frontDist;
+
     private ColorSensor rightColor;
     private ColorSensor leftColor;
 
     //sensor objects
     public OurDistanceSensor rightDistObject;
+    public OurDistanceSensor frontDistObject;
+
     public OurDistanceSensor leftDistObject;
     public OurColorSensor rightColorObject;
     public OurColorSensor leftColorObject;
@@ -107,12 +111,14 @@ public class Robot {
 
          //____ Sensors ____
         rightDist = map.tryGet(DistanceSensor.class, "rightDist");
+        frontDist = map.tryGet(DistanceSensor.class, "frontDist");
         leftDist = map.tryGet(DistanceSensor.class, "leftDist");
         rightColor = map.tryGet(ColorSensor.class, "rightColor");
         leftColor = map.tryGet(ColorSensor.class, "leftColor");
 
         //____ Sensor Objects _____
         rightDistObject = new OurDistanceSensor(rightDist);
+        frontDistObject = new OurDistanceSensor(frontDist);
         leftDistObject = new OurDistanceSensor(leftDist);
         rightColorObject = new OurColorSensor(rightColor);
         leftColorObject = new OurColorSensor(leftColor);
