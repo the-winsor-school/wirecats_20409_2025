@@ -1,9 +1,11 @@
-package org.firstinspires.ftc.teamcode.ArmLift;
+package org.firstinspires.ftc.teamcode.Lift;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-public class GenericMotor {
+import org.firstinspires.ftc.teamcode.Lift.LiftEnums.MotorState;
+
+public class EncoderMotorObject {
     //motor uses DcMotorEx instead of DcMotor to allow us to have more control over the encoder loop
     //encoder loop is when we set target position and tell the motor to run to that position
     //with DcMotorEx we can adjust the tolerance
@@ -11,31 +13,27 @@ public class GenericMotor {
     private DcMotorEx motor;
     private double powerUsed;
 
+    public final int tolerance;
+
     //tolerance is used for the encoder loops
     //tolerance is how close the motor should get to the exact target position
     // before it is close enough to stop trying to get closer
     //value is experimtnally determined
-    private int tolerance;
-
-    GenericMotor(DcMotorEx motor, double powerUsed, int tolerance){
+    EncoderMotorObject(DcMotorEx motor, double powerUsed, int tolerance){
         this.motor = motor;
         this.powerUsed = powerUsed;
         this.tolerance = tolerance;
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor.setTargetPositionTolerance(tolerance);
+        resetEncoders();
+        setTargetPosition(0);
+        motor.setPower(powerUsed);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    //used to control direction and movement of the motor
-    public void setMotorState(MotorState state) {
-        motor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-
-        if (state == MotorState.FORWARD)
-            motor.setPower(powerUsed);
-        if (state == MotorState.REVERSE)
-            motor.setPower(-powerUsed);
-        if (state == MotorState.STOP)
-            motor.setPower(0);
-    }
-
-    //mostly used for joystick controls
+    /**
+     * can be used during Run to Position loops
+     */
     public void setMotorPower(float power) {
         //multiplying by powerUsed to reduce power if needed
         motor.setPower(power * powerUsed);
@@ -51,19 +49,16 @@ public class GenericMotor {
         return MotorState.STOP;
     }
 
-    //returns current ticks of the encoder
-    public int getCurrentPosition () {
-        return motor.getCurrentPosition();
-    }
-
-    //returns current target position (used mostly for telemetry)
+    public void resetEncoders() { motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); }
+    public int getCurrentPosition () { return motor.getCurrentPosition();}
     public int getTargetPosition() { return motor.getTargetPosition(); }
+    public void setTargetPosition(int targetPosition) { motor.setTargetPosition(targetPosition); }
 
-    //parameter sets target position of motor
-    //runs motor async to that position
-    public void runToPosition(int targetPosition) {
-        motor.setTargetPosition(targetPosition);
-        motor.setTargetPositionTolerance(tolerance);
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    public boolean motorMoving() {
+        if (((getCurrentPosition() - tolerance) < getTargetPosition()) ||
+                ((getCurrentPosition() + tolerance) > getTargetPosition())) {
+            return true;
+        }
+        return false;
     }
 }

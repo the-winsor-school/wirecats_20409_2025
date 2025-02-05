@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ArmLift;
+package org.firstinspires.ftc.teamcode.Lift.LiftEnums;
 
 public enum MotorState {
     FORWARD,

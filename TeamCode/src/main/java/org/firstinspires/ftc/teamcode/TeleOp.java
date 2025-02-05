@@ -2,17 +2,20 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.ArmLift.ClawPosition;
-import org.firstinspires.ftc.teamcode.ArmLift.FullArmLift;
-import org.firstinspires.ftc.teamcode.ArmLift.MotorState;
+import org.firstinspires.ftc.teamcode.Lift.LiftEnums.ClawPosition;
+import org.firstinspires.ftc.teamcode.Lift.AutoLift;
+import org.firstinspires.ftc.teamcode.Lift.TeleOpLift;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
 public class TeleOp extends LinearOpMode {
 
     Robot robot;
+    //I declare this lift varaible just so i dont have to say robot.lift everytime
+    TeleOpLift lift;
 
     public void runOpMode() throws InterruptedException {
         robot = new Robot(this);
+        lift = robot.teleOpLift;
 
         waitForStart();
 
@@ -33,30 +36,20 @@ public class TeleOp extends LinearOpMode {
             //_______________________________________________
 
             //claw code
-            if (gamepad2.right_bumper) {
-                robot.lift.claw.moveClaw(ClawPosition.CLOSE);
-            }
-            if (gamepad2.left_bumper) {
-                robot.lift.claw.moveClaw(ClawPosition.OPEN);
-            }
+            if (gamepad2.right_bumper)
+                robot.claw.moveClaw(ClawPosition.CLOSE);
+            if (gamepad2.left_bumper)
+                robot.claw.moveClaw(ClawPosition.OPEN);
+
 
             //control lift with right stick y value on mech controller
-            robot.lift.joystickControlLift(gamepad2.right_stick_y);
-
-            robot.lift.joystickControlWrist(gamepad2.left_stick_y);
-
-            //lift values
-            if (gamepad2.x)
-                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.RESET);
-            //if (gamepad2.a)
-                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.HIGHBASKET);
-            if (gamepad2.b)
-                robot.lift.moveLiftToPosition(FullArmLift.LIFT_POSITION.LOWBASKET);
+            //y inputs negative bc thats how the controllers are (up is -1)
+            lift.joystickControlLift(-gamepad2.right_stick_y);
+            lift.joystickControlWrist(-gamepad2.left_stick_y);
 
             //_______________________________________________
             //             PRINT STATEMENTS
             //_______________________________________________
-
 
             telemetry.addLine("----------------WHEELS-------------------------");
 
@@ -69,16 +62,11 @@ public class TeleOp extends LinearOpMode {
             robot.printWheelPowers();
 
             telemetry.addLine("----------------LIFT-------------------------");
-
-            telemetry.addData("lift current position:", robot.lift.liftMotor.getCurrentPosition());
-            telemetry.addData("lift target position:", robot.lift.liftMotor.getTargetPosition());
-            telemetry.addData("wrist current position:", robot.lift.wristMotor.getCurrentPosition());
-            telemetry.addData("wrist target position:", robot.lift.wristMotor.getTargetPosition());
+            telemetry.addData("scissor direction:", lift.scissor.getMotorState());
+            telemetry.addData("Wrist Current Angle:", robot.autoLift.wrist.getCurrentAngle());
 
             telemetry.addLine("----------------CLAW-------------------------");
-
-            telemetry.addData("claw position: ", robot.lift.claw.getCurrentPosition());
-
+            telemetry.addData("claw position: ", robot.claw.getCurrentPosition());
 
             telemetry.update();
         }
