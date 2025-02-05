@@ -98,8 +98,7 @@ public class Robot {
         wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //____ Arm ____
-
-        liftMotor = map.tryGet(DcMotorEx.class, "lift");
+        scissorMotor = map.tryGet(DcMotorEx.class, "lift");
         wristMotor = map.tryGet(DcMotorEx.class, "wrist");
         clawServo = map.tryGet(CRServo.class, "servo");
 

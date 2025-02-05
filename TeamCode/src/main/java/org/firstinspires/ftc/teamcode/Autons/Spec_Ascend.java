@@ -19,9 +19,8 @@ public class Spec_Ascend extends LinearOpMode {
             //move to sumbmersible
             robot.autoDriving.verticalSigmoidTime(1, 800);
 
-            while(robot.b)
+            robot.autoDriving.horizontalSigmoidTime(-1, 200);
 
-            robot.autoDriving.horizontalSigmoidTime(1, 1200);
 
             robot.autoDriving.turn(-.5);
 
