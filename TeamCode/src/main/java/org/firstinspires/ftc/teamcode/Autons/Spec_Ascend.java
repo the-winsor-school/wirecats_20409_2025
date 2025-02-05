@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous(name = "Basket + Ascend", group= "basket_ascend")
-public class Basket_Ascend extends LinearOpMode {
+@Autonomous(name = "Spec + Ascend: EitherRight", group= "spec_ascend")
+public class Spec_Ascend extends LinearOpMode {
 
     Robot robot;
 
@@ -16,9 +16,10 @@ public class Basket_Ascend extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            //moves forward towards basket
-            //check for tape to see net zone so it works for all positions
-            robot.autoDriving.verticalSigmoidTime(-1, 200);
+            //move to sumbmersible
+            robot.autoDriving.verticalSigmoidTime(1, 800);
+
+            while(robot.b)
 
             robot.autoDriving.horizontalSigmoidTime(1, 1200);
 
