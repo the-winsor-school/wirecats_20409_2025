@@ -13,6 +13,8 @@ public class EncoderMotorObject {
     private DcMotorEx motor;
     private double powerUsed;
 
+    public final int tolerance;
+
     //tolerance is used for the encoder loops
     //tolerance is how close the motor should get to the exact target position
     // before it is close enough to stop trying to get closer
@@ -20,10 +22,12 @@ public class EncoderMotorObject {
     EncoderMotorObject(DcMotorEx motor, double powerUsed, int tolerance){
         this.motor = motor;
         this.powerUsed = powerUsed;
+        this.tolerance = tolerance;
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motor.setTargetPositionTolerance(tolerance);
         resetEncoders();
         setTargetPosition(0);
+        motor.setPower(powerUsed);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
@@ -49,4 +53,12 @@ public class EncoderMotorObject {
     public int getCurrentPosition () { return motor.getCurrentPosition();}
     public int getTargetPosition() { return motor.getTargetPosition(); }
     public void setTargetPosition(int targetPosition) { motor.setTargetPosition(targetPosition); }
+
+    public boolean motorMoving() {
+        if (((getCurrentPosition() - tolerance) < getTargetPosition()) ||
+                ((getCurrentPosition() + tolerance) > getTargetPosition())) {
+            return true;
+        }
+        return false;
+    }
 }

@@ -26,7 +26,8 @@ public class CheckArmValues extends LinearOpMode {
 
             if (gamepad1.y) {
                 currentPosition = LiftPosition.HIGH_RUNG;
-                robot.autoLift.moveLiftToPosition(LiftPosition.HIGH_RUNG);
+                robot.autoLift.moveScissorToPosition(LiftPosition.HIGH_RUNG);
+                robot.autoLift.moveWristToPositionSync(LiftPosition.HIGH_RUNG);
             }
             if (gamepad1.b) {
                 currentPosition = LiftPosition.LOW_BASKET;
@@ -38,6 +39,11 @@ public class CheckArmValues extends LinearOpMode {
             }
 
             telemetry.addData("Current Position:", currentPosition);
+            telemetry.addLine();
+            telemetry.addData("Wrist Current Angle:", robot.autoLift.wrist.getCurrentAngle());
+            telemetry.addData("Lift Current Position:", robot.autoLift.lift.getCurrentPosition());
+            telemetry.addData("Lift Target Position:", robot.autoLift.lift.getTargetPosition());
+
             telemetry.update();
 
         }

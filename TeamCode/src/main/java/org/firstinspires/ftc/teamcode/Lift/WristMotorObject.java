@@ -18,7 +18,7 @@ public class WristMotorObject extends SimpleMotorObject {
     private double powerUsed;
     private AnalogInput wristAngle;
 
-    private double tolerance; //for potentimoeter
+    public final double tolerance;
 
 
     public WristMotorObject (DcMotorEx wristMotor, double powerUsed, double tolerance, AnalogInput wristAngle) {
@@ -28,13 +28,16 @@ public class WristMotorObject extends SimpleMotorObject {
         this.wristAngle = wristAngle;
     }
 
-    public void moveToPosition(double targetAngle) {
-        //code
+    private boolean tooHigh(double targetAngle) {
+        return (getCurrentAngle() - tolerance) > targetAngle;
+    }
+
+    private boolean tooLow(double targetAngle) {
+        return (getCurrentAngle() - tolerance) < targetAngle;
     }
 
     public double getCurrentAngle() { return wristAngle.getVoltage(); }
 
-    public double getTolerance() { return tolerance; }
 }
 
 class WristThread extends Thread {
@@ -59,10 +62,10 @@ class WristThread extends Thread {
     }
 
     private boolean tooHigh(double targetAngle) {
-        return ((wrist.getCurrentAngle() - wrist.getTolerance()) > targetAngle);
+        return ((wrist.getCurrentAngle() + wrist.tolerance) > targetAngle);
     }
 
     private boolean tooLow(double targetAngle) {
-        return ((wrist.getCurrentAngle() - wrist.getTolerance()) < targetAngle);
+        return ((wrist.getCurrentAngle() - wrist.tolerance) < targetAngle);
     }
 }

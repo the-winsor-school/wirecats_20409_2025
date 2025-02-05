@@ -13,31 +13,47 @@ public class AutoLift {
     //arm location encoder values
     //TODO find the values
     public final int LiftResetValue = 0;
-    public final int LiftLowBasketValue = 0;
-    public final int LiftHighRungValue = 0;
-    public final double WristResetAngle = 0;
-    public final double WristLowBasketAngle = 0;
-    public final double WristHighRungAngle = 0;
+    public final int LiftHighRungValue = 5000;
+    public final double WristResetAngle = 3.37;
+    public final double WristHighRungAngle = 1.52;
+
+    public final double WristHighRungPlaceAngle = 1.37;
 
 
     public AutoLift(DcMotorEx LiftMotor, DcMotorEx WristMotor, AnalogInput wristAngle){
-        lift = new EncoderMotorObject(LiftMotor, 1, 100);
-        wrist = new WristMotorObject(WristMotor, 0.3, 0.1, wristAngle);
+        lift = new EncoderMotorObject(LiftMotor, 1, 300);
+        wrist = new WristMotorObject(WristMotor, 0.3, 0.05, wristAngle);
     }
 
+    public void moveScissorToPosition (LiftPosition pos){
+        if(pos == LiftPosition.RESET){
+            lift.setTargetPosition(LiftResetValue);
+        }
+        else if(pos == LiftPosition.HIGH_RUNG){
+            lift.setTargetPosition(LiftHighRungValue);
+        }
+    }
+
+    @Deprecated
     public void moveLiftToPosition (LiftPosition pos){
         if(pos == LiftPosition.RESET){
             lift.setTargetPosition(LiftResetValue);
             WristThread wristThread = new WristThread(wrist, WristResetAngle);
             wristThread.start();
         }
-        else if(pos == LiftPosition.LOW_BASKET){
-            lift.setTargetPosition(LiftLowBasketValue);
-            WristThread wristThread = new WristThread(wrist, WristLowBasketAngle);
+        else if(pos == LiftPosition.HIGH_RUNG){
+            lift.setTargetPosition(LiftHighRungValue);
+            WristThread wristThread = new WristThread(wrist, WristHighRungAngle);
+            wristThread.start();
+        }
+    }
+
+    public void moveWristToPositionAsync (LiftPosition pos){
+        if(pos == LiftPosition.RESET){
+            WristThread wristThread = new WristThread(wrist, WristResetAngle);
             wristThread.start();
         }
         else if(pos == LiftPosition.HIGH_RUNG){
-            lift.setTargetPosition(LiftHighRungValue);
             WristThread wristThread = new WristThread(wrist, WristHighRungAngle);
             wristThread.start();
         }
