@@ -97,6 +97,15 @@ public class Robot {
 
         wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        //____ Arm ____
+
+        liftMotor = map.tryGet(DcMotorEx.class, "lift");
+        wristMotor = map.tryGet(DcMotorEx.class, "wrist");
+        clawServo = map.tryGet(CRServo.class, "servo");
+
+        wristMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
          //____ Sensors ____
         rightDist = map.tryGet(DistanceSensor.class, "rightDist");
         leftDist = map.tryGet(DistanceSensor.class, "leftDist");

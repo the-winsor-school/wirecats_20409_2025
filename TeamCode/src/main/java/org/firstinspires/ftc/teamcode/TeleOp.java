@@ -15,7 +15,6 @@ public class TeleOp extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
         robot = new Robot(this);
-        lift = robot.teleOpLift;
 
         waitForStart();
 
@@ -30,6 +29,12 @@ public class TeleOp extends LinearOpMode {
             float t = gamepad1.left_stick_x;
 
             robot.teleOpDriving.joystickDrive(x, y, t);
+
+            //adjusting speed
+            if (gamepad1.right_bumper)
+                robot.teleOpDriving.setSpeed(robot.teleOpDriving.getSpeed() + 0.5);
+            if (gamepad1.left_bumper)
+                robot.teleOpDriving.setSpeed(robot.teleOpDriving.getSpeed() - 0.5);
 
             //_______________________________________________
             //             MECH CONTROLLER (gamepad2)
@@ -46,6 +51,7 @@ public class TeleOp extends LinearOpMode {
             //y inputs negative bc thats how the controllers are (up is -1)
             lift.joystickControlLift(-gamepad2.right_stick_y);
             lift.joystickControlWrist(-gamepad2.left_stick_y);
+
 
             //_______________________________________________
             //             PRINT STATEMENTS
