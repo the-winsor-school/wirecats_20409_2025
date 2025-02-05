@@ -20,18 +20,19 @@ public class Spec_Ascend extends LinearOpMode {
         if (opModeIsActive()) {
             robot.claw.moveClaw(ClawPosition.CLOSE);
 
-            robot.autoDriving.verticalSigmoidTime(1, 600);
+            robot.autoDriving.verticalSigmoidTime(1, 400);
 
             robot.autoLift.moveLiftToPosition(LiftPosition.HIGH_RUNG);
 
             while(!robot.autoLift.wrist.closeToTarget()) {
                 robot.autoLift.wrist.moveCloserToPosition();
+                sleep(10);
             }
 
-            robot.autoDriving.horizontalSigmoidTime(-1, 200);
+            robot.autoDriving.horizontalSigmoidTime(-1, 1000);
 
             while(robot.frontDistObject.isDistanceLess(34)) {
-                robot.autoDriving.vertical(0.5);
+                robot.autoDriving.vertical(0.3);
                 sleep(10);
             }
 

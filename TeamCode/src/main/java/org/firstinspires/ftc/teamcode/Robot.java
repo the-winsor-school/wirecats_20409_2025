@@ -92,6 +92,8 @@ public class Robot {
         lf = map.tryGet(DcMotorEx.class, "lf");
         lb = map.tryGet(DcMotorEx.class, "lb");
 
+        lb.setDirection(DcMotorSimple.Direction.REVERSE);
+        lf.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //____ Lift ____
         wristPotentiometer = map.tryGet(AnalogInput.class, "wristAngle");
