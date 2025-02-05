@@ -94,6 +94,7 @@ public class Robot {
         scissorMotor = map.tryGet(DcMotorEx.class, "lift");
         wristMotor = map.tryGet(DcMotorEx.class, "wrist");
         clawServo = map.get(CRServo.class, "servo");
+
         wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
          //____ Sensors ____

@@ -7,65 +7,89 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.teamcode.Lift.LiftEnums.LiftPosition;
 import org.firstinspires.ftc.teamcode.Lift.LiftEnums.MotorState;
 
+import java.security.Policy;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class WristMotorObject extends SimpleMotorObject {
+public class WristMotorObject {
     //motor uses DcMotorEx instead of DcMotor to allow us to have more control over the encoder loop
     //encoder loop is when we set target position and tell the motor to run to that position
     //with DcMotorEx we can adjust the tolerance
     //DcMotorEx would also allow us to eadily impelement PID coeffients if we wanted to get really fancy
+
     private DcMotorEx motor;
     private double powerUsed;
+
     private AnalogInput wristAngle;
 
     public final double tolerance;
 
+    private double targetAngle;
+
 
     public WristMotorObject (DcMotorEx wristMotor, double powerUsed, double tolerance, AnalogInput wristAngle) {
-        super(wristMotor, powerUsed);
+
+        this.motor = wristMotor;
+        this.powerUsed = powerUsed;
 
         this.tolerance = tolerance;
         this.wristAngle = wristAngle;
+        targetAngle = getCurrentAngle();
     }
 
-    private boolean tooHigh(double targetAngle) {
-        return (getCurrentAngle() - tolerance) > targetAngle;
+    public boolean tooHigh() { //needs to move down
+        return getCurrentAngle() - targetAngle > tolerance;
     }
 
-    private boolean tooLow(double targetAngle) {
-        return (getCurrentAngle() - tolerance) < targetAngle;
+    public boolean tooLow() { //needs to move up
+        return targetAngle - getCurrentAngle() > tolerance;
+    }
+
+    public void setMotorPower(double power) {
+        motor.setPower(power * powerUsed);
     }
 
     public double getCurrentAngle() { return wristAngle.getVoltage(); }
+
+    public void moveCloserToPosition() {
+        double power = powerUsed;
+        if (Math.abs(getCurrentAngle() - targetAngle) < 0.5) {
+            power = powerUsed/2;
+        }
+        if (tooHigh()) {
+            motor.setPower(power); //will be multiplied by power used
+        } else if (tooLow()) {
+            motor.setPower(-power);
+        }
+    }
+
+    public double getPower() {
+        return motor.getPower();
+    }
+
+    public void setTargetAngle(double targetAngle) { this.targetAngle = targetAngle; }
+
+    public double getTargetAngle() { return targetAngle; }
+
+    public boolean closeToTarget() { return !(tooLow() && tooHigh()); }
 
 }
 
 class WristThread extends Thread {
     private WristMotorObject wrist;
     private double targetAngle;
+    public boolean threadRan = false;
 
     public WristThread(WristMotorObject wrist, double targetAngle) {
         this.wrist = wrist;
         this.targetAngle = targetAngle;
-
     }
-    public void run()
+    public void start()
     {
-        while (tooHigh(targetAngle) && tooLow(targetAngle)) {
-            targetAngle = targetAngle;
-            if (tooHigh(targetAngle)) {
-                wrist.setMotorPower(1); //will be multiplied by power used
-            } else if (tooLow(targetAngle)) {
-                wrist.setMotorPower(-1);
-            }
+        threadRan = true;
+        wrist.setTargetAngle(targetAngle);
+        while (wrist.closeToTarget()) {
+            wrist.moveCloserToPosition();
         }
     }
 
-    private boolean tooHigh(double targetAngle) {
-        return ((wrist.getCurrentAngle() + wrist.tolerance) > targetAngle);
-    }
-
-    private boolean tooLow(double targetAngle) {
-        return ((wrist.getCurrentAngle() - wrist.tolerance) < targetAngle);
-    }
 }
