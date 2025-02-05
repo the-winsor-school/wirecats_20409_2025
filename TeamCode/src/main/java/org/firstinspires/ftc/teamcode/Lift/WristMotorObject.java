@@ -70,7 +70,7 @@ public class WristMotorObject {
 
     public double getTargetAngle() { return targetAngle; }
 
-    public boolean closeToTarget() { return !(tooLow() && tooHigh()); }
+    public boolean movingToTarget() { return (tooLow() || tooHigh()); }
 
 }
 
@@ -85,11 +85,11 @@ class WristThread extends Thread {
     }
     public void start()
     {
-        threadRan = true;
+/*        threadRan = true;
         wrist.setTargetAngle(targetAngle);
         while (wrist.closeToTarget()) {
             wrist.moveCloserToPosition();
-        }
+        }*/
     }
 
 }

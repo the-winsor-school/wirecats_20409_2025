@@ -25,15 +25,6 @@ public class AutoLift {
         wrist = new WristMotorObject(WristMotor, 0.3, 0.15, wristAngle);
     }
 
-    public void moveScissorToPosition (LiftPosition pos){
-        if(pos == LiftPosition.RESET){
-            lift.setTargetPosition(LiftResetValue);
-        }
-        else if(pos == LiftPosition.HIGH_RUNG){
-            lift.setTargetPosition(LiftHighRungValue);
-        }
-    }
-
 /*
     public void moveLiftToPosition (LiftPosition pos){
         if(pos == LiftPosition.RESET){
@@ -63,13 +54,6 @@ public class AutoLift {
 
     public void setWristHighRungPlaceAngle() {
         wrist.setTargetAngle(WristHighRungPlaceAngle);
-    }
-
-    @Deprecated
-    public void setWristTargetPosition(LiftPosition pos) {
-        if (pos == LiftPosition.HIGH_RUNG){
-            wrist.setTargetAngle(WristHighRungAngle);
-        }
     }
 
 }

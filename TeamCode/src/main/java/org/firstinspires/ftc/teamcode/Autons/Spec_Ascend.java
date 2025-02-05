@@ -24,7 +24,7 @@ public class Spec_Ascend extends LinearOpMode {
 
             robot.autoLift.moveLiftToPosition(LiftPosition.HIGH_RUNG);
 
-            while(!robot.autoLift.wrist.closeToTarget()) {
+            while(robot.autoLift.wrist.movingToTarget()) {
                 robot.autoLift.wrist.moveCloserToPosition();
                 sleep(10);
             }
@@ -38,7 +38,7 @@ public class Spec_Ascend extends LinearOpMode {
 
             robot.autoLift.setWristHighRungPlaceAngle();
 
-            while(!robot.autoLift.wrist.closeToTarget()) {
+            while(robot.autoLift.wrist.movingToTarget()) {
                 robot.autoLift.wrist.moveCloserToPosition();
             }
 
