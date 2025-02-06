@@ -7,36 +7,44 @@ import org.firstinspires.ftc.teamcode.Enums.MotorState;
 
 public class AutoDriving {
 
-    private Wheels wheels;
+    private final Wheels wheels;
 
-    private double cmPerTick;
+    /**
+     * converts cm tob wheels tick based on revs, ticks per rev, and gearboxes
+     */
+    private final double cmPerTick;
 
-    //test for this value after any major changes to the robot
-    //limit is found when robot start to slip/skid when acceleration
+    /**
+     * test for this value after any major changes to the robot
+     *  limit is found when robot start to slip/skid when acceleration
+     */
     private double maxAcceleration = 20; //measure in some unit
 
     public final int wheelsTolerance = 50;
     private double horizontalStretchSigmoid;
 
-    //horizontal shift for sigmoid so that left side lines up with x=0
-    //makes point (0, 0.1) on the function
+    /**
+     *horizontal shift for sigmoid so that left side lines up with x=0
+     *  makes point (0, 0.1) on the function
+     */
     private double horizontalShiftSigmoid;
 
+    /**
+     * domain of sigmoid function is [-1,1]
+     * so total domain is 2 * horizontal stretch
+     */
     private double sigmoidDomain;
 
-    //experimentally found distance travelled during sigmoid function
-    //run sigmoid function and measure with ruler for distance in cm
+    /**
+     * experimentally found distance travelled during sigmoid function
+     * run sigmoid function and measure with ruler for distance in cm
+     */
     private final double sigmoidDistance = 0;
 
     public AutoDriving(Wheels wheels) {
         this.wheels = wheels;
 
-        horizontalStretchSigmoid = 4 * maxAcceleration;
-        horizontalShiftSigmoid = Math.log(9) / maxAcceleration;
-
-        //domain of sigmoid function is [-1,1]
-        //so total domain is 2 * horizontal stretch
-        sigmoidDomain = 2 / horizontalStretchSigmoid;
+        calculationsBasedOnMaxAccel();
 
         cmPerTick = 0.059418;
     }
@@ -93,23 +101,25 @@ public class AutoDriving {
     private double sigmoidIntegral(double ticks, double horizontalStretchSigIntegral) {
         return (Math.log(1+Math.exp(ticks*horizontalStretchSigIntegral))/horizontalStretchSigIntegral); }
 
+    private void calculationsBasedOnMaxAccel() {
+        horizontalStretchSigmoid = 4 * maxAcceleration;
+        horizontalShiftSigmoid = Math.log(9) / maxAcceleration;
+        sigmoidDomain = 2 / horizontalStretchSigmoid;
+    }
+
 
     //MAX ACCEL CHANGES
     public double getMaxAcceleration() { return maxAcceleration; }
+
     /**
      * only use for teleOp
      */
     public void adjustMaxAcceleration(double maxAccelerationAdjustment) {
         this.maxAcceleration += maxAccelerationAdjustment;
+        calculationsBasedOnMaxAccel();
     }
 
-    public void stop() {
-        wheels.stop();
-    }
-
-    public double getCmPerTick() {
-        return cmPerTick;
-    }
+    public void stop() { wheels.stop(); }
 
     public void turn (double t) { wheels.setEachPower(t, t, -t, -t); }
 
@@ -119,6 +129,30 @@ public class AutoDriving {
         } else if (orientation == DrivingOrientation.HORIZONTAL) {
             wheels.horizontal(power);
         }
+    }
+
+    /**
+     * drives a certain distance using the built in encoders
+     * this function will stealn your thread and is NOT ASYNC
+     * @param orientation horizontal vs vertical
+     * @param distance in cm
+     */
+    public void distanceDrivingSync(DrivingOrientation orientation, double distance) {
+        int ticksDist = (int) Math.round(distance / cmPerTick);
+        wheels.resetEncoders();
+        wheels.setTargetPositionTolerance(wheelsTolerance);
+        wheels.setAllPowers(1);
+        if (orientation == DrivingOrientation.VERTICAL) {
+            wheels.setAllTargetPosition(ticksDist);
+        } else if (orientation == DrivingOrientation.HORIZONTAL) {
+            wheels.setEachTargetPosition(-ticksDist, ticksDist, ticksDist, -ticksDist);
+        }
+        while (((wheels.getAverageCurrentPosition() - wheelsTolerance) > ticksDist) ||
+                ((wheels.getAverageCurrentPosition() - wheelsTolerance) < ticksDist)) {
+            wheels.runToPosition();
+        }
+        wheels.runWithoutEncoders();
+        wheels.stop();
     }
 
 }

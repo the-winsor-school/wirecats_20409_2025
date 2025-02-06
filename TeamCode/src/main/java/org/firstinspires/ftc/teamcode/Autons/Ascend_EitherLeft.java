@@ -25,6 +25,7 @@ public class Ascend_EitherLeft extends LinearOpMode {
             //move forward to ascend zone
             //TODO test this without sigmoid
             //robot.autoDriving.sigmoidTime(DrivingOrientation.VERTICAL, MotorState.FORWARD, 1000);
+            robot.autoDriving.distanceDrivingSync(DrivingOrientation.HORIZONTAL, 150);
 
             //move right into ascent zone
             while(!robot.rightColorObject.whiteTape()) {
