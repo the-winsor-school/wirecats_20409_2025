@@ -68,49 +68,6 @@ public class AutoDriving {
         wheels.stop();
     }
 
-    /**
-     *
-     * @param orientation vertical vs horizontal
-     * @param distance in cm
-     */
-    public void sigmoidDistance(Driving_Orientation orientation, int distance) {
-        double maxPowerDistance = distance - (2 * sigmoidDistance);
-
-        //acceleration
-        sigmoidSection(orientation, true);
-
-        //max power
-        distanceDriving(orientation, maxPowerDistance);
-
-        //deceleration
-        sigmoidSection(orientation, false);
-
-        wheels.stop();
-    }
-
-    /**
-     *
-     * @param orientation horizontal vs vertical
-     * @param distance in cm
-     */
-    public void distanceDriving(Driving_Orientation orientation, double distance) {
-        int ticksDist = (int) Math.round(distance / cmPerTick);
-        wheels.resetEncoders();
-        wheels.setTargetPositionTolerance(wheelsTolerance);
-        wheels.setAllPowers(1);
-        if (orientation == Driving_Orientation.VERTICAL) {
-            wheels.setAllTargetPosition(ticksDist);
-        } else if (orientation == Driving_Orientation.HORIZONTAL) {
-            wheels.setEachTargetPosition(-ticksDist, ticksDist, ticksDist, -ticksDist);
-        }
-        while (((wheels.getAverageCurrentPosition() - wheelsTolerance) > ticksDist) ||
-                ((wheels.getAverageCurrentPosition() - wheelsTolerance) < ticksDist)) {
-            wheels.runToPosition();
-        }
-        wheels.runWithoutEncoders();
-        wheels.stop();
-    }
-
     public enum Driving_Orientation {
         HORIZONTAL,
         VERTICAL
