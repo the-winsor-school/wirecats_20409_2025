@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.Lift.TeleOpLift;
 public class TeleOp extends LinearOpMode {
 
     Robot robot;
-    //I declare this lift varaible just so i dont have to say robot.lift everytime
     TeleOpLift lift;
 
     public void runOpMode() throws InterruptedException {
@@ -29,6 +28,7 @@ public class TeleOp extends LinearOpMode {
             float t = gamepad1.left_stick_x;
 
             robot.teleOpDriving.joystickDrive(x, y, t);
+            
 
             //adjusting speed
             if (gamepad1.right_bumper)
@@ -43,15 +43,14 @@ public class TeleOp extends LinearOpMode {
             //claw code
             if (gamepad2.right_bumper)
                 robot.claw.moveClaw(ClawPosition.CLOSE);
-            if (gamepad2.left_bumper)
+            else if (gamepad2.left_bumper)
                 robot.claw.moveClaw(ClawPosition.OPEN);
-
+            else
+                robot.claw.moveClaw(ClawPosition.STOP);
 
             //control lift with right stick y value on mech controller
-            //y inputs negative bc thats how the controllers are (up is -1)
-            lift.joystickControlLift(-gamepad2.right_stick_y);
-            lift.joystickControlWrist(-gamepad2.left_stick_y);
-
+            lift.joystickControlLift(gamepad2.right_stick_y);
+            lift.joystickControlWrist(gamepad2.left_stick_y);
 
             //_______________________________________________
             //             PRINT STATEMENTS
