@@ -2,8 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Lift.LiftEnums.ClawPosition;
-import org.firstinspires.ftc.teamcode.Lift.AutoLift;
+import org.firstinspires.ftc.teamcode.Enums.ClawPosition;
 import org.firstinspires.ftc.teamcode.Lift.TeleOpLift;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")

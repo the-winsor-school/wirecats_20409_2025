@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Lift;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.Lift.LiftEnums.MotorState;
+import org.firstinspires.ftc.teamcode.Enums.MotorState;
 
 public class EncoderMotorObject {
     //motor uses DcMotorEx instead of DcMotor to allow us to have more control over the encoder loop
@@ -44,7 +44,7 @@ public class EncoderMotorObject {
             return MotorState.FORWARD;
         }
         else if (motor.getPower() > 0) {
-            return MotorState.REVERSE;
+            return MotorState.BACKWARDS;
         }
         return MotorState.STOP;
     }

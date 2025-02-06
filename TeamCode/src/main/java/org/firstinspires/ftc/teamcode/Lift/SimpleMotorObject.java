@@ -1,9 +1,8 @@
 package org.firstinspires.ftc.teamcode.Lift;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.Lift.LiftEnums.MotorState;
+import org.firstinspires.ftc.teamcode.Enums.MotorState;
 
 //This class only uses setPower and NO ENCODERS (used for teleOp)
 public class SimpleMotorObject {
@@ -28,7 +27,7 @@ public class SimpleMotorObject {
             return MotorState.FORWARD;
         }
         else if (motor.getPower() > 0) {
-            return MotorState.REVERSE;
+            return MotorState.BACKWARDS;
         }
         return MotorState.STOP;
     }

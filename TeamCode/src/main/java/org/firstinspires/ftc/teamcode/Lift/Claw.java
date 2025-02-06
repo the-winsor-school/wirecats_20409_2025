@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Lift;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 
-import org.firstinspires.ftc.teamcode.Lift.LiftEnums.ClawPosition;
+import org.firstinspires.ftc.teamcode.Enums.ClawPosition;
 
 public class Claw {
 

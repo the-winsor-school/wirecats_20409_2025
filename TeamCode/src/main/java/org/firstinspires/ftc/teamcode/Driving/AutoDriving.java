@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.Driving;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
+import org.firstinspires.ftc.teamcode.Enums.MotorState;
+
 public class AutoDriving {
 
     private Wheels wheels;
@@ -43,45 +46,43 @@ public class AutoDriving {
      * @param orientation is vertical vs horizontal move
      * @param totalTime total time for movement in milliseconds
      */
-    public void sigmoidTime(Driving_Orientation orientation, int totalTime) {
+    public void sigmoidTime(DrivingOrientation orientation, MotorState direction, int totalTime) {
 
         //this is the amount of time the wheels are moving at max power
         //this is the total time - (2* acceleration time)
         //acceleration time is the domain of the sigmoid
         double maxPowerTime = totalTime - (2 * sigmoidDomain);
 
+        int directionCoefficient = direction==MotorState.FORWARD?1:-1;
+
         //acceleration period
-        sigmoidSection(orientation, true);
+        sigmoidSection(orientation, direction, true);
 
         //regular straight motion
         ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
         timer.reset();
         while(timer.time() < maxPowerTime) {
-            simpleDrive(orientation, 1);
+            simpleDrive(orientation, directionCoefficient);
         }
 
         //deceleration period
-        sigmoidSection(orientation, false);
+        sigmoidSection(orientation, direction, false);
 
         //stop motion
         wheels.stop();
     }
 
-    public enum Driving_Orientation {
-        HORIZONTAL,
-        VERTICAL
-    }
-
-    public void sigmoidSection(Driving_Orientation orientation, Boolean accelerating) {
+    public void sigmoidSection(DrivingOrientation orientation, MotorState direction, Boolean accelerating) {
         ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
-        int directionCoefficient = accelerating?1:-1;
+        int accelerationDirectionCoefficient = accelerating?1:-1;
+        int directionCoefficient = direction==MotorState.FORWARD?1:-1;
 
         timer.reset();
         while (timer.time() < sigmoidDomain) {
-            double currentPower = sigmoid((directionCoefficient * (timer.time() + horizontalShiftSigmoid)), horizontalStretchSigmoid);
-            simpleDrive(orientation, currentPower);
+            double currentPower = sigmoid((accelerationDirectionCoefficient * (timer.time() + horizontalShiftSigmoid)), horizontalStretchSigmoid);
+            simpleDrive(orientation, (directionCoefficient * currentPower));
         }
     }
 
@@ -112,10 +113,10 @@ public class AutoDriving {
 
     public void turn (double t) { wheels.setEachPower(t, t, -t, -t); }
 
-    public void simpleDrive(Driving_Orientation orientation, double power) {
-        if (orientation == Driving_Orientation.VERTICAL) {
+    public void simpleDrive(DrivingOrientation orientation, double power) {
+        if (orientation == DrivingOrientation.VERTICAL) {
             wheels.vertical(power);
-        } else if (orientation == Driving_Orientation.HORIZONTAL) {
+        } else if (orientation == DrivingOrientation.HORIZONTAL) {
             wheels.horizontal(power);
         }
     }

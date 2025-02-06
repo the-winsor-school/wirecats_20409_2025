@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Lift.LiftEnums;
+package org.firstinspires.ftc.teamcode.Enums;
 
 public enum LiftPosition {
         RESET,

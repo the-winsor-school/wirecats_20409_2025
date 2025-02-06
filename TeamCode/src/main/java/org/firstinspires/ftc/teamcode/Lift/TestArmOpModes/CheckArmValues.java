@@ -3,10 +3,8 @@ package org.firstinspires.ftc.teamcode.Lift.TestArmOpModes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Lift.LiftEnums.LiftPosition;
+import org.firstinspires.ftc.teamcode.Enums.LiftPosition;
 import org.firstinspires.ftc.teamcode.Robot;
-
-import java.lang.annotation.Target;
 
 @TeleOp(name = "Check Arm Locations", group = "arm_test")
 public class CheckArmValues extends LinearOpMode {
