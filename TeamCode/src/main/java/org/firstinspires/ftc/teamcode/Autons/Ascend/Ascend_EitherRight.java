@@ -18,7 +18,7 @@ public class Ascend_EitherRight extends LinearOpMode {
         if (opModeIsActive()) {
             //moves left to align with zone
             //TODO test this time value
-            robot.autoDriving.horizontalSigmoidTime(-1, 1300);
+            robot.autoDriving.horizontalSigmoidTime(-1, 2000);
 
             //move forward to ascend zone
             robot.autoDriving.verticalSigmoidTime(1, 1000);
