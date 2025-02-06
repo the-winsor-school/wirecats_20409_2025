@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.Autons.Ascend;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
+@Disabled
 @Autonomous(name = "Ascend: BlueRight or RedRight", group= "ascend")
 public class Ascend_EitherRight extends LinearOpMode {
 
@@ -17,7 +19,6 @@ public class Ascend_EitherRight extends LinearOpMode {
 
         if (opModeIsActive()) {
             //moves left to align with zone
-            //TODO test this time value
             robot.autoDriving.horizontalSigmoidTime(-1, 2000);
 
             //move forward to ascend zone

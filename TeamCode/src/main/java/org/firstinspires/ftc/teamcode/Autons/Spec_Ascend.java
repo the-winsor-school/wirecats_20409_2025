@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.Autons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Lift.LiftEnums.ClawPosition;
 import org.firstinspires.ftc.teamcode.Lift.LiftEnums.LiftPosition;
 import org.firstinspires.ftc.teamcode.Robot;
-
+@Disabled
 @Autonomous(name = "Spec + Ascend: EitherRight", group= "spec_ascend")
 public class Spec_Ascend extends LinearOpMode {
 
