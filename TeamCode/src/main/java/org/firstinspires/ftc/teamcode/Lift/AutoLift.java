@@ -11,7 +11,6 @@ public class AutoLift {
     public WristMotorObject wrist;
 
     //arm location encoder values
-    //TODO find the values
     public final int LiftResetValue = 0;
     public final int LiftHighRungValue = 5000;
     public final double WristResetAngle = 3.37;
@@ -40,11 +39,15 @@ public class AutoLift {
     }
 */
 
-    public void moveLiftToPosition (LiftPosition pos){
+    /**
+     * moves scissor lift async
+     * moves wrist sync with wrist.moveCloserToPosition() function
+     * @param pos desired lift position
+     */
+    public void moveLiftToPosition(LiftPosition pos){
         if(pos == LiftPosition.RESET){
             lift.setTargetPosition(LiftResetValue);
             wrist.setTargetAngle(WristResetAngle);
-
         }
         else if(pos == LiftPosition.HIGH_RUNG){
             lift.setTargetPosition(LiftHighRungValue);
@@ -52,6 +55,9 @@ public class AutoLift {
         }
     }
 
+    /**
+     * requires wrist.moveCloserToPosition() function
+     */
     public void setWristHighRungPlaceAngle() {
         wrist.setTargetAngle(WristHighRungPlaceAngle);
     }

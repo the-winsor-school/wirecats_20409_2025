@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  * so it will inheriet all the properites and functions in this class
  */public class OurDistanceSensor {
 
-    private DistanceSensor sensor;
+    private final DistanceSensor sensor;
 
     public OurDistanceSensor(DistanceSensor sensor) {
         this.sensor = sensor;
