@@ -22,21 +22,6 @@ public class AutoLift {
         wrist = new WristMotorObject(WristMotor, 0.3, 0.15, wristAngle);
     }
 
-/*
-    public void moveLiftToPosition (LiftPosition pos){
-        if(pos == LiftPosition.RESET){
-            lift.setTargetPosition(LiftResetValue);
-            WristThread wristThread = new WristThread(wrist, WristResetAngle);
-            wristThread.start();
-        }
-        else if(pos == LiftPosition.HIGH_RUNG){
-            lift.setTargetPosition(LiftHighRungValue);
-            WristThread wristThread = new WristThread(wrist, WristHighRungAngle);
-            wristThread.start();
-        }
-    }
-*/
-
     /**
      * moves scissor lift async
      * moves wrist sync with wrist.moveCloserToPosition() function
@@ -50,6 +35,25 @@ public class AutoLift {
         else if(pos == LiftPosition.HIGH_RUNG){
             lift.setTargetPosition(LiftHighRungValue);
             wrist.setTargetAngle(WristHighRungAngle);
+        }
+    }
+
+    public void moveScissorToPosition(LiftPosition pos){
+        if(pos == LiftPosition.RESET){
+            lift.setTargetPosition(LiftResetValue);
+        }
+        else if(pos == LiftPosition.HIGH_RUNG){
+            lift.setTargetPosition(LiftHighRungValue);
+        }
+    }
+
+    public void moveWristToPosition(LiftPosition pos){
+        if(pos == LiftPosition.RESET){
+            wrist.setTargetAngle(WristResetAngle);
+        }
+        else if(pos == LiftPosition.HIGH_RUNG){
+            WristThread wristThread = new WristThread(wrist, WristHighRungAngle);
+            wristThread.start();
         }
     }
 

@@ -7,7 +7,7 @@ public class WristMotorObject {
     //motor uses DcMotorEx instead of DcMotor to allow us to have more control over the encoder loop
     //encoder loop is when we set target position and tell the motor to run to that position
     //with DcMotorEx we can adjust the tolerance
-    //DcMotorEx would also allow us to eadily impelement PID coeffients if we wanted to get really fancy
+    //DcMotorEx would also allow us to easily implement PID coefficients if we wanted to get really fancy
 
     private final DcMotorEx motor;
     public final double powerUsed;
@@ -17,7 +17,6 @@ public class WristMotorObject {
     public final double tolerance;
 
     private double targetAngle;
-
 
     public WristMotorObject (DcMotorEx wristMotor, double powerUsed, double tolerance, AnalogInput wristAngle) {
 
@@ -63,12 +62,12 @@ public class WristMotorObject {
     public void moveCloserToPosition() {
         double power = powerUsed;
         if (Math.abs(getCurrentAngle() - targetAngle) < 0.5) {
-            power = powerUsed/2;
+            power = 2*powerUsed/3;
         }
         if (tooHigh()) {
-            motor.setPower(power); //will be multiplied by power used
+            motor.setPower(-power); //will be multiplied by power used
         } else if (tooLow()) {
-            motor.setPower(-power);
+            motor.setPower(power);
         }
     }
 
@@ -98,7 +97,6 @@ public class WristMotorObject {
     public boolean movingToTarget() { return (tooLow() || tooHigh()); }
 
 }
-@Deprecated
 class WristThread extends Thread {
     private final WristMotorObject wrist;
     private final double targetAngle;
@@ -110,11 +108,11 @@ class WristThread extends Thread {
     }
     public void start()
     {
-/*        threadRan = true;
+        threadRan = true;
         wrist.setTargetAngle(targetAngle);
-        while (wrist.closeToTarget()) {
+        while (!wrist.movingToTarget()) {
             wrist.moveCloserToPosition();
-        }*/
+        }
     }
 
 }
