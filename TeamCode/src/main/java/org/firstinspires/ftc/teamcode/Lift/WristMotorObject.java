@@ -1,14 +1,7 @@
 package org.firstinspires.ftc.teamcode.Lift;
 
 import com.qualcomm.robotcore.hardware.AnalogInput;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-
-import org.firstinspires.ftc.teamcode.Lift.LiftEnums.LiftPosition;
-import org.firstinspires.ftc.teamcode.Lift.LiftEnums.MotorState;
-
-import java.security.Policy;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class WristMotorObject {
     //motor uses DcMotorEx instead of DcMotor to allow us to have more control over the encoder loop

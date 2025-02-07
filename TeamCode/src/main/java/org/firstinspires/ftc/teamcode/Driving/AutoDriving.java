@@ -2,137 +2,97 @@ package org.firstinspires.ftc.teamcode.Driving;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
+import org.firstinspires.ftc.teamcode.Enums.MotorState;
+
 public class AutoDriving {
 
-    private Wheels wheels;
+    private final Wheels wheels;
 
-    private double cmPerTick;
+    /**
+     * converts cm tob wheels tick based on revs, ticks per rev, and gearboxes
+     */
+    public final double cmPerTick;
 
-    public final int tolerance = 10; //in ticks
-
-    //test for this value after any major changes to the robot
-    //limit is found when robot start to slip/skid when acceleration
+    /**
+     * test for this value after any major changes to the robot
+     *  limit is found when robot start to slip/skid when acceleration
+     */
     private double maxAcceleration = 20; //measure in some unit
 
+    public final int wheelsTolerance = 50;
     private double horizontalStretchSigmoid;
 
-    //horizontal shift for sigmoid so that left side lines up with x=0
-    //makes point (0, 0.1) on the function
+    /**
+     *horizontal shift for sigmoid so that left side lines up with x=0
+     *  makes point (0, 0.1) on the function
+     */
     private double horizontalShiftSigmoid;
 
+    /**
+     * domain of sigmoid function is [-1,1]
+     * so total domain is 2 * horizontal stretch
+     */
     private double sigmoidDomain;
+
+    /**
+     * experimentally found distance travelled during sigmoid function
+     * run sigmoid function and measure with ruler for distance in cm
+     */
+    private final double sigmoidDistance = 0;
 
     public AutoDriving(Wheels wheels) {
         this.wheels = wheels;
 
-        horizontalStretchSigmoid = 4 * maxAcceleration;
-        horizontalShiftSigmoid = Math.log(9) / maxAcceleration;
-
-        //domain of sigmoid function is [-1,1]
-        //so total domain is 2 * horizontal stretch
-        double sigmoidDomain = 2 / horizontalStretchSigmoid;
+        calculationsBasedOnMaxAccel();
 
         cmPerTick = 0.059418;
     }
 
     /**
      * this is not an async function it will steal your thread
+     * DO NOT USE FOR HORIZONTAL
+     * @param orientation is vertical vs horizontal move
      * @param totalTime total time for movement in milliseconds
      */
-    public void horizontalSigmoidTime(double maxPower, int totalTime) {
-        ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+    public void sigmoidTime(DrivingOrientation orientation, MotorState direction, int totalTime) {
 
         //this is the amount of time the wheels are moving at max power
         //this is the total time - (2* acceleration time)
         //acceleration time is the domain of the sigmoid
         double maxPowerTime = totalTime - (2 * sigmoidDomain);
 
+        int directionCoefficient = direction==MotorState.FORWARD?1:-1;
+
         //acceleration period
-        timer.reset();
-        while(timer.time() < sigmoidDomain) {
-            double power = sigmoid((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
-            wheels.horizontal(maxPower * power);
-        }
+        sigmoidSection(orientation, direction, true);
 
         //regular straight motion
-        timer.reset();
-        while(timer.time() < maxPowerTime) {
-            wheels.horizontal(maxPower * 1);
-        }
-
-        //deceleration period
-        timer.reset();
-        while(timer.time() < sigmoidDomain) {
-            //reflects sigmoid over y axis by negatizing x values
-            double power = sigmoid(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
-            wheels.horizontal(maxPower * power);
-        }
-
-        //stop motion
-        wheels.stop();
-    }
-
-    /**
-     * this is not an async function it will steal your thread
-     * @param totalTime total time for movement in milliseconds
-     */
-    public void verticalSigmoidTime(double maxPower, int totalTime) {
         ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
-        //this is the amount of time the wheels are moving at max power
-        //this is the total time - (2* acceleration time)
-        //acceleration time is the domain of the sigmoid
-        double maxPowerTime = totalTime - (2 * sigmoidDomain);
-
-        //acceleration period
-        timer.reset();
-        while(timer.time() < sigmoidDomain) {
-            double power = sigmoid((timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
-            wheels.vertical(maxPower * power);
-        }
-
-        //regular straight motion
         timer.reset();
         while(timer.time() < maxPowerTime) {
-            wheels.vertical(maxPower * 1);
+            simpleDrive(orientation, directionCoefficient);
         }
 
         //deceleration period
-        timer.reset();
-        while(timer.time() < sigmoidDomain) {
-            //reflects sigmoid over y axis by negatizing x values
-            double power = sigmoid(-(timer.time() + horizontalShiftSigmoid), horizontalStretchSigmoid);
-            wheels.vertical(maxPower * power);
-        }
+        sigmoidSection(orientation, direction, false);
 
         //stop motion
         wheels.stop();
     }
 
-    //DISTANCE FUNCTIONS
+    public void sigmoidSection(DrivingOrientation orientation, MotorState direction, Boolean accelerating) {
+        ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
-    /**
-     * @param maxPower for wheels (not the whole time because of accerlation)
-     * @param distance given in cm
-     */
-    public void verticalDist(double maxPower, double distance) {
-        int targetTicks = (int) Math.round(distance * (1/cmPerTick));
-        wheels.setAllPowers(maxPower);
-        wheels.resetEncoders();
-        wheels.setAllTargetPosition(targetTicks);
-        wheels.runToPosition();
+        int accelerationDirectionCoefficient = accelerating?1:-1;
+        int directionCoefficient = direction==MotorState.FORWARD?1:-1;
 
-    }
-
-    public void horizontalDist(double maxPower, double distance) {
-        int targetTicks = (int) Math.round(distance * (1/cmPerTick));
-        wheels.setAllPowers(maxPower);
-        wheels.resetEncoders();
-        wheels.setEachTargetPosition(-targetTicks,
-                targetTicks,
-                targetTicks,
-                -targetTicks);
-        wheels.runToPosition();
+        timer.reset();
+        while (timer.time() < sigmoidDomain) {
+            double currentPower = sigmoid((accelerationDirectionCoefficient * (timer.time() + horizontalShiftSigmoid)), horizontalStretchSigmoid);
+            simpleDrive(orientation, (directionCoefficient * currentPower));
+        }
     }
 
     //MATH FUNCTIONS
@@ -142,27 +102,58 @@ public class AutoDriving {
     private double sigmoidIntegral(double ticks, double horizontalStretchSigIntegral) {
         return (Math.log(1+Math.exp(ticks*horizontalStretchSigIntegral))/horizontalStretchSigIntegral); }
 
+    private void calculationsBasedOnMaxAccel() {
+        horizontalStretchSigmoid = 4 * maxAcceleration;
+        horizontalShiftSigmoid = Math.log(9) / maxAcceleration;
+        sigmoidDomain = 2 / horizontalStretchSigmoid;
+    }
+
 
     //MAX ACCEL CHANGES
     public double getMaxAcceleration() { return maxAcceleration; }
+
     /**
      * only use for teleOp
      */
     public void adjustMaxAcceleration(double maxAccelerationAdjustment) {
         this.maxAcceleration += maxAccelerationAdjustment;
+        calculationsBasedOnMaxAccel();
     }
 
-    public void stop() {
-        wheels.stop();
-    }
-
-    public double getCmPerTick() {
-        return cmPerTick;
-    }
+    public void stop() { wheels.stop(); }
 
     public void turn (double t) { wheels.setEachPower(t, t, -t, -t); }
 
-    public void vertical (double speed) { wheels.vertical(speed); }
-    public void horizontal (double speed) { wheels.horizontal(speed); }
+    public void simpleDrive(DrivingOrientation orientation, double power) {
+        if (orientation == DrivingOrientation.VERTICAL) {
+            wheels.vertical(power);
+        } else if (orientation == DrivingOrientation.HORIZONTAL) {
+            wheels.horizontal(power);
+        }
+    }
+
+    /**
+     * drives a certain distance using the built in encoders
+     * this function will stealn your thread and is NOT ASYNC
+     * @param orientation horizontal vs vertical
+     * @param distance in cm
+     */
+    public void distanceDrivingSync(DrivingOrientation orientation, double distance) {
+        int ticksDist = (int) Math.round(distance / cmPerTick);
+        wheels.resetEncoders();
+        wheels.setTargetPositionTolerance(wheelsTolerance);
+        wheels.setAllPowers(1);
+        if (orientation == DrivingOrientation.VERTICAL) {
+            wheels.setAllTargetPosition(ticksDist);
+        } else if (orientation == DrivingOrientation.HORIZONTAL) {
+            wheels.setEachTargetPosition(-ticksDist, ticksDist, ticksDist, -ticksDist);
+        }
+        while (((wheels.getAverageCurrentPosition() - wheelsTolerance) > ticksDist) ||
+                ((wheels.getAverageCurrentPosition() - wheelsTolerance) < ticksDist)) {
+            wheels.runToPosition();
+        }
+        wheels.runWithoutEncoders();
+        wheels.stop();
+    }
 
 }

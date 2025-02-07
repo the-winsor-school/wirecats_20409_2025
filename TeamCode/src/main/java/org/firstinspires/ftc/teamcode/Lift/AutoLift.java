@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.Lift;
 
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import org.firstinspires.ftc.teamcode.Lift.LiftEnums.LiftPosition;
-
-import java.util.HashMap;
+import org.firstinspires.ftc.teamcode.Enums.LiftPosition;
 
 public class AutoLift {
     public EncoderMotorObject lift;
@@ -18,7 +16,7 @@ public class AutoLift {
 
     public final double WristHighRungPlaceAngle = 1.37;
 
-
+    @Deprecated
     public AutoLift(DcMotorEx LiftMotor, DcMotorEx WristMotor, AnalogInput wristAngle){
         lift = new EncoderMotorObject(LiftMotor, 1, 300);
         wrist = new WristMotorObject(WristMotor, 0.3, 0.15, wristAngle);
