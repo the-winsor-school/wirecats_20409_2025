@@ -12,7 +12,7 @@ public class AutoDriving {
     /**
      * converts cm tob wheels tick based on revs, ticks per rev, and gearboxes
      */
-    private final double cmPerTick;
+    public final double cmPerTick;
 
     /**
      * test for this value after any major changes to the robot
@@ -51,6 +51,7 @@ public class AutoDriving {
 
     /**
      * this is not an async function it will steal your thread
+     * DO NOT USE FOR HORIZONTAL
      * @param orientation is vertical vs horizontal move
      * @param totalTime total time for movement in milliseconds
      */

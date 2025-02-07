@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
 import org.firstinspires.ftc.teamcode.Enums.MotorState;
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous(name = "Ascend: BlueLeft or RedLeft", group= "ascend")
+@Autonomous(name = "Ascend: Either Left", group= "ascend")
 public class Ascend_EitherLeft extends LinearOpMode {
 
     Robot robot;
@@ -20,15 +20,15 @@ public class Ascend_EitherLeft extends LinearOpMode {
 
         if (opModeIsActive()) {
             //moves left to move past submersible
-            robot.autoDriving.sigmoidTime(DrivingOrientation.HORIZONTAL, MotorState.BACKWARDS, 1000);
+            while (robot.leftDistObject.isDistanceGreater(60) && opModeIsActive()) {
+                robot.autoDriving.simpleDrive(DrivingOrientation.HORIZONTAL, -0.5);
+            }
 
             //move forward to ascend zone
-            //TODO test this without sigmoid
-            //robot.autoDriving.sigmoidTime(DrivingOrientation.VERTICAL, MotorState.FORWARD, 1000);
-            robot.autoDriving.distanceDrivingSync(DrivingOrientation.HORIZONTAL, 150);
+            robot.autoDriving.sigmoidTime(DrivingOrientation.VERTICAL, MotorState.FORWARD, 1000);
 
             //move right into ascent zone
-            while(!robot.rightColorObject.whiteTape()) {
+            while(!robot.rightColorObject.whiteTape() && opModeIsActive()) {
                 robot.autoDriving.simpleDrive(DrivingOrientation.HORIZONTAL, 0.5);
                 sleep(20);
             }
