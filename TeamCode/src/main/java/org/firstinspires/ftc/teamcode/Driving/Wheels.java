@@ -60,6 +60,10 @@ public class Wheels {
         lb.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
+    public int getAverageCurrentPosition() {
+        return (rf.getCurrentPosition() + rb.getCurrentPosition() + lf.getCurrentPosition() + lb.getCurrentPosition()) / 4;
+    }
+
     public void setAllTargetPosition(int targetPosition) {
         rf.setTargetPosition(targetPosition);
         rb.setTargetPosition(targetPosition);
@@ -83,10 +87,21 @@ public class Wheels {
 
     public void resetEncoders() {
         rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         rf.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         rb.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         lf.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         lb.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    public void runWithoutEncoders() {
+        rf.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        rb.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        lf.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        lb.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public boolean wheelsMoving() {

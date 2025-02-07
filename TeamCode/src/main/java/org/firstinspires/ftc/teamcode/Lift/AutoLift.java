@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.Lift;
 
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import org.firstinspires.ftc.teamcode.Lift.LiftEnums.LiftPosition;
-
-import java.util.HashMap;
+import org.firstinspires.ftc.teamcode.Enums.LiftPosition;
 
 public class AutoLift {
     public EncoderMotorObject lift;

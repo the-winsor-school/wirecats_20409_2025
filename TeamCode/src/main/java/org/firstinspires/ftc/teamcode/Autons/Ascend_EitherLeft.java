@@ -3,9 +3,12 @@ package org.firstinspires.ftc.teamcode.Autons;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Driving.AutoDriving;
+import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
+import org.firstinspires.ftc.teamcode.Enums.MotorState;
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous(name = "Ascend: BlueLeft or RedLeft", group= "ascend")
+@Autonomous(name = "Ascend: Either Left", group= "ascend")
 public class Ascend_EitherLeft extends LinearOpMode {
 
     Robot robot;
@@ -16,15 +19,17 @@ public class Ascend_EitherLeft extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            //moves left to align with zone
-            robot.autoDriving.horizontalSigmoidTime(-1, 1000);
+            //moves left to move past submersible
+            while (robot.leftDistObject.isDistanceGreater(60) && opModeIsActive()) {
+                robot.autoDriving.simpleDrive(DrivingOrientation.HORIZONTAL, -0.5);
+            }
 
             //move forward to ascend zone
-            robot.autoDriving.verticalSigmoidTime(1, 1000);
+            robot.autoDriving.sigmoidTime(DrivingOrientation.VERTICAL, MotorState.FORWARD, 1000);
 
             //move right into ascent zone
-            while(!robot.rightColorObject.whiteTape()) {
-                robot.autoDriving.horizontal(0.5);
+            while(!robot.rightColorObject.whiteTape() && opModeIsActive()) {
+                robot.autoDriving.simpleDrive(DrivingOrientation.HORIZONTAL, 0.5);
                 sleep(20);
             }
 
