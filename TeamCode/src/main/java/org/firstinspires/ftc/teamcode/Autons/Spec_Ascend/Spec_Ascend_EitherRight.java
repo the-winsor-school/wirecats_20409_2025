@@ -32,8 +32,7 @@ public class Spec_Ascend_EitherRight extends LinearOpMode {
 
             //moves wrist to the correct position
             while(robot.autoLift.wrist.movingToTarget()) {
-                robot.autoLift.wrist.moveCloserToPosition();
-                sleep(10);
+
             }
 
             //moves to the left to align with chamber bars

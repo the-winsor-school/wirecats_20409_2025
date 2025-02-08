@@ -54,4 +54,8 @@ public class AutoLift {
         wrist.setTargetAngle(WristHighRungPlaceAngle);
     }
 
+    public boolean liftStillMoving() {
+        return (lift.motorMoving() || wrist.movingToTarget());
+    }
+
 }
