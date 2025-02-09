@@ -31,25 +31,26 @@ public class Spec_Ascend_EitherRight extends LinearOpMode {
             robot.autoLift.moveLiftToPosition(LiftPosition.HIGH_RUNG);
 
             //moves wrist to the correct position
-            while(robot.autoLift.wrist.movingToTarget()) {
-
+            while(robot.autoLift.liftStillMoving()) {
+                sleep(5);
             }
 
             //moves to the left to align with chamber bars
-            robot.autoDriving.sigmoidTime(DrivingOrientation.HORIZONTAL, MotorState.BACKWARDS, 1000);
+            while(robot.leftDistObject.isDistanceGreater(130) && opModeIsActive()) {
+                robot.autoDriving.simpleDrive(DrivingOrientation.HORIZONTAL, -0.5);
+            }
 
             //move forward until certain distance to align arm with chamber bars
-            while(robot.frontDistObject.isDistanceLess(34)) {
+            while(robot.frontDistObject.isDistanceLess(34) && opModeIsActive()) {
                 robot.autoDriving.simpleDrive(DrivingOrientation.VERTICAL, 0.3);
-                sleep(10);
             }
 
             //set new position for wrist that lowers clip onto the bar
             robot.autoLift.setWristHighRungPlaceAngle();
 
             //actually moves wrist to that position to place spec
-            while(robot.autoLift.wrist.movingToTarget()) {
-                robot.autoLift.wrist.moveCloserToPosition();
+            while(robot.autoLift.liftStillMoving()) {
+                sleep(5);
             }
 
             //open claw to drop spec
