@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
 import org.firstinspires.ftc.teamcode.Enums.LiftPosition;
 import org.firstinspires.ftc.teamcode.Enums.MotorState;
 import org.firstinspires.ftc.teamcode.Robot;
-@Disabled
 @Autonomous(name = "Spec + Ascend: EitherRight", group= "spec_ascend")
 public class Spec_Ascend_EitherRight extends LinearOpMode {
 
@@ -34,6 +33,7 @@ public class Spec_Ascend_EitherRight extends LinearOpMode {
             while(robot.autoLift.liftStillMoving()) {
                 sleep(5);
             }
+/*
 
             //moves to the left to align with chamber bars
             while(robot.leftDistObject.isDistanceGreater(130) && opModeIsActive()) {
@@ -64,6 +64,7 @@ public class Spec_Ascend_EitherRight extends LinearOpMode {
             //then reset lift and move to park
 
             //should park in ascent zone
+*/
 
             robot.autoDriving.stop();
         }
