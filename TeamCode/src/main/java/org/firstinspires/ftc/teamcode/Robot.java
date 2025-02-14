@@ -68,10 +68,10 @@ public class Robot {
     //driving libraries to access the wheels
     private Wheels wheels;
 
-    public AutoDriving autoDriving;
+    //public AutoDriving autoDriving;
     public TeleOpDriving teleOpDriving;
 
-    public AutoLift autoLift;
+    //public AutoLift autoLift;
     public TeleOpLift teleOpLift;
     public Claw claw;
 
@@ -96,12 +96,6 @@ public class Robot {
         lf.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //____ Lift ____
-        wristPotentiometer = map.tryGet(AnalogInput.class, "wristAngle");
-        scissorMotor = map.tryGet(DcMotorEx.class, "lift");
-        wristMotor = map.tryGet(DcMotorEx.class, "wrist");
-        clawServo = map.get(CRServo.class, "servo");
-
-        wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //____ Arm ____
         scissorMotor = map.tryGet(DcMotorEx.class, "lift");
@@ -128,11 +122,11 @@ public class Robot {
         //____ Other Objects ____
         //driving
         wheels = new Wheels(rf, rb, lf, lb);
-        autoDriving = new AutoDriving(wheels);
+        //autoDriving = new AutoDriving(wheels);
         teleOpDriving = new TeleOpDriving(wheels);
 
         //arm
-        autoLift = new AutoLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor, wristPotentiometer);
+        //autoLift = new AutoLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor, wristPotentiometer);
         teleOpLift = new TeleOpLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor);
         claw = new Claw(clawServo);
     }

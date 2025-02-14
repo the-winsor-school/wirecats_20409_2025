@@ -23,7 +23,7 @@ public class SigmoidTest extends LinearOpMode {
 
             while (opModeIsActive()) {
                 telemetry.addLine("Current");
-                telemetry.addData("Cm Per Ticks", robot.autoDriving.cmPerTick);
+                //telemetry.addData("Cm Per Ticks", robot.autoDriving.cmPerTick);
                 robot.printWheelCurrentPosition();
                 telemetry.addLine("Target");
                 robot.printWheelTargetPosition();

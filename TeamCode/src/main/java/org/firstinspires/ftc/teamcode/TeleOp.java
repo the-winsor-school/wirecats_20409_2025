@@ -21,9 +21,9 @@ public class TeleOp extends LinearOpMode {
             //             MAIN CONTROLLER (gamepad1)
             //_______________________________________________
             
-            float x = gamepad1.right_stick_x;
-            float y = -gamepad1.right_stick_y; //inputs from joystick are opposite
-            float t = gamepad1.left_stick_x;
+            float x = gamepad1.left_stick_x;
+            float y = -gamepad1.left_stick_y; //inputs from joystick are opposite
+            float t = gamepad1.right_stick_x;
 
             robot.teleOpDriving.joystickDrive(x, y, t);
             
@@ -66,7 +66,7 @@ public class TeleOp extends LinearOpMode {
 
             telemetry.addLine("----------------LIFT-------------------------");
             telemetry.addData("scissor direction:", robot.teleOpLift.scissor.getMotorState());
-            telemetry.addData("Wrist Current Angle:", robot.autoLift.wrist.getCurrentAngle());
+            //telemetry.addData("Wrist Current Angle:", robot.autoLift.wrist.getCurrentAngle());
 
             telemetry.addLine("----------------CLAW-------------------------");
             telemetry.addData("claw position: ", robot.claw.getCurrentPosition());

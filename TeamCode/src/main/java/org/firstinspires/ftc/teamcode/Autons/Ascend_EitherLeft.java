@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Driving.AutoDriving;
 import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
 import org.firstinspires.ftc.teamcode.Enums.MotorState;
 import org.firstinspires.ftc.teamcode.Robot;
-
+/*
 @Autonomous(name = "Ascend: Either Left", group= "ascend")
 public class Ascend_EitherLeft extends LinearOpMode {
 
@@ -37,3 +37,4 @@ public class Ascend_EitherLeft extends LinearOpMode {
         }
     }
 }
+*/

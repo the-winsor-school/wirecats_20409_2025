@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
 import org.firstinspires.ftc.teamcode.Enums.LiftPosition;
 import org.firstinspires.ftc.teamcode.Enums.MotorState;
 import org.firstinspires.ftc.teamcode.Robot;
+/*
 @Autonomous(name = "Spec + Ascend: EitherRight", group= "spec_ascend")
 public class Spec_Ascend_EitherRight extends LinearOpMode {
 
@@ -81,4 +82,4 @@ public class Spec_Ascend_EitherRight extends LinearOpMode {
 
         }
     }
-}
+}*/

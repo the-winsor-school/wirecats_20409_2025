@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
+/*
 @TeleOp(name = "Finding Arm Values", group = "arm_test")
 public class FindArmValues extends LinearOpMode {
 
@@ -33,3 +34,4 @@ public class FindArmValues extends LinearOpMode {
 
     }
 }
+*/
