@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.Lift.TeleOpLift;
 public class TeleOp extends LinearOpMode {
 
     Robot robot;
-    TeleOpLift lift;
 
     public void runOpMode() throws InterruptedException {
         robot = new Robot(this);
@@ -48,8 +47,8 @@ public class TeleOp extends LinearOpMode {
                 robot.claw.moveClaw(ClawPosition.STOP);
 
             //control lift with right stick y value on mech controller
-            lift.joystickControlLift(gamepad2.right_stick_y);
-            lift.joystickControlWrist(gamepad2.left_stick_y);
+            robot.teleOpLift.joystickControlLift(gamepad2.right_stick_y);
+            robot.teleOpLift.joystickControlWrist(gamepad2.left_stick_y);
 
             //_______________________________________________
             //             PRINT STATEMENTS
@@ -66,7 +65,7 @@ public class TeleOp extends LinearOpMode {
             robot.printWheelPowers();
 
             telemetry.addLine("----------------LIFT-------------------------");
-            telemetry.addData("scissor direction:", lift.scissor.getMotorState());
+            telemetry.addData("scissor direction:", robot.teleOpLift.scissor.getMotorState());
             telemetry.addData("Wrist Current Angle:", robot.autoLift.wrist.getCurrentAngle());
 
             telemetry.addLine("----------------CLAW-------------------------");
