@@ -3,15 +3,14 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Enums.ClawPosition;
-import org.firstinspires.ftc.teamcode.Lift.TeleOpLift;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
 public class TeleOp extends LinearOpMode {
 
-    Robot robot;
+    TeleOpRobot robot;
 
     public void runOpMode() throws InterruptedException {
-        robot = new Robot(this);
+        robot = new TeleOpRobot(this);
 
         waitForStart();
 

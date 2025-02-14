@@ -4,15 +4,15 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.TeleOpRobot;
 @Disabled
 @Autonomous(name = "Auto Test", group="test")
 public class SigmoidTest extends LinearOpMode {
 
-    Robot robot;
+    TeleOpRobot robot;
 
     public void runOpMode() throws InterruptedException {
-        robot = new Robot(this);
+        robot = new TeleOpRobot(this);
 
         int targetDist = 100;
 

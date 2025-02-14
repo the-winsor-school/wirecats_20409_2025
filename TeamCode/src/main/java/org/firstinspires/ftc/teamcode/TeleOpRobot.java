@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-import org.firstinspires.ftc.teamcode.Driving.AutoDriving;
 import org.firstinspires.ftc.teamcode.Driving.TeleOpDriving;
 import org.firstinspires.ftc.teamcode.Driving.Wheels;
 import org.firstinspires.ftc.teamcode.Sensors.OurColorSensor;
@@ -16,7 +15,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 
-import org.firstinspires.ftc.teamcode.Lift.AutoLift;
 import org.firstinspires.ftc.teamcode.Lift.Claw;
 import org.firstinspires.ftc.teamcode.Lift.TeleOpLift;
 
@@ -32,7 +30,7 @@ import org.firstinspires.ftc.teamcode.Lift.TeleOpLift;
  * you cannot access any of the sensors or motors outside of this class (because encapsulation and saefty)
  * you can only control things by using the libraries and the functions within them that are public
  */
-public class Robot {
+public class TeleOpRobot {
 
     /**
      * itializtion of all sensors and motors
@@ -82,7 +80,7 @@ public class Robot {
     /**
      * @param opMode pass by writing: new Robot(this);
      */
-    public Robot(LinearOpMode opMode) {
+    public TeleOpRobot(LinearOpMode opMode) {
         HardwareMap map = opMode.hardwareMap;
         this.opMode = opMode;
 

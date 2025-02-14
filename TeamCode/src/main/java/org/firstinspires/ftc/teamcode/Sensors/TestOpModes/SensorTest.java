@@ -5,15 +5,15 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.TeleOpRobot;
 
 @Disabled
 @TeleOp(name = "Sensor Test", group="test")
 public class SensorTest extends LinearOpMode {
-    Robot robot;
+    TeleOpRobot robot;
 
     public void runOpMode() throws InterruptedException {
-        robot = new Robot(this);
+        robot = new TeleOpRobot(this);
 
         int testTime = 1000; //in milliseconds
         double maxPower = 1;
