@@ -13,13 +13,12 @@ public class AutoLift {
     public final int LiftHighRungValue = 5000;
     public final double WristResetAngle = 3.37;
     public final double WristHighRungAngle = 1.52;
-
     public final double WristHighRungPlaceAngle = 1.37;
 
     @Deprecated
     public AutoLift(DcMotorEx LiftMotor, DcMotorEx WristMotor, AnalogInput wristAngle){
         lift = new EncoderMotorObject(LiftMotor, 1, 300);
-        wrist = new WristMotorObject(WristMotor, 0.3, 0.15, wristAngle);
+        wrist = new WristMotorObject(WristMotor, 0.3, 0.2, wristAngle);
     }
 
     /**
@@ -52,8 +51,7 @@ public class AutoLift {
             wrist.setTargetAngle(WristResetAngle);
         }
         else if(pos == LiftPosition.HIGH_RUNG){
-            WristThread wristThread = new WristThread(wrist, WristHighRungAngle);
-            wristThread.start();
+            wrist.setTargetAngle(WristHighRungAngle);
         }
     }
 

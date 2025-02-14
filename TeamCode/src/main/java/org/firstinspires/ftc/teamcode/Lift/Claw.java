@@ -15,11 +15,11 @@ public class Claw {
 
     public void moveClaw(ClawPosition position) {
         if (position == ClawPosition.CLOSE) {
-            servo.setPower(0.5);
+            servo.setPower(-0.5);
             currentPosition = ClawPosition.CLOSE;
         }
         if (position == ClawPosition.OPEN) {
-            servo.setPower(-0.5);
+            servo.setPower(0.5);
             currentPosition = ClawPosition.OPEN;
         }
         if (position == ClawPosition.STOP) {
