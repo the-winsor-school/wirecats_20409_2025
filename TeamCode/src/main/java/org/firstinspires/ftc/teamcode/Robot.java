@@ -102,7 +102,8 @@ public class Robot {
         wristMotor = map.tryGet(DcMotorEx.class, "wrist");
         clawServo = map.tryGet(CRServo.class, "servo");
 
-        wristMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        scissorMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        wristMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
          //____ Sensors ____
