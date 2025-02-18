@@ -20,6 +20,8 @@ import org.firstinspires.ftc.teamcode.Lift.TeleOpLift;
 
 
 /**
+ * TODO: Explain why the separation of TeleopRobot and AutonRobot were necessary. (Single-Responsibility Principle)
+ * TODO: Brainstorm how we can de-dupilcate code between these two classes while preserving the necessary separation.
  * In this file we:
  * initalize all the sensors, motors, and libraries
  * the motors and sensors go here so we are only initializing them in one place in the whole repo
