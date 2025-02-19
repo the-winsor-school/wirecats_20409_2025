@@ -1,21 +1,23 @@
 package org.firstinspires.ftc.teamcode.Autons.Spec_Ascend;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.AutonRobot;
 import org.firstinspires.ftc.teamcode.Enums.ClawPosition;
 import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
 import org.firstinspires.ftc.teamcode.Enums.LiftPosition;
 import org.firstinspires.ftc.teamcode.Enums.MotorState;
-import org.firstinspires.ftc.teamcode.Robot;
 
+@Disabled
 @Autonomous(name = "Spec + Ascend: Either Left", group= "spec_ascend")
 public class Spec_Ascend_EitherLeft extends LinearOpMode {
 
-    Robot robot;
+    AutonRobot robot;
 
     public void runOpMode() throws InterruptedException {
-        robot = new Robot(this);
+        robot = new AutonRobot(this);
 
         robot.claw.moveClaw(ClawPosition.CLOSE);
 

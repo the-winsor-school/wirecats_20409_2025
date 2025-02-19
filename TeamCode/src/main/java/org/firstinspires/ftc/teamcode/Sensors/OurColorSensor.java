@@ -5,22 +5,19 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 public class OurColorSensor {
     public ColorSensor sensor;
 
-    private int redTapeThreshold;
-    private int blueTapeThreshold;
-    private int whiteTapeThreshold;
+    private final int redTapeThreshold = 5000;
+    private final int blueTapeThreshold = 5000;
+    private final int whiteTapeThreshold = 5000;
 
     public OurColorSensor(ColorSensor sensor) {
         this.sensor = sensor;
-        redTapeThreshold = 2500;
-        blueTapeThreshold = 2500;
-        whiteTapeThreshold = 500;
     }
 
     public boolean redTape(){
         return sensor.red() > redTapeThreshold;
     }
     public boolean blueTape(){
-        return sensor.blue() > redTapeThreshold;
+        return sensor.blue() > blueTapeThreshold;
     }
     public boolean whiteTape(){
         return (sensor.green() > whiteTapeThreshold) && (sensor.red() > whiteTapeThreshold);

@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.TeleOpRobot;
 
-@Disabled
 @TeleOp(name = "Sensor Test", group="test")
 public class SensorTest extends LinearOpMode {
     TeleOpRobot robot;
