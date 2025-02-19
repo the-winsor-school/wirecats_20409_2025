@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.Lift.TestArmOpModes;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.AutonRobot;
 import org.firstinspires.ftc.teamcode.TeleOpRobot;
 
+@Disabled
 @TeleOp(name = "Finding Arm Values", group = "arm_test")
 public class FindArmValues extends LinearOpMode {
 
