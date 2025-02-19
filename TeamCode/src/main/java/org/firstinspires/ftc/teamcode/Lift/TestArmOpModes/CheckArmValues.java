@@ -24,8 +24,8 @@ public class CheckArmValues extends LinearOpMode {
 
             if (gamepad1.y) {
                 currentPosition = LiftPosition.HIGH_RUNG;
-                //robot.autoLift.moveLiftToPosition(LiftPosition.HIGH_RUNG);
-                robot.autoLift.moveWristToPosition(LiftPosition.HIGH_RUNG);
+                robot.autoLift.moveLiftToPosition(LiftPosition.HIGH_RUNG);
+                //robot.autoLift.moveWristToPosition(LiftPosition.HIGH_RUNG);
             }
 
             robot.autoLift.wrist.moveCloserToPosition();

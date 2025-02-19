@@ -68,10 +68,8 @@ public class TeleOpRobot {
     //driving libraries to access the wheels
     private Wheels wheels;
 
-    //public AutoDriving autoDriving;
     public TeleOpDriving teleOpDriving;
 
-    //public AutoLift autoLift;
     public TeleOpLift teleOpLift;
     public Claw claw;
 
@@ -123,12 +121,10 @@ public class TeleOpRobot {
         //____ Other Objects ____
         //driving
         wheels = new Wheels(rf, rb, lf, lb);
-        //autoDriving = new AutoDriving(wheels);
         teleOpDriving = new TeleOpDriving(wheels);
 
         //arm
-        //autoLift = new AutoLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor, wristPotentiometer);
-        teleOpLift = new TeleOpLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor);
+        teleOpLift = new TeleOpLift(scissorMotor, wristMotor);
         claw = new Claw(clawServo);
     }
 
