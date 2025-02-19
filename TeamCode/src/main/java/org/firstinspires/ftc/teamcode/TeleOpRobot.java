@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-import org.firstinspires.ftc.teamcode.Driving.AutoDriving;
 import org.firstinspires.ftc.teamcode.Driving.TeleOpDriving;
 import org.firstinspires.ftc.teamcode.Driving.Wheels;
 import org.firstinspires.ftc.teamcode.Sensors.OurColorSensor;
@@ -16,12 +15,13 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 
-import org.firstinspires.ftc.teamcode.Lift.AutoLift;
 import org.firstinspires.ftc.teamcode.Lift.Claw;
 import org.firstinspires.ftc.teamcode.Lift.TeleOpLift;
 
 
 /**
+ * TODO: Explain why the separation of TeleopRobot and AutonRobot were necessary. (Single-Responsibility Principle)
+ * TODO: Brainstorm how we can de-dupilcate code between these two classes while preserving the necessary separation.
  * In this file we:
  * initalize all the sensors, motors, and libraries
  * the motors and sensors go here so we are only initializing them in one place in the whole repo
@@ -32,7 +32,7 @@ import org.firstinspires.ftc.teamcode.Lift.TeleOpLift;
  * you cannot access any of the sensors or motors outside of this class (because encapsulation and saefty)
  * you can only control things by using the libraries and the functions within them that are public
  */
-public class Robot {
+public class TeleOpRobot {
 
     /**
      * itializtion of all sensors and motors
@@ -68,10 +68,8 @@ public class Robot {
     //driving libraries to access the wheels
     private Wheels wheels;
 
-    public AutoDriving autoDriving;
     public TeleOpDriving teleOpDriving;
 
-    public AutoLift autoLift;
     public TeleOpLift teleOpLift;
     public Claw claw;
 
@@ -82,7 +80,7 @@ public class Robot {
     /**
      * @param opMode pass by writing: new Robot(this);
      */
-    public Robot(LinearOpMode opMode) {
+    public TeleOpRobot(LinearOpMode opMode) {
         HardwareMap map = opMode.hardwareMap;
         this.opMode = opMode;
 
@@ -96,19 +94,14 @@ public class Robot {
         lf.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //____ Lift ____
-        wristPotentiometer = map.tryGet(AnalogInput.class, "wristAngle");
-        scissorMotor = map.tryGet(DcMotorEx.class, "lift");
-        wristMotor = map.tryGet(DcMotorEx.class, "wrist");
-        clawServo = map.get(CRServo.class, "servo");
-
-        wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //____ Arm ____
         scissorMotor = map.tryGet(DcMotorEx.class, "lift");
         wristMotor = map.tryGet(DcMotorEx.class, "wrist");
         clawServo = map.tryGet(CRServo.class, "servo");
 
-        wristMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        scissorMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        wristMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
          //____ Sensors ____
@@ -128,12 +121,10 @@ public class Robot {
         //____ Other Objects ____
         //driving
         wheels = new Wheels(rf, rb, lf, lb);
-        autoDriving = new AutoDriving(wheels);
         teleOpDriving = new TeleOpDriving(wheels);
 
         //arm
-        autoLift = new AutoLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor, wristPotentiometer);
-        teleOpLift = new TeleOpLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor);
+        teleOpLift = new TeleOpLift(scissorMotor, wristMotor);
         claw = new Claw(clawServo);
     }
 

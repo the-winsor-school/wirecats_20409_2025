@@ -5,17 +5,17 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.AutonRobot;
 import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
 import org.firstinspires.ftc.teamcode.Enums.MotorState;
-import org.firstinspires.ftc.teamcode.Robot;
 
 @Disabled
 @TeleOp(name = "Max Accel Test", group="test")
 public class MaxAccelTest extends LinearOpMode {
-    Robot robot;
+    AutonRobot robot;
 
     public void runOpMode() throws InterruptedException {
-        robot = new Robot(this);
+        robot = new AutonRobot(this);
 
         int testTime = 1000; //in milliseconds
         double maxPower = 1;

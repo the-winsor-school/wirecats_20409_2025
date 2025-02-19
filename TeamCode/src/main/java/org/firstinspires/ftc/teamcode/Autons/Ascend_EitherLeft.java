@@ -3,18 +3,17 @@ package org.firstinspires.ftc.teamcode.Autons;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Driving.AutoDriving;
+import org.firstinspires.ftc.teamcode.AutonRobot;
 import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
 import org.firstinspires.ftc.teamcode.Enums.MotorState;
-import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous(name = "Ascend: Either Left", group= "ascend")
 public class Ascend_EitherLeft extends LinearOpMode {
 
-    Robot robot;
+    AutonRobot robot;
 
     public void runOpMode() throws InterruptedException {
-        robot = new Robot(this);
+        robot = new AutonRobot(this);
 
         waitForStart();
 

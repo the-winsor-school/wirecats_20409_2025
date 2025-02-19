@@ -3,16 +3,14 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Enums.ClawPosition;
-import org.firstinspires.ftc.teamcode.Lift.TeleOpLift;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
 public class TeleOp extends LinearOpMode {
 
-    Robot robot;
-    TeleOpLift lift;
+    TeleOpRobot robot;
 
     public void runOpMode() throws InterruptedException {
-        robot = new Robot(this);
+        robot = new TeleOpRobot(this);
 
         waitForStart();
 
@@ -22,9 +20,9 @@ public class TeleOp extends LinearOpMode {
             //             MAIN CONTROLLER (gamepad1)
             //_______________________________________________
             
-            float x = gamepad1.right_stick_x;
-            float y = -gamepad1.right_stick_y; //inputs from joystick are opposite
-            float t = gamepad1.left_stick_x;
+            float x = gamepad1.left_stick_x;
+            float y = -gamepad1.left_stick_y; //inputs from joystick are opposite
+            float t = gamepad1.right_stick_x;
 
             robot.teleOpDriving.joystickDrive(x, y, t);
             
@@ -48,8 +46,8 @@ public class TeleOp extends LinearOpMode {
                 robot.claw.moveClaw(ClawPosition.STOP);
 
             //control lift with right stick y value on mech controller
-            lift.joystickControlLift(gamepad2.right_stick_y);
-            lift.joystickControlWrist(gamepad2.left_stick_y);
+            robot.teleOpLift.joystickControlLift(gamepad2.right_stick_y);
+            robot.teleOpLift.joystickControlWrist(gamepad2.left_stick_y);
 
             //_______________________________________________
             //             PRINT STATEMENTS
@@ -66,8 +64,8 @@ public class TeleOp extends LinearOpMode {
             robot.printWheelPowers();
 
             telemetry.addLine("----------------LIFT-------------------------");
-            telemetry.addData("scissor direction:", lift.scissor.getMotorState());
-            telemetry.addData("Wrist Current Angle:", robot.autoLift.wrist.getCurrentAngle());
+            telemetry.addData("scissor direction:", robot.teleOpLift.scissor.getMotorState());
+            //telemetry.addData("Wrist Current Angle:", robot.autoLift.wrist.getCurrentAngle());
 
             telemetry.addLine("----------------CLAW-------------------------");
             telemetry.addData("claw position: ", robot.claw.getCurrentPosition());
