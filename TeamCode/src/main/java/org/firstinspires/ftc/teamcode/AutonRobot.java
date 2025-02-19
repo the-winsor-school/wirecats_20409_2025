@@ -95,8 +95,6 @@ public class AutonRobot {
         lf.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //____ Lift ____
-
-        //____ Arm ____
         scissorMotor = map.tryGet(DcMotorEx.class, "lift");
         wristMotor = map.tryGet(DcMotorEx.class, "wrist");
         clawServo = map.tryGet(CRServo.class, "servo");
