@@ -17,7 +17,7 @@ public class AutoLift {
 
     public AutoLift(DcMotorEx LiftMotor, DcMotorEx WristMotor, AnalogInput wristAngle){
         lift = new EncoderMotorObject(LiftMotor, 1, 300);
-        wrist = new WristMotorObject(WristMotor, 0.3, 0.2, wristAngle);
+        wrist = new WristMotorObject(WristMotor, 0.3, 0.1, wristAngle);
     }
 
     /**

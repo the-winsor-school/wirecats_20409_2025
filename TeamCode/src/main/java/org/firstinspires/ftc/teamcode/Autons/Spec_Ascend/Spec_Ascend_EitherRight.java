@@ -15,6 +15,8 @@ public class Spec_Ascend_EitherRight extends LinearOpMode {
 
     AutonRobot robot;
 
+    //TODO test with working scissor lift
+
     public void runOpMode() throws InterruptedException {
         robot = new AutonRobot(this);
 
@@ -25,7 +27,7 @@ public class Spec_Ascend_EitherRight extends LinearOpMode {
         if (opModeIsActive()) {
 
             //move forward out of the way of the alliance robot to the left
-            robot.autoDriving.sigmoidTime(DrivingOrientation.VERTICAL, MotorState.FORWARD, 400);
+            robot.autoDriving.sigmoidTime(DrivingOrientation.VERTICAL, MotorState.FORWARD, 300);
 
             //extend scissor lift and set position of wrist joint
             //robot.autoLift.moveScissorToPosition(LiftPosition.HIGH_RUNG);
@@ -37,6 +39,8 @@ public class Spec_Ascend_EitherRight extends LinearOpMode {
                 telemetry.addData("Lift Target", robot.autoLift.lift.getTargetPosition());
                 telemetry.update();
             }
+
+            sleep(3000);
 
             //move forward until certain distance to align arm with chamber bars
             while(robot.frontDistObject.isDistanceLess(28) && opModeIsActive()) {
@@ -55,10 +59,11 @@ public class Spec_Ascend_EitherRight extends LinearOpMode {
                 telemetry.addLine("Wrist Moving");
                 telemetry.addData("Wrist Position", robot.autoLift.wrist.getCurrentAngle());
                 telemetry.addData("Wrist Target", robot.autoLift.wrist.getTargetAngle());
-                telemetry.update();
             }
 
-            sleep(3000);
+            telemetry.addData("Wrist Target", robot.autoLift.wrist.getTargetAngle());
+            telemetry.update();
+            sleep(5000);
 
             robot.autoDriving.simpleDrive(DrivingOrientation.VERTICAL, -0.3);
 

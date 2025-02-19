@@ -24,6 +24,7 @@ public class SensorTest extends LinearOpMode {
             telemetry.getItemSeparator();
             telemetry.addData("right distance:", robot.rightDistObject.getDistance());
             telemetry.addData("left distance:", robot.leftDistObject.getDistance());
+            telemetry.addData("front distance:", robot.frontDistObject.getDistance());
             telemetry.getItemSeparator();
             telemetry.addData("right color:", robot.rightColorObject.getColors());
             telemetry.addData("left color:", robot.leftColorObject.getColors());

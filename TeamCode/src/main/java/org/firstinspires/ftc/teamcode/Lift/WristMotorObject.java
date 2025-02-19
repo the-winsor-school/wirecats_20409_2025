@@ -65,9 +65,11 @@ public class WristMotorObject {
             power = 2*powerUsed/3;
         }
         if (tooHigh()) {
-            motor.setPower(-power); //will be multiplied by power used
+            motor.setPower(-power);
         } else if (tooLow()) {
             motor.setPower(power);
+        } else {
+            motor.setPower(0);
         }
     }
 

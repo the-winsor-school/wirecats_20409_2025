@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.AutonRobot;
 import org.firstinspires.ftc.teamcode.Enums.LiftPosition;
 
-@Disabled
 @TeleOp(name = "Check Arm Locations", group = "arm_test")
 public class CheckArmValues extends LinearOpMode {
 

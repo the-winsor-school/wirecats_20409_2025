@@ -52,7 +52,9 @@ public class EncoderMotorObject {
     public void resetEncoders() { motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); }
     public int getCurrentPosition () { return motor.getCurrentPosition();}
     public int getTargetPosition() { return motor.getTargetPosition(); }
-    public void setTargetPosition(int targetPosition) { motor.setTargetPosition(targetPosition); }
+    public void setTargetPosition(int targetPosition) {
+        motor.setTargetPosition(targetPosition);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION); }
 
     public boolean motorMoving() {
         if (((getCurrentPosition() - tolerance) < getTargetPosition()) ||

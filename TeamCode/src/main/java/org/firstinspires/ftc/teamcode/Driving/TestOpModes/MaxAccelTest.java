@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.AutonRobot;
 import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
 import org.firstinspires.ftc.teamcode.Enums.MotorState;
 
-@Disabled
 @TeleOp(name = "Max Accel Test", group="test")
 public class MaxAccelTest extends LinearOpMode {
     AutonRobot robot;

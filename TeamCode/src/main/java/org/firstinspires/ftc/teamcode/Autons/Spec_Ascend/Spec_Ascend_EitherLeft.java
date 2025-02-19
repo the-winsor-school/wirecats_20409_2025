@@ -69,7 +69,6 @@ public class Spec_Ascend_EitherLeft extends LinearOpMode {
 
             robot.autoLift.moveLiftToPosition(LiftPosition.RESET);
 
-
             //back away from bars
             while(robot.frontDistObject.isDistanceLess(50) && opModeIsActive()) {
                 robot.autoDriving.simpleDrive(DrivingOrientation.VERTICAL, -0.3);
@@ -87,10 +86,16 @@ public class Spec_Ascend_EitherLeft extends LinearOpMode {
             robot.autoDriving.sigmoidTime(DrivingOrientation.VERTICAL, MotorState.FORWARD, 1000);
 
             //move right into ascent zone
-            while(!robot.rightColorObject.whiteTape() && opModeIsActive()) {
+
+            while(robot.rightDistObject.isDistanceLess(100) && opModeIsActive()) {
+                robot.autoDriving.simpleDrive(DrivingOrientation.HORIZONTAL, 0.5);
+            }
+
+            //use below when color sensors are working
+           /* while(!robot.rightColorObject.whiteTape() && opModeIsActive()) {
                 robot.autoDriving.simpleDrive(DrivingOrientation.HORIZONTAL, 0.5);
                 sleep(20);
-            }
+            }*/
 
             robot.autoDriving.stop();
 
