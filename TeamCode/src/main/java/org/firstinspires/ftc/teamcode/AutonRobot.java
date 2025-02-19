@@ -123,11 +123,9 @@ public class AutonRobot {
         //driving
         wheels = new Wheels(rf, rb, lf, lb);
         autoDriving = new AutoDriving(wheels);
-        //teleOpDriving = new TeleOpDriving(wheels);
 
         //arm
         autoLift = new AutoLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor, wristPotentiometer);
-        //teleOpLift = new TeleOpLift((DcMotorEx) scissorMotor, (DcMotorEx) wristMotor);
         claw = new Claw(clawServo);
     }
 

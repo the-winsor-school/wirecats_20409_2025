@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.TeleOpRobot;
 @TeleOp(name = "Sensor Test", group="test")
 public class SensorTest extends LinearOpMode {
     TeleOpRobot robot;
-
     public void runOpMode() throws InterruptedException {
         robot = new TeleOpRobot(this);
 
