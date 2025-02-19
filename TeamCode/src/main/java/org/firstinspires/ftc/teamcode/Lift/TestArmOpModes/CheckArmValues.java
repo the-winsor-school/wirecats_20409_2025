@@ -1,13 +1,18 @@
 package org.firstinspires.ftc.teamcode.Lift.TestArmOpModes;
 
-/*
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.AutonRobot;
+import org.firstinspires.ftc.teamcode.Enums.LiftPosition;
+
 @TeleOp(name = "Check Arm Locations", group = "arm_test")
 public class CheckArmValues extends LinearOpMode {
 
-    Robot robot;
+    AutonRobot robot;
 
     public void runOpMode() throws InterruptedException {
-        robot = new Robot(this);
+        robot = new AutonRobot(this);
 
         LiftPosition currentPosition;
 
@@ -43,4 +48,3 @@ public class CheckArmValues extends LinearOpMode {
 
     }
 }
-*/
