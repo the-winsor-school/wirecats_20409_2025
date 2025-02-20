@@ -30,15 +30,9 @@ public class EncoderMotorObject {
         motor.setPower(powerUsed);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-
-    /**
-     * can be used during Run to Position loops
-     */
-    public void setMotorPower(float power) {
-        //multiplying by powerUsed to reduce power if needed
-        motor.setPower(power * powerUsed);
+    public double getPower() {
+        return motor.getPower();
     }
-
     public MotorState getMotorState() {
         if (motor.getPower() > 0) {
             return MotorState.FORWARD;

@@ -13,7 +13,6 @@ public class TeleOpLift {
         wrist = new SimpleMotorObject(WristMotor, 0.5);
     }
 
-
     public void joystickControlLift(float input) {
         scissor.setMotorPower(input);
     }

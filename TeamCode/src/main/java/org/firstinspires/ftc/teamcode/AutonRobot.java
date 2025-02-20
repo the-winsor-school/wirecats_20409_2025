@@ -100,7 +100,6 @@ public class AutonRobot {
         clawServo = map.tryGet(CRServo.class, "servo");
         wristPotentiometer = map.tryGet(AnalogInput.class, "wristAngle");
 
-        scissorMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         wristMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
