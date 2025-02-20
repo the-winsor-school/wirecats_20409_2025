@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
 import org.firstinspires.ftc.teamcode.Enums.LiftPosition;
 import org.firstinspires.ftc.teamcode.Enums.MotorState;
 
-@Autonomous(name = "Spec + Ascend: Either Right", group= "spec_ascend")
+@Autonomous(name = "Spec + Net Zone: Either Right", group= "spec_ascend")
 public class Spec_Ascend_EitherRight extends LinearOpMode {
 
     AutoControls robot;
