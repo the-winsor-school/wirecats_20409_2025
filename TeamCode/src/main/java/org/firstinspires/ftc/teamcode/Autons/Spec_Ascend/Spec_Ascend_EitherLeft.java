@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
 import org.firstinspires.ftc.teamcode.Enums.LiftPosition;
 import org.firstinspires.ftc.teamcode.Enums.MotorState;
 
-@Disabled
 @Autonomous(name = "Spec + Ascend: Either Left", group= "spec_ascend")
 public class Spec_Ascend_EitherLeft extends LinearOpMode {
 
@@ -32,30 +31,40 @@ public class Spec_Ascend_EitherLeft extends LinearOpMode {
             robot.autoLift.moveScissorToPosition(LiftPosition.HIGH_RUNG);
 
             //moves wrist to the correct position
-            while(Math.abs(robot.autoLift.lift.getCurrentPosition() - robot.autoLift.lift.getTargetPosition()) > 100) {
+            while((Math.abs(robot.autoLift.lift.getCurrentPosition() - robot.autoLift.lift.getTargetPosition()) > 100)
+                    && opModeIsActive()) {
                 telemetry.addLine("Lift Moving");
                 telemetry.addData("Lift Position", robot.autoLift.lift.getCurrentPosition());
                 telemetry.addData("Lift Target", robot.autoLift.lift.getTargetPosition());
                 telemetry.update();
             }
 
-            //move forward until certain distance to align arm with chamber bars
-            while(robot.frontDistObject.isDistanceLess(28) && opModeIsActive()) {
-                robot.autoDriving.simpleDrive(DrivingOrientation.VERTICAL, -0.3);
+            telemetry.addLine("lift went up, moving backwards now");
+            telemetry.addLine("Moving backwards to align");
+            telemetry.addData("Front Distance", robot.frontDistObject.getDistance());
+            telemetry.update();
+            sleep(3000);
 
+            //move forward until certain distance to align arm with chamber bars
+            while(robot.frontDistObject.isDistanceLess(27) && opModeIsActive()) {
+                robot.autoDriving.simpleDrive(DrivingOrientation.VERTICAL, -0.3);
                 telemetry.addLine("Moving backwards to align");
                 telemetry.addData("Front Distance", robot.frontDistObject.getDistance());
                 telemetry.update();
             }
             robot.autoDriving.stop();
+            sleep(3000);
 
-            //robot.autoLift.setWristHighRungPlaceAngle();
+            telemetry.addLine("moving wrist now, should be in correct distance");
+            telemetry.update();
+
+            robot.autoLift.moveWristToPosition(LiftPosition.HIGH_RUNG);
 
             while(robot.autoLift.wrist.movingToTarget()) {
                 robot.autoLift.wrist.moveCloserToPosition();
                 telemetry.addLine("Wrist Moving");
-                telemetry.addData("Wrist Position:", robot.autoLift.wrist.getCurrentAngle());
-                telemetry.addData("Wrist Target:", robot.autoLift.wrist.getTargetAngle());
+                telemetry.addData("Wrist Position", robot.autoLift.wrist.getCurrentAngle());
+                telemetry.addData("Wrist Target", robot.autoLift.wrist.getTargetAngle());
                 telemetry.update();
             }
 
@@ -66,12 +75,11 @@ public class Spec_Ascend_EitherLeft extends LinearOpMode {
             sleep(1000);
             robot.autoDriving.stop();
 
-            //TODO move to ascent zone
-
             robot.autoLift.moveLiftToPosition(LiftPosition.RESET);
 
             //back away from bars
-            while(robot.frontDistObject.isDistanceLess(50) && opModeIsActive()) {
+            while(robot.frontDistObject.isDistanceLess(58) && opModeIsActive()) {
+                robot.autoLift.wrist.moveCloserToPosition();
                 robot.autoDriving.simpleDrive(DrivingOrientation.VERTICAL, -0.3);
                 telemetry.addLine("Moving backwards to align");
                 telemetry.addData("Front Distance", robot.frontDistObject.getDistance());
@@ -84,22 +92,15 @@ public class Spec_Ascend_EitherLeft extends LinearOpMode {
             }
 
             //move forward to ascend zone
-            robot.autoDriving.sigmoidTime(DrivingOrientation.VERTICAL, MotorState.FORWARD, 1000);
+            robot.autoDriving.sigmoidTime(DrivingOrientation.VERTICAL, MotorState.FORWARD, 1200);
 
             //move right into ascent zone
-
-            while(robot.rightDistObject.isDistanceLess(100) && opModeIsActive()) {
-                robot.autoDriving.simpleDrive(DrivingOrientation.HORIZONTAL, 0.5);
-            }
-
-            //use below when color sensors are working
-           /* while(!robot.rightColorObject.whiteTape() && opModeIsActive()) {
+            while(!robot.rightColorObject.whiteTape() && opModeIsActive()) {
                 robot.autoDriving.simpleDrive(DrivingOrientation.HORIZONTAL, 0.5);
                 sleep(20);
-            }*/
+            }
 
             robot.autoDriving.stop();
-
         }
     }
 }
