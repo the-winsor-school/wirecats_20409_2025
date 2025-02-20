@@ -7,10 +7,10 @@ import org.firstinspires.ftc.teamcode.Enums.ClawPosition;
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
 public class TeleOp extends LinearOpMode {
 
-    TeleOpRobot robot;
+    TeleOpControls robot;
 
     public void runOpMode() throws InterruptedException {
-        robot = new TeleOpRobot(this);
+        robot = new TeleOpControls(this);
 
         waitForStart();
 
