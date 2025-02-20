@@ -1,20 +1,19 @@
 package org.firstinspires.ftc.teamcode.Sensors.TestOpModes;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.AutoControls;
 import org.firstinspires.ftc.teamcode.TeleOpControls;
 
 @TeleOp(name = "Sensor Test", group="test")
 public class SensorTest extends LinearOpMode {
-    TeleOpControls robot;
+    AutoControls robot;
     public void runOpMode() throws InterruptedException {
-        robot = new TeleOpControls(this);
-
-        int testTime = 1000; //in milliseconds
-        double maxPower = 1;
+        robot = new AutoControls(this);
 
         waitForStart();
 
@@ -26,8 +25,11 @@ public class SensorTest extends LinearOpMode {
             telemetry.addData("left distance:", robot.leftDistObject.getDistance());
             telemetry.addData("front distance:", robot.frontDistObject.getDistance());
             telemetry.getItemSeparator();
-            telemetry.addData("right color:", robot.rightColorObject.getColors());
-            telemetry.addData("left color:", robot.leftColorObject.getColors());
+            telemetry.addLine("Right Color Sensor:");
+            telemetry.addLine(robot.rightColorObject.getColors());
+            telemetry.getItemSeparator();
+            telemetry.addLine("Left Color Sensor:");
+            telemetry.addLine(robot.leftColorObject.getColors());
             telemetry.update();
         }
     }

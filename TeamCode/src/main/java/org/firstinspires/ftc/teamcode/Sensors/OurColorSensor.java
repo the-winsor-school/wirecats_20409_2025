@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 public class OurColorSensor {
     public ColorSensor sensor;
 
-    private final int redTapeThreshold = 5000;
-    private final int blueTapeThreshold = 5000;
-    private final int whiteTapeThreshold = 5000;
+    private final int redTapeThreshold = 1000;
+    private final int blueTapeThreshold = 1000;
+    private final int whiteTapeThreshold = 2000;
 
     public OurColorSensor(ColorSensor sensor) {
         this.sensor = sensor;

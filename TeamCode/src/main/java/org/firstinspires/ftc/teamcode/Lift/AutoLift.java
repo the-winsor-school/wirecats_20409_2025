@@ -10,10 +10,9 @@ public class AutoLift {
 
     //arm location encoder values
     public final int LiftResetValue = 0;
-    public final int LiftHighRungValue = 5000;
+    public final int LiftHighRungValue = 10000;
     public final double WristResetAngle = 3.37;
-    public final double WristHighRungAngle = 1.52;
-    public final double WristHighRungPlaceAngle = 1.37;
+    public final double WristHighRungAngle = 1.30;
 
     public AutoLift(DcMotorEx LiftMotor, DcMotorEx WristMotor, AnalogInput wristAngle){
         lift = new EncoderMotorObject(LiftMotor, 1, 300);
@@ -52,13 +51,6 @@ public class AutoLift {
         else if(pos == LiftPosition.HIGH_RUNG){
             wrist.setTargetAngle(WristHighRungAngle);
         }
-    }
-
-    /**
-     * requires wrist.moveCloserToPosition() function
-     */
-    public void setWristHighRungPlaceAngle() {
-        wrist.setTargetAngle(WristHighRungPlaceAngle);
     }
 
     public boolean liftStillMoving() {

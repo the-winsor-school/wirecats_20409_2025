@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.AutonRobot;
+import org.firstinspires.ftc.teamcode.AutoControls;
 import org.firstinspires.ftc.teamcode.Enums.ClawPosition;
 import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
 import org.firstinspires.ftc.teamcode.Enums.LiftPosition;
@@ -14,10 +14,10 @@ import org.firstinspires.ftc.teamcode.Enums.MotorState;
 @Autonomous(name = "Spec + Ascend: Either Left", group= "spec_ascend")
 public class Spec_Ascend_EitherLeft extends LinearOpMode {
 
-    AutonRobot robot;
+    AutoControls robot;
 
     public void runOpMode() throws InterruptedException {
-        robot = new AutonRobot(this);
+        robot = new AutoControls(this);
 
         robot.claw.moveClaw(ClawPosition.CLOSE);
 
@@ -49,13 +49,14 @@ public class Spec_Ascend_EitherLeft extends LinearOpMode {
             }
             robot.autoDriving.stop();
 
-            robot.autoLift.setWristHighRungPlaceAngle();
+            //robot.autoLift.setWristHighRungPlaceAngle();
 
             while(robot.autoLift.wrist.movingToTarget()) {
                 robot.autoLift.wrist.moveCloserToPosition();
                 telemetry.addLine("Wrist Moving");
                 telemetry.addData("Wrist Position:", robot.autoLift.wrist.getCurrentAngle());
                 telemetry.addData("Wrist Target:", robot.autoLift.wrist.getTargetAngle());
+                telemetry.update();
             }
 
             sleep(3000);

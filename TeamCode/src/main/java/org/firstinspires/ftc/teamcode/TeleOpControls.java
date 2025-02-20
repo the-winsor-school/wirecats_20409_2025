@@ -44,13 +44,6 @@ public class TeleOpControls extends Robot {
      */
     public TeleOpControls(LinearOpMode opMode) {
         super(opMode);
-
-        //____ Sensor Objects _____
-        rightDistObject = new OurDistanceSensor(rightDist);
-        frontDistObject = new OurDistanceSensor(frontDist);
-        leftDistObject = new OurDistanceSensor(leftDist);
-        rightColorObject = new OurColorSensor(rightColor);
-        leftColorObject = new OurColorSensor(leftColor);
         
         //____ Other Objects ____
         teleOpDriving = new TeleOpDriving(wheels);

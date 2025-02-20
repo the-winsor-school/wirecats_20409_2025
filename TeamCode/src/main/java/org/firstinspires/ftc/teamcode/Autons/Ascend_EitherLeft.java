@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.AutoControls;
 import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
 import org.firstinspires.ftc.teamcode.Enums.MotorState;
 
-@Autonomous(name = "Ascend: Either Left", group= "ascend")
+@Autonomous(name = "Ascend: Either Left", group= "park")
 public class Ascend_EitherLeft extends LinearOpMode {
 
     AutoControls robot;
