@@ -21,7 +21,6 @@ import org.firstinspires.ftc.teamcode.Lift.TeleOpLift;
 
 /**
  * TODO: Explain why the separation of TeleopRobot and AutonRobot were necessary. (Single-Responsibility Principle)
- * TODO: Brainstorm how we can de-dupilcate code between these two classes while preserving the necessary separation.
  * In this file we:
  * initalize all the sensors, motors, and libraries
  * the motors and sensors go here so we are only initializing them in one place in the whole repo
@@ -31,6 +30,9 @@ import org.firstinspires.ftc.teamcode.Lift.TeleOpLift;
  * when you create a new opMode you should only initlaize the robot class (by passing the opMode (by writing "this" in the parentheses)
  * you cannot access any of the sensors or motors outside of this class (because encapsulation and saefty)
  * you can only control things by using the libraries and the functions within them that are public
+ *
+ * solved issues of teleOp and Auto controls competeubg by using a new robot class and making TeleOpControls and AutoControls extend the robot class
+ * this centralizes all device names and init data into one file instead of twoi
  */
 public class Robot {
 
