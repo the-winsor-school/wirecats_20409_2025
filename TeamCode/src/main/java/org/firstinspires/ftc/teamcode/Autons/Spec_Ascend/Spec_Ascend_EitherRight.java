@@ -78,7 +78,7 @@ public class Spec_Ascend_EitherRight extends LinearOpMode {
             robot.autoLift.moveLiftToPosition(LiftPosition.RESET);
 
             //back away from bars
-            while(robot.frontDistObject.isDistanceLess(60) && opModeIsActive()) {
+            while(robot.frontDistObject.isDistanceLess(58) && opModeIsActive()) {
                 robot.autoLift.wrist.moveCloserToPosition();
                 robot.autoDriving.simpleDrive(DrivingOrientation.VERTICAL, -0.3);
                 telemetry.addLine("Moving backwards to align");
