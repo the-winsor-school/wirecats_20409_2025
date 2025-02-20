@@ -24,17 +24,13 @@ public class Ascend_EitherLeft extends LinearOpMode {
             }
 
             //move forward to ascend zone
-            robot.autoDriving.sigmoidTime(DrivingOrientation.VERTICAL, MotorState.FORWARD, 1000);
+            robot.autoDriving.sigmoidTime(DrivingOrientation.VERTICAL, MotorState.FORWARD, 1200);
 
             //move right into ascent zone
-
-            while(robot.rightDistObject.isDistanceLess(100) && opModeIsActive()) {
-                robot.autoDriving.simpleDrive(DrivingOrientation.HORIZONTAL, 0.5);
-            }
-           /* while(!robot.rightColorObject.whiteTape() && opModeIsActive()) {
+            while(!robot.rightColorObject.whiteTape() && opModeIsActive()) {
                 robot.autoDriving.simpleDrive(DrivingOrientation.HORIZONTAL, 0.5);
                 sleep(20);
-            }*/
+            }
 
             robot.autoDriving.stop();
         }
