@@ -42,7 +42,7 @@ public class Spec_Ascend_EitherLeft extends LinearOpMode {
             }
 
             //move forward until certain distance to align arm with chamber bars
-            while(robot.frontDistObject.isDistanceLess(23) && opModeIsActive()) {
+            while(robot.frontDistObject.isDistanceLess(20) && opModeIsActive()) {
                 robot.autoDriving.simpleDrive(DrivingOrientation.VERTICAL, -0.3);
                 telemetry.addLine("Moving backwards to align");
                 telemetry.addData("Front Distance", robot.frontDistObject.getDistance());
