@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.AutoControls;
 import org.firstinspires.ftc.teamcode.TeleOpControls;
-
 @TeleOp(name = "Sensor Test", group="test")
 public class SensorTest extends LinearOpMode {
     AutoControls robot;

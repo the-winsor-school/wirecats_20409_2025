@@ -18,11 +18,13 @@ public class Spec_Ascend_EitherLeft extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot = new AutoControls(this);
 
-        robot.claw.moveClaw(ClawPosition.CLOSE);
 
         waitForStart();
 
         if (opModeIsActive()) {
+            robot.claw.moveClaw(ClawPosition.CLOSE);
+
+            sleep(3000);
 
             //move forward out of the way of the alliance robot to the left
             robot.autoDriving.sigmoidTime(DrivingOrientation.VERTICAL, MotorState.FORWARD, 400);
@@ -39,14 +41,8 @@ public class Spec_Ascend_EitherLeft extends LinearOpMode {
                 telemetry.update();
             }
 
-            telemetry.addLine("lift went up, moving backwards now");
-            telemetry.addLine("Moving backwards to align");
-            telemetry.addData("Front Distance", robot.frontDistObject.getDistance());
-            telemetry.update();
-            sleep(3000);
-
             //move forward until certain distance to align arm with chamber bars
-            while(robot.frontDistObject.isDistanceLess(27) && opModeIsActive()) {
+            while(robot.frontDistObject.isDistanceLess(23) && opModeIsActive()) {
                 robot.autoDriving.simpleDrive(DrivingOrientation.VERTICAL, -0.3);
                 telemetry.addLine("Moving backwards to align");
                 telemetry.addData("Front Distance", robot.frontDistObject.getDistance());

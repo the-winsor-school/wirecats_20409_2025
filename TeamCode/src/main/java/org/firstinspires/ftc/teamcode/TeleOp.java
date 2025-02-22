@@ -48,7 +48,7 @@ public class TeleOp extends LinearOpMode {
             //control lift with right stick y value on mech controller
             //negative bc thats how the controllers are
             robot.teleOpLift.joystickControlLift(-gamepad2.right_stick_y);
-            robot.teleOpLift.joystickControlWrist(-gamepad2.left_stick_y);
+            robot.teleOpLift.joystickControlWrist(gamepad2.left_stick_y);
 
             //_______________________________________________
             //             PRINT STATEMENTS

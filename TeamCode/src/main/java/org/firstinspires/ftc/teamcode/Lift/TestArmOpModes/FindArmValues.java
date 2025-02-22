@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.AutoControls;
-
+@Disabled
 @TeleOp(name = "Finding Arm Values", group = "arm_test")
 public class FindArmValues extends LinearOpMode {
 
