@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Autons.Spec_Ascend;
 
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -10,20 +9,21 @@ import org.firstinspires.ftc.teamcode.Enums.DrivingOrientation;
 import org.firstinspires.ftc.teamcode.Enums.LiftPosition;
 import org.firstinspires.ftc.teamcode.Enums.MotorState;
 
-@Autonomous(name = "Spec + Net Zone: Either Right", group= "spec_ascend")
-public class Spec_Ascend_EitherRight extends LinearOpMode {
+@Autonomous(name = "Spec + Ascend Delay: Either Left", group= "spec_ascend")
+public class Spec_Ascend_EitherLeft_Delay extends LinearOpMode {
 
     AutoControls robot;
 
     public void runOpMode() throws InterruptedException {
         robot = new AutoControls(this);
 
+
         waitForStart();
 
         if (opModeIsActive()) {
             robot.claw.moveClaw(ClawPosition.CLOSE);
 
-            sleep(3000);
+            sleep(10000);
 
             //move forward out of the way of the alliance robot to the left
             robot.autoDriving.sigmoidTime(DrivingOrientation.VERTICAL, MotorState.FORWARD, 400);
@@ -40,19 +40,14 @@ public class Spec_Ascend_EitherRight extends LinearOpMode {
                 telemetry.update();
             }
 
-
             //move forward until certain distance to align arm with chamber bars
-            while(robot.frontDistObject.isDistanceLess(22) && opModeIsActive()) {
+            while(robot.frontDistObject.isDistanceLess(20) && opModeIsActive()) {
                 robot.autoDriving.simpleDrive(DrivingOrientation.VERTICAL, -0.3);
                 telemetry.addLine("Moving backwards to align");
                 telemetry.addData("Front Distance", robot.frontDistObject.getDistance());
                 telemetry.update();
             }
             robot.autoDriving.stop();
-            sleep(3000);
-
-            telemetry.addLine("moving wrist now, should be in correct distance");
-            telemetry.update();
 
             robot.autoLift.moveWristToPosition(LiftPosition.HIGH_RUNG);
 
@@ -64,14 +59,12 @@ public class Spec_Ascend_EitherRight extends LinearOpMode {
                 telemetry.update();
             }
 
-            sleep(3000);
-
             robot.autoDriving.simpleDrive(DrivingOrientation.VERTICAL, -0.3);
 
             sleep(1000);
             robot.autoDriving.stop();
 
-            robot.autoLift.moveLiftToPosition(LiftPosition.RESET);
+            robot.autoLift.moveScissorToPosition(LiftPosition.RESET);
 
             //back away from bars
             while(robot.frontDistObject.isDistanceLess(58) && opModeIsActive()) {
@@ -82,18 +75,14 @@ public class Spec_Ascend_EitherRight extends LinearOpMode {
                 telemetry.update();
             }
 
-            //move left quickly to net zone
-            while(!robot.rightColorObject.anyTape() && opModeIsActive()) {
-                robot.autoLift.wrist.moveCloserToPosition();
-                robot.autoDriving.simpleDrive(DrivingOrientation.HORIZONTAL, 0.5);
-                telemetry.addLine("Moving to tape to park");
-                telemetry.update();
+            //moves left to move past submersible
+            while (robot.leftDistObject.isDistanceGreater(60) && opModeIsActive()) {
+                robot.autoDriving.simpleDrive(DrivingOrientation.HORIZONTAL, -0.5);
             }
-            robot.autoDriving.stop();
 
-            while((robot.autoLift.wrist.movingToTarget() || robot.autoLift.liftStillMoving()) && opModeIsActive()) {
-                robot.autoLift.wrist.moveCloserToPosition();
-            }
+            //move forward to ascend zone
+            robot.autoDriving.sigmoidTime(DrivingOrientation.VERTICAL, MotorState.FORWARD, 500);
+
         }
     }
 }
