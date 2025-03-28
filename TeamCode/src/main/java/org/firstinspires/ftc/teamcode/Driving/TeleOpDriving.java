@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode.Driving;
 public class TeleOpDriving {
     private Wheels wheels;
 
-    private double speed = 0.5;
+    private double speed = 0.25;
 
     public TeleOpDriving (Wheels wheels) {
         this.wheels = wheels;
